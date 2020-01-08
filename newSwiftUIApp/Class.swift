@@ -4,7 +4,6 @@
 //
 //  Created by Ido Shoshani on 9/21/19.
 //  Copyright © 2019 Ido Shoshani. All rights reserved.
-//
 
 import Foundation
 
