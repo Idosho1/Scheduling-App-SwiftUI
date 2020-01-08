@@ -44,10 +44,14 @@ class ViewController: UIViewController, UIDocumentPickerDelegate {
             pdfD = p
         }
         //WORK HERE
+        
         let v = ViewRouter()
-        let vc = UIHostingController(rootView: ContentViewB(viewRouter: v))
+        v.currentPage = "page2"
+        let vc = UIHostingController(rootView: MotherView(viewRouter: v))
         vc.modalPresentationStyle = .fullScreen
         present(vc, animated: true, completion: nil)
+        
+        self.view.isHidden = true
         
         
     }
@@ -60,10 +64,11 @@ struct ViewControllerWrapper: UIViewControllerRepresentable {
 
 
     func makeUIViewController(context: UIViewControllerRepresentableContext<ViewControllerWrapper>) -> ViewControllerWrapper.UIViewControllerType {
+        print("making")
         return ViewController()
     }
 
     func updateUIViewController(_ uiViewController: ViewControllerWrapper.UIViewControllerType, context: UIViewControllerRepresentableContext<ViewControllerWrapper>) {
-        //
+        print("updating")
     }
 }
