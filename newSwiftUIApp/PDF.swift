@@ -91,13 +91,13 @@ struct PDF {
     var splitInfo: [String]
     var classList: [Class]
     var uniqueClassList: [Class]
-    var pdfFile: PDFDocument //= PDFDocument(url: URL(fileURLWithPath: "/Users/ido/Desktop/test.pdf"))!
+    //var pdfFile: PDFDocument //= PDFDocument(url: URL(fileURLWithPath: "/Users/ido/Desktop/test.pdf"))!
     var pdfAsText: String
     var textArray: [String]
     var classColors: [String:UIColor] = [:]
     
-    init(_ pdfURL: String) {
-        pdfFile = PDFDocument(url: URL(string: pdfURL)!)!
+    init(_ pdfFile: PDFDocument) {
+        //pdfFile = PDFDocument(url: URL(string: pdfURL)!)!
         pdfAsText = (pdfFile.string)!
         classList = []
         uniqueClassList = []

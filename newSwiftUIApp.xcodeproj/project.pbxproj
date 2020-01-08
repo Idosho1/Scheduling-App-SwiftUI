@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		50697F8523C536DC00564430 /* DocumentPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50697F8423C536DC00564430 /* DocumentPicker.swift */; };
 		50B944A023BF6EE000327D01 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B9449F23BF6EDF00327D01 /* AppDelegate.swift */; };
 		50B944A223BF6EE000327D01 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B944A123BF6EE000327D01 /* SceneDelegate.swift */; };
 		50B944A423BF6EE000327D01 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B944A323BF6EE000327D01 /* ContentView.swift */; };
@@ -18,10 +19,10 @@
 		50B944B823BF6F2100327D01 /* readWrite.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B944B523BF6F2000327D01 /* readWrite.swift */; };
 		50B944BA23BF71A500327D01 /* MotherView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B944B923BF71A500327D01 /* MotherView.swift */; };
 		50B944BC23BF730900327D01 /* ViewRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B944BB23BF730900327D01 /* ViewRouter.swift */; };
-		50C9BF2523BF7E4500F13205 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 50C9BF2423BF7E4500F13205 /* Main.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		50697F8423C536DC00564430 /* DocumentPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentPicker.swift; sourceTree = "<group>"; };
 		50B9449C23BF6EDF00327D01 /* newSwiftUIApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = newSwiftUIApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		50B9449F23BF6EDF00327D01 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		50B944A123BF6EE000327D01 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -35,7 +36,6 @@
 		50B944B523BF6F2000327D01 /* readWrite.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = readWrite.swift; sourceTree = "<group>"; };
 		50B944B923BF71A500327D01 /* MotherView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotherView.swift; sourceTree = "<group>"; };
 		50B944BB23BF730900327D01 /* ViewRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewRouter.swift; sourceTree = "<group>"; };
-		50C9BF2423BF7E4500F13205 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -74,10 +74,10 @@
 				50B9449F23BF6EDF00327D01 /* AppDelegate.swift */,
 				50B944A123BF6EE000327D01 /* SceneDelegate.swift */,
 				50B944A323BF6EE000327D01 /* ContentView.swift */,
+				50697F8423C536DC00564430 /* DocumentPicker.swift */,
 				50B944BB23BF730900327D01 /* ViewRouter.swift */,
 				50B944B923BF71A500327D01 /* MotherView.swift */,
 				50B944A523BF6EE500327D01 /* Assets.xcassets */,
-				50C9BF2423BF7E4500F13205 /* Main.storyboard */,
 				50B944AA23BF6EE500327D01 /* LaunchScreen.storyboard */,
 				50B944AD23BF6EE500327D01 /* Info.plist */,
 				50B944A723BF6EE500327D01 /* Preview Content */,
@@ -154,7 +154,6 @@
 				50B944AC23BF6EE500327D01 /* LaunchScreen.storyboard in Resources */,
 				50B944A923BF6EE500327D01 /* Preview Assets.xcassets in Resources */,
 				50B944A623BF6EE500327D01 /* Assets.xcassets in Resources */,
-				50C9BF2523BF7E4500F13205 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -169,6 +168,7 @@
 				50B944BA23BF71A500327D01 /* MotherView.swift in Sources */,
 				50B944B723BF6F2100327D01 /* PDF.swift in Sources */,
 				50B944A023BF6EE000327D01 /* AppDelegate.swift in Sources */,
+				50697F8523C536DC00564430 /* DocumentPicker.swift in Sources */,
 				50B944A223BF6EE000327D01 /* SceneDelegate.swift in Sources */,
 				50B944A423BF6EE000327D01 /* ContentView.swift in Sources */,
 				50B944B823BF6F2100327D01 /* readWrite.swift in Sources */,
