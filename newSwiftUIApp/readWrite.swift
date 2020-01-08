@@ -36,10 +36,3 @@ class ReadWriteText{
     }
     
 }
-/*
-let message = "Hello, Pizza!!!"
-let textFileName = "Pizza"
-let rwt = ReadWriteText()
-rwt.writeFile(writeString: message, fileName: textFileName)
-print(rwt.readFile(fileName: textFileName"))
-*/
