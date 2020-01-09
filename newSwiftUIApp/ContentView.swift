@@ -12,6 +12,7 @@ import Combine
 import MobileCoreServices
 
 var rwt = ReadWriteText()
+//var pdfD = PDFDocument(url: URL(string: "https://github.com/IdoshoCSClub/Host/raw/master/test4.pdf")!)!
 var pdfD = PDFDocument()
 var pdfStruct = PDF(pdfD)
 var classCount = 0
@@ -21,7 +22,10 @@ struct ContentViewA: View {
     @ObservedObject var viewRouter: ViewRouter
 
     var body: some View {
-        ViewControllerWrapper()
+        if rwt.readFile(fileName: "Save6") != "" {
+            self.viewRouter.currentPage = "page4"
+        } else {return ViewControllerWrapper()}
+        return ViewControllerWrapper()
     }
 }
 
@@ -35,15 +39,10 @@ struct ContentViewB: View {
             Button(action: {self.viewRouter.currentPage = "page3"; print(pdfStruct.classList)}) {
             Text("Continue").fontWeight(.heavy).padding()
             }
-        } .onAppear {
-            if rwt.readFile(fileName: "Save6") != "" {self.viewRouter.currentPage = "page4"}
-            else {
-            pdfStruct = PDF(pdfD)
-            pdfStruct.makeSchedule()
-            }
+        }
         }
     }
-}
+
 
 
 
@@ -117,3 +116,4 @@ struct ContentView_PreviewsD: PreviewProvider {
         ContentViewD(viewRouter: ViewRouter())
     }
 }
+

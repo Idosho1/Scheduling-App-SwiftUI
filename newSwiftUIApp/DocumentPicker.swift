@@ -20,6 +20,7 @@ class ViewController: UIViewController, UIDocumentPickerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        
         let s = UIButton()
         s.setTitle("Import Schedule", for: .normal)
         s.frame = CGRect(x: 100, y: 100, width: 300, height: 50)
@@ -44,13 +45,14 @@ class ViewController: UIViewController, UIDocumentPickerDelegate {
             pdfD = p
         }
         //WORK HERE
-        
+
         let v = ViewRouter()
         v.currentPage = "page2"
         let vc = UIHostingController(rootView: MotherView(viewRouter: v))
         vc.modalPresentationStyle = .fullScreen
         present(vc, animated: true, completion: nil)
-        
+        pdfStruct = PDF(pdfD)
+        pdfStruct.makeSchedule()
         self.view.isHidden = true
         
         
@@ -64,11 +66,11 @@ struct ViewControllerWrapper: UIViewControllerRepresentable {
 
 
     func makeUIViewController(context: UIViewControllerRepresentableContext<ViewControllerWrapper>) -> ViewControllerWrapper.UIViewControllerType {
-        print("making")
+        //print("making")
         return ViewController()
     }
 
     func updateUIViewController(_ uiViewController: ViewControllerWrapper.UIViewControllerType, context: UIViewControllerRepresentableContext<ViewControllerWrapper>) {
-        print("updating")
+        //print("updating")
     }
 }
