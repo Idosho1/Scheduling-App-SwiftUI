@@ -77,20 +77,9 @@ struct ContentViewC: View {
     }
 }
 
-struct ContentViewD: View {
-    @ObservedObject var viewRouter: ViewRouter
-    
-    var body: some View {
-        
-        VStack {
-              Text("All Done!").fontWeight(.heavy)
-            Button(action: {rwt.writeFile(writeString: "", fileName: "Save6"); self.viewRouter.currentPage = "page1"}) {
-                Text("Reset").fontWeight(.heavy).padding()
-            }
-        } .onAppear {classCount = 0}
-        }
-        
-    }
+
+
+
 
 
 /*
@@ -112,9 +101,5 @@ struct ContentView_PreviewsC: PreviewProvider {
     }
 }*/
 
-struct ContentView_PreviewsD: PreviewProvider {
-    static var previews: some View {
-        ContentViewD(viewRouter: ViewRouter())
-    }
-}
+
 

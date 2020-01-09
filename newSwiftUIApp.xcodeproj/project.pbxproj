@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		50697F8523C536DC00564430 /* DocumentPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50697F8423C536DC00564430 /* DocumentPicker.swift */; };
+		50877AC423C6BB7E007A9BDD /* ScheduleViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50877AC323C6BB7E007A9BDD /* ScheduleViews.swift */; };
 		50B944A023BF6EE000327D01 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B9449F23BF6EDF00327D01 /* AppDelegate.swift */; };
 		50B944A223BF6EE000327D01 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B944A123BF6EE000327D01 /* SceneDelegate.swift */; };
 		50B944A423BF6EE000327D01 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B944A323BF6EE000327D01 /* ContentView.swift */; };
@@ -23,6 +24,7 @@
 
 /* Begin PBXFileReference section */
 		50697F8423C536DC00564430 /* DocumentPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentPicker.swift; sourceTree = "<group>"; };
+		50877AC323C6BB7E007A9BDD /* ScheduleViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleViews.swift; sourceTree = "<group>"; };
 		50B9449C23BF6EDF00327D01 /* newSwiftUIApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = newSwiftUIApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		50B9449F23BF6EDF00327D01 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		50B944A123BF6EE000327D01 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -74,6 +76,7 @@
 				50B9449F23BF6EDF00327D01 /* AppDelegate.swift */,
 				50B944A123BF6EE000327D01 /* SceneDelegate.swift */,
 				50B944A323BF6EE000327D01 /* ContentView.swift */,
+				50877AC323C6BB7E007A9BDD /* ScheduleViews.swift */,
 				50697F8423C536DC00564430 /* DocumentPicker.swift */,
 				50B944BB23BF730900327D01 /* ViewRouter.swift */,
 				50B944B923BF71A500327D01 /* MotherView.swift */,
@@ -167,6 +170,7 @@
 				50B944B623BF6F2100327D01 /* Class.swift in Sources */,
 				50B944BA23BF71A500327D01 /* MotherView.swift in Sources */,
 				50B944B723BF6F2100327D01 /* PDF.swift in Sources */,
+				50877AC423C6BB7E007A9BDD /* ScheduleViews.swift in Sources */,
 				50B944A023BF6EE000327D01 /* AppDelegate.swift in Sources */,
 				50697F8523C536DC00564430 /* DocumentPicker.swift in Sources */,
 				50B944A223BF6EE000327D01 /* SceneDelegate.swift in Sources */,
