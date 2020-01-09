@@ -93,6 +93,7 @@ struct ContentViewD: View {
     }
 
 
+/*
 struct ContentView_PreviewsA: PreviewProvider {
     static var previews: some View {
         ContentViewA(viewRouter: ViewRouter())
@@ -109,7 +110,7 @@ struct ContentView_PreviewsC: PreviewProvider {
     static var previews: some View {
         ContentViewC(viewRouter: ViewRouter(), Class: pdfStruct.uniqueClassList[0])
     }
-}
+}*/
 
 struct ContentView_PreviewsD: PreviewProvider {
     static var previews: some View {
