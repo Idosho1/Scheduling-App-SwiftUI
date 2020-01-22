@@ -95,6 +95,7 @@ struct PDF {
     var pdfAsText: String
     var textArray: [String]
     var classColors: [String:UIColor] = [:]
+    var homework: [Homework] = []
     
     init(_ pdfFile: PDFDocument) {
         //pdfFile = PDFDocument(url: URL(string: pdfURL)!)!
@@ -104,6 +105,18 @@ struct PDF {
         textArray = splitStringIntoLines(pdfAsText)
         generalInfoLine = textArray[1]
         splitInfo = splitStringIntoParts(generalInfoLine)
+    }
+    
+    mutating func addHW(name: String, description: String, cls: Class) {
+        homework.append(Homework(name: name, description: description, cls: cls))
+    }
+    
+    mutating func deleteHW(name: String) {
+        for n in 0..<homework.count {
+            if homework[n].name == name {
+                homework.remove(at: n)
+            }
+        }
     }
     
     func returnName() -> String {
@@ -204,7 +217,7 @@ struct PDF {
     }
     
     mutating func restore() {
-        let classString = rwt.readFile(fileName: "Save6")
+        let classString = rwt.readFile(fileName: "Save7")
         //print(classString)
         let classArray = splitStringIntoLines(classString)
         self.generalInfoLine = classArray[0]
@@ -219,7 +232,7 @@ struct PDF {
             print(classes)
         }
         
-        let classColorsString = rwt.readFile(fileName: "SaveColors6")
+        let classColorsString = rwt.readFile(fileName: "SaveColors7")
         let classColorsArray = splitStringIntoLines(classColorsString)
         print(classColorsArray)
         for n in stride(from: 0, to: classColorsArray.count-1, by: 2) {
@@ -329,7 +342,7 @@ struct PDF {
             saveString += "\(Class.block)\n"
         }
         //print(saveString)
-        rwt.writeFile(writeString: saveString, fileName: "Save6")
+        rwt.writeFile(writeString: saveString, fileName: "Save7")
         //writeTextFile("abc", data: saveString)
         print(saveString)
         return classList
@@ -352,7 +365,7 @@ struct PDF {
         for (className, color) in classColors {
             saveString += "\(className)\n\(color)\n"
         }
-        rwt.writeFile(writeString: saveString, fileName: "SaveColors6")
+        rwt.writeFile(writeString: saveString, fileName: "SaveColors7")
     }
     
     

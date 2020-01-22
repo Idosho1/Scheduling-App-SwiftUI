@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct Class {
+struct Class: Hashable {
     let roomNumber: String
     let courseName: String
     let semester: String
@@ -20,4 +20,12 @@ struct Class {
 struct ScheduleObject {
     var schedule:[Day:[Class]]
     var userName: String
+}
+
+struct Homework: Identifiable, Hashable {
+    let id = UUID()
+    
+    let name: String
+    let description: String
+    let cls: Class
 }

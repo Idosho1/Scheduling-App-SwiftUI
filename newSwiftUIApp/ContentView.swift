@@ -13,7 +13,8 @@ import MobileCoreServices
 
 var rwt = ReadWriteText()
 //var pdfD = PDFDocument(url: URL(string: "https://github.com/IdoshoCSClub/Host/raw/master/test4.pdf")!)!
-var pdfD = PDFDocument()
+//var pdfD = PDFDocument()
+var pdfD = PDFDocument(url: URL(fileURLWithPath: "/Users/ido/Desktop/test4.pdf"))!
 var pdfStruct = PDF(pdfD)
 var classCount = 0
 
@@ -22,7 +23,7 @@ struct ContentViewA: View {
     @ObservedObject var viewRouter: ViewRouter
 
     var body: some View {
-        if rwt.readFile(fileName: "Save6") != "" {
+        if rwt.readFile(fileName: "Save7") != "" {
             self.viewRouter.currentPage = "page4"
         } else {return ViewControllerWrapper()}
         return ViewControllerWrapper()
@@ -69,7 +70,7 @@ struct ContentViewC: View {
                   Color(self.colors[$0])
                }
             } .labelsHidden()
-            Button(action: {classCount+=1; self.selectedColor = 0;pdfStruct.classColors[self.Class.courseName] = self.colors[self.selectedColor]; if classCount == self.classList.count {self.viewRouter.currentPage = "page4"; print(pdfStruct.classColors); pdfStruct.saveColors()} else { self.viewRouter.currentPage = "page3"}}) {
+            Button(action: {classCount+=1;pdfStruct.classColors[self.Class.courseName] = self.colors[self.selectedColor]; self.selectedColor = 0; if classCount == self.classList.count {self.viewRouter.currentPage = "page4"; print(pdfStruct.classColors); pdfStruct.saveColors()} else { self.viewRouter.currentPage = "page3"}}) {
                 Text("Next...").fontWeight(.heavy).padding()
             }
         }
