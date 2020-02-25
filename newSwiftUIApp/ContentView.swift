@@ -12,10 +12,10 @@ import Combine
 import MobileCoreServices
 
 var rwt = ReadWriteText()
-//var pdfD = PDFDocument(url: URL(string: "https://github.com/IdoshoCSClub/Host/raw/master/test4.pdf")!)!
-//var pdfD = PDFDocument()
-var pdfD = PDFDocument(url: URL(fileURLWithPath: "/Users/ido/Desktop/test4.pdf"))!
-var pdfStruct = PDF(pdfD)
+//var pdfD = PDFDocument(url: URL(string: "https://github.com/IdoshoCSClub/Host/raw/master/test.pdf")!)!
+var pdfD = PDFDocument()
+//var pdfD = PDFDocument(url: URL(fileURLWithPath: "/Users/ido/Desktop/test4.pdf"))!
+var pdfStruct = PDF()
 var classCount = 0
 
 struct ContentViewA: View {
@@ -24,6 +24,7 @@ struct ContentViewA: View {
 
     var body: some View {
         if rwt.readFile(fileName: "Save7") != "" {
+            print(rwt.readFile(fileName: "Save7"))
             self.viewRouter.currentPage = "page4"
         } else {return ViewControllerWrapper()}
         return ViewControllerWrapper()

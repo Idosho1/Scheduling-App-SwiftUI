@@ -6,6 +6,7 @@
 //  Copyright © 2019 Ido Shoshani. All rights reserved.
 
 import Foundation
+import SwiftUI
 
 struct Class: Hashable {
     let roomNumber: String
@@ -21,10 +22,26 @@ struct ScheduleObject {
     var userName: String
 }
 
-struct Homework: Identifiable, Hashable {
-    let id = UUID()
+class Homework: Identifiable, Hashable, ObservableObject {
+    static func == (lhs: Homework, rhs: Homework) -> Bool {
+        return lhs.id == rhs.id
+    }
     
+    let id = UUID()
+    let dueDate: Date
     let name: String
-    let description: String
     let cls: Class
+    var complete: Bool = false
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+    }
+    
+    init(name: String, cls: Class, dueDate: Date) {
+        self.name = name
+        self.cls = cls
+        self.dueDate = dueDate
+    }
 }
+
+

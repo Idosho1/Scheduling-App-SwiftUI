@@ -64,8 +64,6 @@ extension String {
 
 }
 
-let pdf = PDFDocument(url: URL(fileURLWithPath: "/Users/ido/Desktop/test4.pdf"))
-var text = (pdf?.string)!
 
 func splitStringIntoParts(_ expression: String) -> [String] {
     return expression.split{$0 == " "}.map{ String($0) }
@@ -74,12 +72,16 @@ func splitStringIntoLines(_ expression: String) -> [String] {
     return expression.split{$0 == "\n"}.map{ String($0) }
 }
 
-func printText() {
-    print(splitStringIntoLines((pdf?.string)!))
-}
 
-enum Day {
-    case Mon, Tue, Wed, Thu, Fri
+
+enum Day: String {
+    case Mon = "Mon"
+    case Tue = "Tue"
+    case Wed = "Wed"
+    case Thu = "Thu"
+    case Fri = "Fri"
+    case Sat = "Sat"
+    case Sun = "Sun"
 }
 
 var dayBlocks = [Day.Mon : ["A1 7:40 8:35", "B1 8:40 9:35", "adv 9:40 9:45", "C1 9:50 10:45", "D1 10:50 12:35", "E1 12:40 1:35", "F1 1:40 2:35", "J1 2:40 3:20"], Day.Tue : ["G1 7:40 8:35", "F2 8:40 9:35", "adv 9:40 10:05", "C2 10:10 11:05", "E2 11:10 12:55", "D2 1:00 1:55"], Day.Wed : ["A2 7:40 8:55", "B2 9:00 9:55", "G2 10:00 10:55", "F3 11:00 12:45", "D3 12:50 1:45", "E3 1:50 2:45", "J2 2:50 3:20"], Day.Thu : ["A3 7:40 8:35", "B3 8:40 9:35", "adv 9:40 9:45", "F4 9:50 10:45", "G3 10:50 12:35", "E4 12:40 1:35", "C3 1:40 2:35", "J3 2:40 3:20"], Day.Fri : ["A4 7:40 8:35", "B4 8:40 9:55", "adv 10:00 10:05", "G4 10:10 11:05", "C4 11:10 12:55", "D4 1:00 1:55"]]
@@ -96,6 +98,7 @@ struct PDF {
     var textArray: [String]
     var classColors: [String:UIColor] = [:]
     var homework: [Homework] = []
+    var homeworkSaveString: String = ""
     
     init(_ pdfFile: PDFDocument) {
         //pdfFile = PDFDocument(url: URL(string: pdfURL)!)!
@@ -105,11 +108,43 @@ struct PDF {
         textArray = splitStringIntoLines(pdfAsText)
         generalInfoLine = textArray[1]
         splitInfo = splitStringIntoParts(generalInfoLine)
+        print(textArray)
     }
     
-    mutating func addHW(name: String, description: String, cls: Class) {
-        homework.append(Homework(name: name, description: description, cls: cls))
+    init() {
+        pdfAsText = ""
+        classList = []
+        uniqueClassList = []
+        textArray = []
+        generalInfoLine = ""
+        splitInfo = []
     }
+    
+    func findHWIndex(dueDate: Date) -> Int {
+        var n = 0
+        
+        while n<homework.count {
+            if dueDate < homework[n].dueDate {
+                n += 1
+            }
+        }
+        
+        return n
+    }
+    
+    mutating func addHW(name: String, cls: Class, dueDate: Date) {
+        homework.insert(Homework(name: name, cls: cls, dueDate: dueDate), at: findHWIndex(dueDate: dueDate))
+        
+        let hwArray = splitStringIntoLines(homeworkSaveString)
+        if !hwArray.contains(name) {
+        homeworkSaveString += "\(name)\n\(cls.courseName)\n\(dueDate)\n"
+        rwt.writeFile(writeString: homeworkSaveString, fileName: "saveHW3")
+        }
+    }
+    
+    //mutating func addHWInt(name: String, cls: Class, dueDate: Date) {
+    //    homework.insert(Homework(name: name, cls: cls, dueDate: dueDate), at: findHWIndex(dueDate: dueDate))
+    //}
     
     mutating func deleteHW(name: String) {
         for n in 0..<homework.count {
@@ -117,6 +152,46 @@ struct PDF {
                 homework.remove(at: n)
             }
         }
+    }
+    
+    mutating func updateHW() {
+        var hwStringArray = splitStringIntoLines(homeworkSaveString)
+        var removeHWNames: [String] = []
+        
+        /*for n in 0..<homework.count {
+            if homework[n].complete {
+                removeHWNames.append(homework[n].name)
+                homework.remove(at: n)
+            }
+        }*/
+        var n = 0
+        
+        while n<homework.count {
+            if homework[n].complete {
+                removeHWNames.append(homework[n].name)
+                homework.remove(at: n)
+            }
+            n += 1
+        }
+        
+        var i = 0
+        
+        while i<hwStringArray.count-2 {
+            if removeHWNames.contains(hwStringArray[i]) {
+                hwStringArray.remove(at: i)
+                hwStringArray.remove(at: i)
+                hwStringArray.remove(at: i)
+            }
+            i += 3
+        }
+        
+        homeworkSaveString = ""
+        
+        for n in hwStringArray {
+            homeworkSaveString += "\(n)\n"
+        }
+        
+        rwt.writeFile(writeString: homeworkSaveString, fileName: "saveHW3")
     }
     
     func returnName() -> String {
@@ -135,6 +210,25 @@ struct PDF {
         return Int(splitInfo[7])!
     }
     
+    func getNextClassDate(_ cls: Class) -> Date {
+        var cont = true
+        var day = getNextDay(getCurrentDay())
+        var numDays = 0
+        
+        while cont {
+            numDays += 1
+            //if getCurrentDay() == .Fri {numDays += 2}
+            //if getCurrentDay() == .Sat {numDays += 1}
+            if containsClass(day: day, cls: cls) {
+                cont = false
+                return Date().addingTimeInterval(Double(86400 * numDays))
+            }
+            let nd = getNextDay(day)
+            day = nd
+            print(day)
+        }
+    }
+    
     func containsClass(day: Day, cls: Class) -> Bool {
         let classes = schedule[day]!
         for n in classes {
@@ -143,6 +237,28 @@ struct PDF {
             }
         }
         return false
+    }
+    
+    func getNextDay(_ day: Day) -> Day {
+        let currentDay = day
+        switch currentDay.rawValue {
+            case "Mon": return .Tue
+            case "Tue": return .Wed
+            case "Wed": return .Thu
+            case "Thu": return .Fri
+            case "Fri": return .Sat
+            case "Sat": return .Sun
+            case "Sun": return .Mon
+            default: return .Mon
+        }
+    }
+    
+    func getCurrentDay() -> Day {
+        let date = Date()
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "EEE"
+        let dayOfTheWeekString = dateFormatter.string(from: date)
+        return Day(rawValue: dayOfTheWeekString)!
     }
     
     func matchFullBlock(_ block: String,_ line: String) -> Bool {
@@ -218,8 +334,99 @@ struct PDF {
     
     mutating func restore() {
         let classString = rwt.readFile(fileName: "Save7")
-        //print(classString)
         let classArray = splitStringIntoLines(classString)
+        self.generalInfoLine = classArray[0]
+        self.splitInfo = splitStringIntoParts(generalInfoLine)
+        for n in stride(from: 1, to: classArray.count-1, by: 6) {
+            let newClass = Class(roomNumber: classArray[n+4], courseName: classArray[n+1], semester: classArray[n], timeStart: classArray[n+2], timeEnd: classArray[n+3], block: classArray[n+5])
+            classList.append(newClass)
+        }
+        print(classList)
+        
+        
+        makeUniqueClassList()
+        schedule[.Sat] = []
+        schedule[.Sun] = []
+        for cls in classList {
+            let block = cls.block
+            let start = cls.timeStart
+            let end = cls.timeEnd
+            if block.count == 1 {
+                for (day, blocks) in dayBlocks {
+                    for line in blocks {
+                    if matchFullBlock(block, line) && matchStart(start, line) && matchEnd(end, line) && !containsClass(day: day, cls: cls) {
+                        schedule[day]!.append(cls)
+                    }
+                }
+                }
+            }
+            else if block.count == 2 {
+                for (day, blocks) in dayBlocks {
+                    for line in blocks {
+                    if matchBlock(block, line) && matchStart(start, line) && matchEnd(end, line) && !containsClass(day: day, cls: cls)  {
+                        schedule[day]!.append(cls)
+                    }
+                }
+                }
+            }
+            else if block == "adv" {
+                for (day, blocks) in dayBlocks {
+                    for line in blocks {
+                if matchStart(start, line) && matchEnd(end, line) && !containsClass(day: day, cls: cls)  {
+                    schedule[day]!.append(cls)
+                }
+            }
+            }
+            }
+            else if block.count == 3 {
+                for (day, blocks) in dayBlocks {
+                    for line in blocks {
+                        if matchBlock(block[0..<2], line) && matchStart(start, line) && matchEnd(end, line) && !containsClass(day: day, cls: cls)  {
+                        schedule[day]!.append(cls)
+                    }
+                    if matchBlock(block[0] + block[2], line) && matchStart(start, line) && matchEnd(end, line) && !containsClass(day: day, cls: cls)  {
+                        schedule[day]!.append(cls)
+                    }
+                }
+                }
+            }
+        }
+        currentSchedule.schedule = schedule
+        currentSchedule.userName = returnName()
+        
+        
+        
+        
+        
+        
+        
+        for (day,classes) in schedule {
+            print("\(day)\n")
+            print(classes)
+        }
+        
+        let classColorsString = rwt.readFile(fileName: "SaveColors7")
+        let classColorsArray = splitStringIntoLines(classColorsString)
+        print(classColorsArray)
+        for n in stride(from: 0, to: classColorsArray.count-1, by: 2) {
+            let cls = classColorsArray[n]
+            let colorParts = splitStringIntoParts(classColorsArray[n+1])
+            let color = UIColor(red: CGFloat(Double(colorParts[1])!), green: CGFloat(Double(colorParts[2])!), blue: CGFloat(Double(colorParts[3])!), alpha: CGFloat(Double(colorParts[4])!))
+            classColors[cls] = color
+            print(cls)
+            print(color)
+            print(classColors)
+        }
+        
+        print(classColors)
+        restoreHomework()
+        print(homework)
+    }
+    
+    /*mutating func restore() {
+        let classString = rwt.readFile(fileName: "Save7")
+        let classArray = splitStringIntoLines(classString)
+        textArray = classArray
         self.generalInfoLine = classArray[0]
         for n in stride(from: 1, to: classArray.count-1, by: 6) {
             let newClass = Class(roomNumber: classArray[n+4], courseName: classArray[n+1], semester: classArray[n], timeStart: classArray[n+2], timeEnd: classArray[n+3], block: classArray[n+5])
@@ -247,7 +454,7 @@ struct PDF {
         
         print(classColors)
         
-    }
+    }*/
     
     mutating func makeClassArray() -> [Class] {
         var end = 9
@@ -276,35 +483,30 @@ struct PDF {
             let timeEnd = splitStringIntoParts(time)[1]
             let infoLine = textArray[index+1]
             let infoArray = splitStringIntoParts(infoLine)
-                //print(infoLine)
-                //print(infoArray)
+
                 let semester = infoArray[0].replacingOccurrences(of: "[", with: "").replacingOccurrences(of: "]", with: "")
-                //print(semester)
+
                 var courseName = ""
                 var block = ""
                 
                 var ind = 1
                 var newArray: [String] = []
                 
-                //print(infoArray)
                 repeat {
                     newArray.append(infoArray[ind])
                     ind += 1
                 } while(!infoArray[ind].contains(",") && ind != infoArray.count-1)
-                //print(newArray)
                 
                 
                 if newArray[0] != "Advisory/HR" {
                 while(!((newArray[newArray.count-1]).count <= 2) && !doStringContainsNumber(_string: newArray[newArray.count-1])) {
                     newArray.remove(at: newArray.count-1)
-                    //print(newArray)
                 }
                     newArray = newArray.filter {$0 != "-"}
-                    //print(newArray)
                     
                     block = newArray[newArray.count-1].replacingOccurrences(of: "-", with: "")
                     newArray.remove(at: newArray.count-1)
-                    //print(newArray)
+
                     for n in newArray {
                         courseName += " \(n)"
                     }
@@ -316,15 +518,6 @@ struct PDF {
                     block = "adv"
                 }
                 
-                 /*PRINTING INFO FOR EACH CLASS FOR TESTING
-                print(courseName)
-                print(timeStart)
-                print(timeEnd)
-                print(infoArray[infoArray.count-1])
-                print(block)
-                print("\n")
-                */
-    
                 let classroom = Class(roomNumber: infoArray[infoArray.count-1], courseName: courseName, semester: semester, timeStart: timeStart, timeEnd: timeEnd, block: block)
                 classList.append(classroom)
             }
@@ -368,6 +561,28 @@ struct PDF {
         rwt.writeFile(writeString: saveString, fileName: "SaveColors7")
     }
     
+    mutating func restoreHomework() {
+        let homeworkSaveArray = splitStringIntoLines(rwt.readFile(fileName: "saveHW3"))
+        print(homeworkSaveArray)
+        for n in stride(from: 0, to: homeworkSaveArray.count-2, by: 3) {
+            let name = homeworkSaveArray[n]
+            
+            var i = 0
+            while homeworkSaveArray[n+1] != uniqueClassList[i].courseName {
+                i += 1
+            }
+            
+            let cls = uniqueClassList[i]
+            
+            let df = DateFormatter()
+            df.dateFormat = "yyyy-MM-dd HH:mm:ssZZZZZ"
+            let dueDate = df.date(from: homeworkSaveArray[n+2])!
+            
+            print("adding hw \(name) for class \(cls.courseName) for date \(dueDate)")
+            addHW(name: name, cls: cls, dueDate: dueDate)
+            
+        }
+    }
     
 /* mutating func makeBlockDict() {
         let classArray = makeClassArray()
