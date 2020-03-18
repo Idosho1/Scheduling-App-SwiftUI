@@ -15,6 +15,24 @@ struct Class: Hashable {
     let timeStart: String
     let timeEnd: String
     let block: String
+    
+    func getLength() -> Int {
+        /*let s = Int(timeStart[0])! * 60 + Int(timeStart[2])! * 10 + Int(timeStart[3])!
+        let e = Int(timeEnd[0])! * 60 + Int(timeEnd[2])! * 10 + Int(timeEnd[3])!*/
+        let s = timeStart.replacingOccurrences(of: ":", with: " ")
+        let split = splitStringIntoParts(s)
+        var sHR = Int(split[0])!
+        if sHR >= 1 && sHR <= 3 {sHR += 12}
+        let sMin = Int(split[1])!
+        
+        let e = timeEnd.replacingOccurrences(of: ":", with: " ")
+        let split2 = splitStringIntoParts(e)
+        var eHR = Int(split2[0])!
+        if eHR >= 1 && eHR <= 3 {eHR += 12}
+        let eMin = Int(split2[1])!
+        
+        return((eHR-sHR)*60 + (eMin-sMin))
+    }
 }
 
 struct ScheduleObject {

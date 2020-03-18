@@ -127,6 +127,8 @@ struct PDF {
             if dueDate < homework[n].dueDate {
                 n += 1
             }
+            else {return n}
+            print("!!")
         }
         
         return n
@@ -138,7 +140,7 @@ struct PDF {
         let hwArray = splitStringIntoLines(homeworkSaveString)
         if !hwArray.contains(name) {
         homeworkSaveString += "\(name)\n\(cls.courseName)\n\(dueDate)\n"
-        rwt.writeFile(writeString: homeworkSaveString, fileName: "saveHW3")
+        rwt.writeFile(writeString: homeworkSaveString, fileName: "saveHW5")
         }
     }
     
@@ -191,7 +193,7 @@ struct PDF {
             homeworkSaveString += "\(n)\n"
         }
         
-        rwt.writeFile(writeString: homeworkSaveString, fileName: "saveHW3")
+        rwt.writeFile(writeString: homeworkSaveString, fileName: "saveHW5")
     }
     
     func returnName() -> String {
@@ -423,6 +425,49 @@ struct PDF {
         print(homework)
     }
     
+    func getCurrentTime() -> Int {
+        let date = Date()
+        let calendar = Calendar.current
+        let hour = calendar.component(.hour, from: date)
+        let minutes = calendar.component(.minute, from: date)
+        print(hour)
+        return (60*hour + minutes)
+    }
+    
+    func getCurrentClassIndex() -> Int {
+        let classArray = schedule[getCurrentDay()]!
+        var i = 0
+        while i < classArray.count {
+            let ct = getCurrentTime()
+            
+            let e = classArray[i].timeEnd.replacingOccurrences(of: ":", with: " ")
+            let split = splitStringIntoParts(e)
+            var eHR = Int(split[0])!
+            if eHR >= 1 && eHR <= 3 {eHR += 12}
+            let eMin = Int(split[1])!
+            
+            if (ct - (60*eHR+eMin)) > 0 {
+                i += 1
+            } else {return i}
+        }
+        return i
+    }
+    
+    func findTimeIndex() -> Int {
+        let currentTime = getCurrentTime()
+        let startTimeString = schedule[getCurrentDay()]![getCurrentClassIndex()].timeStart
+        let e = startTimeString.replacingOccurrences(of: ":", with: " ")
+        let split = splitStringIntoParts(e)
+        var eHR = Int(split[0])!
+        if eHR >= 1 && eHR <= 3 {eHR += 12}
+        let eMin = Int(split[1])!
+        let startTime = (60*eHR+eMin)
+        
+        let diff = currentTime - startTime
+        
+        return diff/5
+    }
+    
     /*mutating func restore() {
         let classString = rwt.readFile(fileName: "Save7")
         let classArray = splitStringIntoLines(classString)
@@ -562,7 +607,7 @@ struct PDF {
     }
     
     mutating func restoreHomework() {
-        let homeworkSaveArray = splitStringIntoLines(rwt.readFile(fileName: "saveHW3"))
+        let homeworkSaveArray = splitStringIntoLines(rwt.readFile(fileName: "saveHW5"))
         print(homeworkSaveArray)
         for n in stride(from: 0, to: homeworkSaveArray.count-2, by: 3) {
             let name = homeworkSaveArray[n]

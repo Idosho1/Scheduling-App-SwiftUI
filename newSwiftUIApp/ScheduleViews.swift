@@ -10,48 +10,6 @@ import SwiftUI
 import UIKit
 
 
-
-
-struct swipeGesture : UIViewRepresentable {
-    
-    
-    
-    func makeCoordinator() -> swipeGesture.Coordinator {
-        return swipeGesture.Coordinator()
-    }
-    
-    func makeUIView(context: UIViewRepresentableContext<swipeGesture>) -> UIView {
-        let view = UIView()
-        view.backgroundColor = .clear
-        let left = UISwipeGestureRecognizer(target: context.coordinator, action: #selector(context.coordinator.left))
-        left.direction = .left
-        
-        let right = UISwipeGestureRecognizer(target: context.coordinator, action: #selector(context.coordinator.right))
-        right.direction = .right
-        
-        view.addGestureRecognizer(left)
-        view.addGestureRecognizer(right)
-        
-        return view
-
-    }
-    
-    func updateUIView(_ uiView: UIView, context: UIViewRepresentableContext<swipeGesture>) {
-        
-    }
-    
-    class Coordinator : NSObject {
-        
-        @objc func left() {
-            //self.tabSelection.selectedTab -= 1
-        }
-        
-        @objc func right() {
-            //self.tabSelection.selectedTab += 1
-        }
-    }
-}
-
 struct ContentViewD: View {
 @ObservedObject var viewRouter: ViewRouter
 
@@ -82,16 +40,80 @@ var body: some View {
     }
 }
 
-struct ScheduleView: View {
+/*VStack {
+    Text("Schedule View")
+    Button(action: {rwt.writeFile(writeString: "", fileName: "Save7")}) {
+    Text("Restart")
+    }.padding()
+}*/
 
+
+
+struct ScheduleView: View {
+    var items = [Color.red, Color.orange, Color.yellow, Color.green, Color.blue, Color.purple,Color.red, Color.orange, Color.yellow, Color.green, Color.blue, Color.purple]
+    
 var body: some View {
-    VStack {
-        Text("Schedule View")
-        Button(action: {rwt.writeFile(writeString: "", fileName: "Save7")}) {
-        Text("Restart")
-        }.padding()
+    
+    ScrollView(Axis.Set.vertical, showsIndicators: false) {
+        HStack {
+            VStack {
+                ForEach(pdfStruct.schedule[pdfStruct.getCurrentDay()]!, id: \.self) { item in
+                    ClassSideView(c: item).frame(width: 20)
+                }
+            }
+        VStack {
+            ForEach(pdfStruct.schedule[pdfStruct.getCurrentDay()]!, id: \.self) { item in
+                ClassView(c: item)
+            }
+        }
     }
     }
+}
+}
+
+struct ClassSideView: View {
+    
+    var c: Class
+    
+    
+    var body: some View {
+        
+        let num = c.getLength()/5
+        var dashes = [String]()
+        for _ in 1...num {
+            dashes.append("-")
+        }
+    
+        return VStack {
+            
+            ForEach(dashes, id: \.self) { item in
+                Text(item).padding(.bottom, 14)
+            }
+            
+        }.frame(minWidth: 0, maxWidth: .infinity)
+        .frame(height: CGFloat(7 * c.getLength()))
+    }
+    
+}
+
+
+struct ClassView: View {
+    
+    var c: Class
+    
+    var body: some View {
+    
+        VStack {
+            
+            Text(c.courseName + " - " + c.block).bold().padding()
+            Text(c.timeStart + " - " + c.timeEnd).bold().padding()
+            Text(c.roomNumber).bold().padding().frame(width: 400)
+            
+        }.frame(minWidth: 0, maxWidth: .infinity)
+        .frame(height: CGFloat(7 * c.getLength()))
+        .background(Color.init(pdfStruct.classColors[c.courseName]!).edgesIgnoringSafeArea(.all).opacity(0.7))
+    }
+    
 }
 
 struct HomeworkView: View {
@@ -163,7 +185,6 @@ var body: some View {
         
         
     }.onAppear{self.selectedTab = 1; updatePeriod()}.onDisappear{pdfStruct.updateHW()}
-    //swipeGesture()
     }
     
     }
@@ -237,6 +258,7 @@ struct AddHomeworkView: View {
             Button(action: {
                 if self.isChecked {
                     pdfStruct.addHW(name: self.name, cls: pdfStruct.uniqueClassList[self.selectedClass], dueDate: pdfStruct.getNextClassDate(pdfStruct.uniqueClassList[self.selectedClass]))
+                    self.presentationMode.wrappedValue.dismiss()
                 }
                 else {
                     pdfStruct.addHW(name: self.name, cls: pdfStruct.uniqueClassList[self.selectedClass], dueDate: self.dueDate)
