@@ -35,7 +35,7 @@ var body: some View {
                 }
         }.tag(2)
         
-    }.onAppear {pdfStruct.restore(); print("done")}
+    }.onAppear {pdfStruct.restore(); print("done");}
     
     }
 }
@@ -50,25 +50,47 @@ var body: some View {
 
 
 struct ScheduleView: View {
-    var items = [Color.red, Color.orange, Color.yellow, Color.green, Color.blue, Color.purple,Color.red, Color.orange, Color.yellow, Color.green, Color.blue, Color.purple]
     
 var body: some View {
     
-    ScrollView(Axis.Set.vertical, showsIndicators: false) {
-        HStack {
+    Group {
+    if pdfStruct.getCurrentDay() != .Sat && pdfStruct.getCurrentDay() != .Sun {
+        
+     schoolView()
+        
+    }
+    
+    else {
+    noSchoolView()
+    }
+    
+}
+}
+}
+
+struct schoolView: View {
+    var body: some View {
+        ScrollView(Axis.Set.vertical, showsIndicators: false) {
+            HStack {
+                VStack {
+                    ForEach(pdfStruct.schedule[pdfStruct.getCurrentDay()]!, id: \.self) { item in
+                        ClassSideView(c: item).frame(width: 20)
+                    }
+                }
             VStack {
                 ForEach(pdfStruct.schedule[pdfStruct.getCurrentDay()]!, id: \.self) { item in
-                    ClassSideView(c: item).frame(width: 20)
+                    ClassView(c: item)
                 }
             }
-        VStack {
-            ForEach(pdfStruct.schedule[pdfStruct.getCurrentDay()]!, id: \.self) { item in
-                ClassView(c: item)
-            }
+        }
         }
     }
-    }
 }
+
+struct noSchoolView: View {
+    var body: some View {
+        Text("No School Today!").bold()
+    }
 }
 
 struct ClassSideView: View {
@@ -80,14 +102,20 @@ struct ClassSideView: View {
         
         let num = c.getLength()/5
         var dashes = [String]()
-        for _ in 1...num {
-            dashes.append("-")
+        for n in 0...num {
+            if n == pdfStruct.findTimeIndex() && c.block == pdfStruct.currentBlock() {
+                dashes.append("→")
+            } else {
+                dashes.append("-")
+            }
         }
     
         return VStack {
             
             ForEach(dashes, id: \.self) { item in
-                Text(item).padding(.bottom, 14)
+                
+                Text(item).padding(.bottom, 10)
+                
             }
             
         }.frame(minWidth: 0, maxWidth: .infinity)
@@ -105,10 +133,16 @@ struct ClassView: View {
     
         VStack {
             
+            if c.block == "adv" {
+                Text(c.courseName + " - " + c.block).bold().padding()
+            }
+            
+            else {
+            
             Text(c.courseName + " - " + c.block).bold().padding()
             Text(c.timeStart + " - " + c.timeEnd).bold().padding()
             Text(c.roomNumber).bold().padding().frame(width: 400)
-            
+            }
         }.frame(minWidth: 0, maxWidth: .infinity)
         .frame(height: CGFloat(7 * c.getLength()))
         .background(Color.init(pdfStruct.classColors[c.courseName]!).edgesIgnoringSafeArea(.all).opacity(0.7))

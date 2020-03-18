@@ -450,7 +450,7 @@ struct PDF {
                 i += 1
             } else {return i}
         }
-        return i
+        return i - 1
     }
     
     func findTimeIndex() -> Int {
@@ -465,7 +465,11 @@ struct PDF {
         
         let diff = currentTime - startTime
         
-        return diff/5
+        return Int(round(Double(diff)/5.0))
+    }
+    
+    func currentBlock() -> String {
+        return schedule[getCurrentDay()]![getCurrentClassIndex()].block
     }
     
     /*mutating func restore() {
