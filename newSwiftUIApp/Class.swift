@@ -33,6 +33,16 @@ struct Class: Hashable {
         
         return((eHR-sHR)*60 + (eMin-sMin))
     }
+    
+    func getEnd() -> Int {
+        let e = timeEnd.replacingOccurrences(of: ":", with: " ")
+            let split2 = splitStringIntoParts(e)
+            var eHR = Int(split2[0])!
+            if eHR >= 1 && eHR <= 3 {eHR += 12}
+            let eMin = Int(split2[1])!
+            
+            return((eHR)*60 + (eMin))
+    }
 }
 
 struct ScheduleObject {

@@ -231,9 +231,9 @@ struct schoolView: View {
     
             }
         }.onAppear{self.contentOffset = CGPoint(x: 0, y: pdfStruct.getScrollValue()); print(pdfStruct.schedule[.Thu])}
-            Button(action: {rwt.writeFile(writeString: "", fileName: "Save7")}) {
+            /*Button(action: {rwt.writeFile(writeString: "", fileName: "Save7")}) {
             Text("Restart")
-            }.padding()
+            }.padding()*/
         }
         /*ScrollView(Axis.Set.vertical, showsIndicators: false) {
             /*HStack {

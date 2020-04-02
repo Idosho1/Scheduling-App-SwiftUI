@@ -39,7 +39,7 @@ struct ContentViewB: View {
         VStack {
         Text("Welcome \(pdfStruct.returnName())!").fontWeight(.heavy)
             Button(action: {self.viewRouter.currentPage = "page3"; print(pdfStruct.classList)}) {
-            Text("Continue").fontWeight(.heavy).padding()
+                Text("Continue").fontWeight(.heavy).frame(width: 300, height: 20, alignment: .center).padding()
             }
         }
         }

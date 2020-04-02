@@ -10,6 +10,12 @@ import Foundation
 import UIKit
 import PDFKit
 
+extension String {
+    var isInt: Bool {
+        return Int(self) != nil
+    }
+}
+
 func readTextFile(_ path: String) -> (message: String?, fileText: String?) {
     let text: String
     do {
@@ -95,6 +101,7 @@ struct PDF {
     var uniqueClassList: [Class]
     //var pdfFile: PDFDocument //= PDFDocument(url: URL(fileURLWithPath: "/Users/ido/Desktop/test.pdf"))!
     var pdfAsText: String
+    var textArrayUnedited: [String]
     var textArray: [String]
     var classColors: [String:UIColor] = [:]
     var homework: [Homework] = []
@@ -105,7 +112,14 @@ struct PDF {
         pdfAsText = (pdfFile.string)!
         classList = []
         uniqueClassList = []
-        textArray = splitStringIntoLines(pdfAsText)
+        textArrayUnedited = splitStringIntoLines(pdfAsText)
+        textArray = []
+        for n in textArrayUnedited {
+            if n.trimmingCharacters(in: .whitespaces) == "1" {
+                break
+            }
+            textArray.append(n)
+        }
         generalInfoLine = textArray[1]
         splitInfo = splitStringIntoParts(generalInfoLine)
         print(textArray)
@@ -114,6 +128,7 @@ struct PDF {
     init() {
         pdfAsText = ""
         classList = []
+        textArrayUnedited = []
         uniqueClassList = []
         textArray = []
         generalInfoLine = ""
@@ -506,6 +521,10 @@ struct PDF {
     }*/
     
     func getScrollValue() -> Int {
+        if getCurrentTime() > schedule[getCurrentDay()]![getCurrentClassIndex()].getEnd() {
+            return 0
+        }
+        
         let ci = getCurrentClassIndex()
         
         var totalLength = 0
@@ -517,10 +536,54 @@ struct PDF {
     }
     
     mutating func makeClassArray() -> [Class] {
-        var end = 9
-        var i = 4
         
-        while i <= textArray.count - end {
+        print("TEXT ARRAY: \(textArray)")
+        
+        //FIX PLEASE
+        var newTextArray = [String]()
+        
+        for n in 0...3 {
+            newTextArray.append(textArray[n])
+        }
+        
+        //for n in stride(from: 4, to: textArray.count-2, by: 2) {
+            
+            var n = 4
+            
+            while n <= textArray.count-2 {
+            
+            let timeLine = textArray[n].trimmingCharacters(in: .whitespaces)
+            var infoLine = textArray[n+1]
+            
+            if n+2 <= textArray.count-2 {
+                let nextTimeLine = textArray[n+2].trimmingCharacters(in: .whitespaces)
+                if !nextTimeLine[0].isInt {
+                    infoLine += " \(nextTimeLine)"
+                    n += 1
+                }
+                
+    
+            }
+            
+            newTextArray.append(timeLine)
+            newTextArray.append(infoLine)
+            n += 2
+            }
+            
+        print("****")
+        print(newTextArray)
+        print("****")
+        //}
+        
+        textArray = newTextArray
+        
+        
+        //CHANGE STARTS NOW
+        
+        //var end = 9
+        //var i = 4
+        
+        /*while i <= textArray.count - end {
             if Int((textArray[i].trimmingCharacters(in: .whitespaces))[0]) != nil {
 
             let infoLine = textArray[i+1]
@@ -532,7 +595,7 @@ struct PDF {
                 }
             }
             i += 2
-        }
+        }*/
         
         var index = 4
             repeat {
@@ -543,6 +606,9 @@ struct PDF {
             let timeEnd = splitStringIntoParts(time)[1]
             let infoLine = textArray[index+1]
             let infoArray = splitStringIntoParts(infoLine)
+                
+                print("Time Line: \(timeLine)")
+                print("Info Line: \(infoLine)")
 
                 let semester = infoArray[0].replacingOccurrences(of: "[", with: "").replacingOccurrences(of: "]", with: "")
 
@@ -582,7 +648,7 @@ struct PDF {
                 classList.append(classroom)
             }
                 index += 2
-            } while(index <= textArray.count - end - 1)
+            } while(index <= textArray.count - 1)
         
         //print(classList)
         var saveString = "\(returnName()), \(returnGrade()) \(returnHomeroom()) \(returnID())\n"
