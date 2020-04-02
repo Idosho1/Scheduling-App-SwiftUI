@@ -505,6 +505,17 @@ struct PDF {
         
     }*/
     
+    func getScrollValue() -> Int {
+        let ci = getCurrentClassIndex()
+        
+        var totalLength = 0
+        for n in 0..<ci {
+            totalLength += schedule[getCurrentDay()]![n].getLength()
+        }
+        
+        return 7 * totalLength
+    }
+    
     mutating func makeClassArray() -> [Class] {
         var end = 9
         var i = 4
