@@ -43,6 +43,10 @@ struct Class: Hashable {
             
             return((eHR)*60 + (eMin))
     }
+    
+    func isCurrent() -> Bool {
+        return pdfStruct.schedule[pdfStruct.getCurrentDay()]![pdfStruct.getCurrentClassIndex()].courseName == self.courseName
+    }
 }
 
 struct ScheduleObject {

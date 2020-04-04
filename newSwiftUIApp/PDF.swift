@@ -525,14 +525,24 @@ struct PDF {
             return 0
         }
         
-        let ci = getCurrentClassIndex()
+        var ci = getCurrentClassIndex()
+        
+        if ci == 0 {
+            return 0
+        }
         
         var totalLength = 0
+        
+        if ci == schedule[getCurrentDay()]!.count-1 {
+            totalLength -= 37
+        }
+        
+        
         for n in 0..<ci {
             totalLength += schedule[getCurrentDay()]![n].getLength()
         }
         
-        return 7 * totalLength
+        return 7 * (totalLength - 10)
     }
     
     mutating func makeClassArray() -> [Class] {

@@ -268,59 +268,55 @@ struct noSchoolView: View {
     }
 }
 
-struct ClassSideView: View {
-    
-    var c: Class
-    
-    
-    var body: some View {
-        
-        let num = c.getLength()/5
-        var dashes = [String]()
-        for n in 0...num {
-            if n == pdfStruct.findTimeIndex() && c.block == pdfStruct.currentBlock() {
-                dashes.append("→")
-            } else {
-                dashes.append("-")
-            }
-        }
-    
-        return VStack {
-            
-            ForEach(dashes, id: \.self) { item in
-                
-                Text(item).padding(.bottom, 10)
-                
-            }
-            
-        }.frame(minWidth: 0, maxWidth: .infinity)
-        .frame(height: CGFloat(7 * c.getLength()))
-    }
-    
-}
+
+
+
+
 
 
 struct ClassView: View {
     
     var c: Class
+    @State var showingDetail = false
     
     var body: some View {
-    
+        
         VStack {
-            
             if c.block == "adv" {
+                Spacer()
                 Text(c.courseName + " - " + c.block).bold().padding()
+                Spacer()
             }
             
             else {
             
-            Text(c.courseName + " - " + c.block).bold().padding()
-            Text(c.timeStart + " - " + c.timeEnd).bold().padding()
-            Text(c.roomNumber).bold().padding().frame(width: 400)
+                Spacer()
+                
+                Text(c.courseName + " - " + c.block).bold().padding();
+                Text(c.timeStart + " - " + c.timeEnd).bold().padding();
+                Text(c.roomNumber).bold().padding().frame(width: 400);
+                
+                Spacer()
+                
+                Button(action: {self.showingDetail.toggle()}) {
+                    Image(systemName: "plus.circle").resizable()
+                    .foregroundColor(.white).frame(width: 22, height: 22)
+                    }.padding(.bottom, 45).padding(.leading, 325).sheet(isPresented: $showingDetail) {
+                        AddHomeworkView(courseName: self.c.courseName)
+                    }
+                
+                
+                
             }
+            
+            
         }.frame(minWidth: 0, maxWidth: .infinity)
         .frame(height: CGFloat(7 * c.getLength()))
         .background(Color.init(pdfStruct.classColors[c.courseName]!).edgesIgnoringSafeArea(.all).opacity(0.7))
+        .padding(.bottom, 8)
+        
+        
+        
     }
     
 }
@@ -420,6 +416,13 @@ Text(title)
 }*/
 
 struct AddHomeworkView: View {
+    
+    var courseName: String
+    
+    init(courseName: String = "") {
+        self.courseName = courseName
+    }
+    
     var dateFormatter: DateFormatter {
         let formatter = DateFormatter()
         formatter.dateStyle = .long
@@ -433,6 +436,7 @@ struct AddHomeworkView: View {
     @Environment(\.presentationMode) var presentationMode
 
     var body: some View {
+        
         VStack {
             Text("Add Homework").padding()
             
@@ -477,7 +481,16 @@ struct AddHomeworkView: View {
                 }) {
                 Text("Done").padding()
             }
-            } .padding()
+        } .padding().onAppear {
+            if self.courseName != "" {
+                for n in 0..<pdfStruct.uniqueClassList.count {
+                    if pdfStruct.uniqueClassList[n].courseName == self.courseName {
+                        self.selectedClass = n
+                        break
+                    }
+                }
+            }
+        }
     }
 }
 
