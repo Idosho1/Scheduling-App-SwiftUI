@@ -63,16 +63,18 @@ class Homework: Identifiable, Hashable, ObservableObject {
     let dueDate: Date
     let name: String
     let cls: Class
+    let test: Bool
     var complete: Bool = false
     
     func hash(into hasher: inout Hasher) {
         hasher.combine(id)
     }
     
-    init(name: String, cls: Class, dueDate: Date) {
+    init(name: String, cls: Class, dueDate: Date, test: Bool = false) {
         self.name = name
         self.cls = cls
         self.dueDate = dueDate
+        self.test = test
     }
 }
 

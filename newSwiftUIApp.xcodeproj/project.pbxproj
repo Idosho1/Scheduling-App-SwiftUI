@@ -8,6 +8,14 @@
 
 /* Begin PBXBuildFile section */
 		50697F8523C536DC00564430 /* DocumentPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50697F8423C536DC00564430 /* DocumentPicker.swift */; };
+		508583882443973D003F5403 /* Manager in Resources */ = {isa = PBXBuildFile; fileRef = 508583872443973D003F5403 /* Manager */; };
+		50858390244399D5003F5403 /* RKViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5085838A244399D4003F5403 /* RKViewController.swift */; };
+		50858391244399D5003F5403 /* RKManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5085838E244399D5003F5403 /* RKManager.swift */; };
+		50858392244399D5003F5403 /* RKDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5085838C244399D4003F5403 /* RKDate.swift */; };
+		50858393244399D5003F5403 /* RKMonth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50858389244399D4003F5403 /* RKMonth.swift */; };
+		50858394244399D5003F5403 /* RKCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5085838B244399D4003F5403 /* RKCell.swift */; };
+		50858395244399D5003F5403 /* RKColorSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5085838F244399D5003F5403 /* RKColorSettings.swift */; };
+		50858396244399D5003F5403 /* RKWeekdayHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5085838D244399D4003F5403 /* RKWeekdayHeader.swift */; };
 		50877AC423C6BB7E007A9BDD /* ScheduleViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50877AC323C6BB7E007A9BDD /* ScheduleViews.swift */; };
 		50B944A023BF6EE000327D01 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B9449F23BF6EDF00327D01 /* AppDelegate.swift */; };
 		50B944A223BF6EE000327D01 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B944A123BF6EE000327D01 /* SceneDelegate.swift */; };
@@ -24,6 +32,14 @@
 
 /* Begin PBXFileReference section */
 		50697F8423C536DC00564430 /* DocumentPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentPicker.swift; sourceTree = "<group>"; };
+		508583872443973D003F5403 /* Manager */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Manager; sourceTree = "<group>"; };
+		50858389244399D4003F5403 /* RKMonth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RKMonth.swift; sourceTree = "<group>"; };
+		5085838A244399D4003F5403 /* RKViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RKViewController.swift; sourceTree = "<group>"; };
+		5085838B244399D4003F5403 /* RKCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RKCell.swift; sourceTree = "<group>"; };
+		5085838C244399D4003F5403 /* RKDate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RKDate.swift; sourceTree = "<group>"; };
+		5085838D244399D4003F5403 /* RKWeekdayHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RKWeekdayHeader.swift; sourceTree = "<group>"; };
+		5085838E244399D5003F5403 /* RKManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RKManager.swift; sourceTree = "<group>"; };
+		5085838F244399D5003F5403 /* RKColorSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RKColorSettings.swift; sourceTree = "<group>"; };
 		50877AC323C6BB7E007A9BDD /* ScheduleViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleViews.swift; sourceTree = "<group>"; };
 		50B9449C23BF6EDF00327D01 /* newSwiftUIApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = newSwiftUIApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		50B9449F23BF6EDF00327D01 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -70,7 +86,15 @@
 		50B9449E23BF6EDF00327D01 /* newSwiftUIApp */ = {
 			isa = PBXGroup;
 			children = (
+				508583872443973D003F5403 /* Manager */,
 				50B944B323BF6F2000327D01 /* Class.swift */,
+				5085838B244399D4003F5403 /* RKCell.swift */,
+				5085838F244399D5003F5403 /* RKColorSettings.swift */,
+				5085838C244399D4003F5403 /* RKDate.swift */,
+				5085838E244399D5003F5403 /* RKManager.swift */,
+				50858389244399D4003F5403 /* RKMonth.swift */,
+				5085838A244399D4003F5403 /* RKViewController.swift */,
+				5085838D244399D4003F5403 /* RKWeekdayHeader.swift */,
 				50B944B423BF6F2000327D01 /* PDF.swift */,
 				50B944B523BF6F2000327D01 /* readWrite.swift */,
 				50B9449F23BF6EDF00327D01 /* AppDelegate.swift */,
@@ -156,6 +180,7 @@
 			files = (
 				50B944AC23BF6EE500327D01 /* LaunchScreen.storyboard in Resources */,
 				50B944A923BF6EE500327D01 /* Preview Assets.xcassets in Resources */,
+				508583882443973D003F5403 /* Manager in Resources */,
 				50B944A623BF6EE500327D01 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -167,14 +192,21 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				50858396244399D5003F5403 /* RKWeekdayHeader.swift in Sources */,
 				50B944B623BF6F2100327D01 /* Class.swift in Sources */,
+				50858394244399D5003F5403 /* RKCell.swift in Sources */,
 				50B944BA23BF71A500327D01 /* MotherView.swift in Sources */,
 				50B944B723BF6F2100327D01 /* PDF.swift in Sources */,
+				50858392244399D5003F5403 /* RKDate.swift in Sources */,
 				50877AC423C6BB7E007A9BDD /* ScheduleViews.swift in Sources */,
 				50B944A023BF6EE000327D01 /* AppDelegate.swift in Sources */,
 				50697F8523C536DC00564430 /* DocumentPicker.swift in Sources */,
+				50858391244399D5003F5403 /* RKManager.swift in Sources */,
 				50B944A223BF6EE000327D01 /* SceneDelegate.swift in Sources */,
+				50858393244399D5003F5403 /* RKMonth.swift in Sources */,
 				50B944A423BF6EE000327D01 /* ContentView.swift in Sources */,
+				50858390244399D5003F5403 /* RKViewController.swift in Sources */,
+				50858395244399D5003F5403 /* RKColorSettings.swift in Sources */,
 				50B944B823BF6F2100327D01 /* readWrite.swift in Sources */,
 				50B944BC23BF730900327D01 /* ViewRouter.swift in Sources */,
 			);

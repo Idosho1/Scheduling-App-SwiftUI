@@ -157,10 +157,21 @@ final class UIScrollViewController<Content: View> : UIViewController, UIScrollVi
 
 struct ContentViewD: View {
 @ObservedObject var viewRouter: ViewRouter
-
+@State private var selection = 1
+    
 var body: some View {
     
-    TabView {
+    TabView(selection:$selection) {
+        
+        TestView()
+        
+            .tabItem {
+                VStack {
+                    Image(systemName: "doc.on.doc")
+                    Text("Tests")
+                }
+        }.tag(2)
+        
         
         ScheduleView()
         
@@ -178,7 +189,7 @@ var body: some View {
                 Image(systemName: "pencil")
                 Text("Homework")
                 }
-        }.tag(2)
+        }.tag(3)
         
     }.onAppear {pdfStruct.restore(); print("done");}
     
@@ -192,6 +203,103 @@ var body: some View {
     }.padding()
 }*/
 
+struct AddTestView: View {
+    
+    var courseName: String
+    
+    init(courseName: String = "") {
+        self.courseName = courseName
+    }
+    
+    var dateFormatter: DateFormatter {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .long
+        return formatter
+    }
+    @State private var name: String = ""
+    @State private var selectedClass = 0
+    @State private var dueDate = Date()
+    @Environment(\.presentationMode) var presentationMode
+
+    var body: some View {
+        
+        VStack {
+            Text("Add Test").padding()
+            
+            TextField("Title", text: $name).padding().multilineTextAlignment(.center)
+            
+
+                VStack {
+                HStack{
+                Spacer()
+                    DatePicker.init(selection: $dueDate, in: Date().addingTimeInterval(-86400*5)..., displayedComponents: .date, label: {
+                    EmptyView()
+                    })
+                    .labelsHidden().datePickerStyle(WheelDatePickerStyle())
+                Spacer()
+                }
+                    Text(PDF.intToDay(i: Int(Calendar.current.component(.weekday, from: self.dueDate))))
+                }
+            
+
+            
+            Picker(selection: $selectedClass, label: Text("Please choose a color")) {
+                ForEach(0 ..< pdfStruct.uniqueClassList.count) {
+                    Text(pdfStruct.uniqueClassList[$0].courseName)
+               }
+                } .labelsHidden().padding()
+            
+            
+            Button(action: {
+                pdfStruct.addHW(name: self.name, cls: pdfStruct.uniqueClassList[self.selectedClass], dueDate: self.dueDate, test: true)
+                
+                self.presentationMode.wrappedValue.dismiss()
+                }) {
+                Text("Done").padding()
+            }
+        } .padding().onAppear {
+            if self.courseName != "" {
+                for n in 0..<pdfStruct.uniqueClassList.count {
+                    if pdfStruct.uniqueClassList[n].courseName == self.courseName {
+                        self.selectedClass = n
+                        break
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+struct TestView: View {
+    @State var showingDetail = false
+    
+    var body: some View {
+        
+        VStack {
+            NavigationView {
+                List {
+                    ForEach(pdfStruct.homework.reversed(), id: \.self) { hw in
+                        Group {
+                            if !hw.complete && hw.test {
+                                AssignmentView(homework: hw)
+                            }
+                        }
+                    }
+                } .navigationBarTitle(Text("Tests"))
+            }
+            Button(action: {
+                self.showingDetail.toggle()
+            }) {
+                Image(systemName: "plus")
+            }.sheet(isPresented: $showingDetail) {
+                AddTestView()
+            } .padding().padding(.bottom, 30)
+        }.onAppear{pdfStruct.updateHW()}.onDisappear{pdfStruct.updateHW()}
+        
+        
+    }
+}
 
 
 struct ScheduleView: View {
@@ -351,7 +459,7 @@ var body: some View {
             List {
                 ForEach(pdfStruct.homework.reversed(), id: \.self) { hw in
                     Group {
-                        if !hw.complete {
+                        if !hw.complete && !hw.test {
                             if self.selectedTab == 0 && ((...Calendar.current.startOfDay(for: Date().addingTimeInterval(-86400))).contains(Calendar.current.startOfDay(for: hw.dueDate))) {AssignmentView(homework: hw)}
                             if self.selectedTab == 1 && (Calendar.current.isDateInToday(hw.dueDate)) {AssignmentView(homework: hw)}
                             if self.selectedTab == 2 && (Calendar.current.isDateInTomorrow(hw.dueDate)) {AssignmentView(homework: hw)}
@@ -389,7 +497,7 @@ var body: some View {
         
         
         
-    }.onAppear{self.selectedTab = 1; updatePeriod()}.onDisappear{pdfStruct.updateHW()}
+        }.onAppear{self.selectedTab = 1; updatePeriod(); pdfStruct.updateHW()}.onDisappear{pdfStruct.updateHW()}
     }
     
     }
@@ -450,6 +558,7 @@ struct AddHomeworkView: View {
             }
             
             if !isChecked {
+                VStack {
                 HStack{
                 Spacer()
                     DatePicker.init(selection: $dueDate, in: Date().addingTimeInterval(-86400*5)..., displayedComponents: .date, label: {
@@ -457,6 +566,8 @@ struct AddHomeworkView: View {
                     })
                     .labelsHidden().datePickerStyle(WheelDatePickerStyle())
                 Spacer()
+                }
+                    Text(PDF.intToDay(i: Int(Calendar.current.component(.weekday, from: self.dueDate))))
                 }
             }
 
@@ -542,10 +653,12 @@ var body: some View {
             if !self.complete {
                 self.homework.complete = true
                 self.complete = true
+                pdfStruct.updateHW()
             }
             else {
                 self.homework.complete = false
                 self.complete = false
+                pdfStruct.addHW(name: self.homework.name, cls: self.homework.cls, dueDate: self.homework.dueDate)
             }
         }
             

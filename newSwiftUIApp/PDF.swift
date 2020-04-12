@@ -149,12 +149,12 @@ struct PDF {
         return n
     }
     
-    mutating func addHW(name: String, cls: Class, dueDate: Date) {
-        homework.insert(Homework(name: name, cls: cls, dueDate: dueDate), at: findHWIndex(dueDate: dueDate))
+    mutating func addHW(name: String, cls: Class, dueDate: Date, test: Bool = false) {
+        homework.insert(Homework(name: name, cls: cls, dueDate: dueDate, test: test), at: findHWIndex(dueDate: dueDate))
         
         let hwArray = splitStringIntoLines(homeworkSaveString)
         if !hwArray.contains(name) {
-        homeworkSaveString += "\(name)\n\(cls.courseName)\n\(dueDate)\n"
+            homeworkSaveString += "\(name)\n\(cls.courseName)\n\(dueDate)\n\(test)\n"
         rwt.writeFile(writeString: homeworkSaveString, fileName: "saveHW5")
         }
     }
@@ -209,6 +209,19 @@ struct PDF {
         }
         
         rwt.writeFile(writeString: homeworkSaveString, fileName: "saveHW5")
+    }
+    
+    static func intToDay(i: Int) -> String {
+        switch i {
+        case 1: return "Sunday"
+        case 2: return "Monday"
+        case 3: return "Tuesday"
+        case 4: return "Wednesday"
+        case 5: return "Thursday"
+        case 6: return "Friday"
+        case 7: return "Saturday"
+        default: return ""
+        }
     }
     
     func returnName() -> String {
@@ -700,7 +713,7 @@ struct PDF {
     mutating func restoreHomework() {
         let homeworkSaveArray = splitStringIntoLines(rwt.readFile(fileName: "saveHW5"))
         print(homeworkSaveArray)
-        for n in stride(from: 0, to: homeworkSaveArray.count-2, by: 3) {
+        for n in stride(from: 0, to: homeworkSaveArray.count-2, by: 4) {
             let name = homeworkSaveArray[n]
             
             var i = 0
@@ -713,9 +726,10 @@ struct PDF {
             let df = DateFormatter()
             df.dateFormat = "yyyy-MM-dd HH:mm:ssZZZZZ"
             let dueDate = df.date(from: homeworkSaveArray[n+2])!
+            let test = homeworkSaveArray[n+3]
             
             print("adding hw \(name) for class \(cls.courseName) for date \(dueDate)")
-            addHW(name: name, cls: cls, dueDate: dueDate)
+            addHW(name: name, cls: cls, dueDate: dueDate, test: Bool(test)!)
             
         }
     }
