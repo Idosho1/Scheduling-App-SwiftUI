@@ -155,7 +155,7 @@ struct PDF {
         let hwArray = splitStringIntoLines(homeworkSaveString)
         if !hwArray.contains(name) {
             homeworkSaveString += "\(name)\n\(cls.courseName)\n\(dueDate)\n\(test)\n"
-        rwt.writeFile(writeString: homeworkSaveString, fileName: "saveHW5")
+        rwt.writeFile(writeString: homeworkSaveString, fileName: "saveHW12")
         }
     }
     
@@ -193,13 +193,14 @@ struct PDF {
         
         var i = 0
         
-        while i<hwStringArray.count-2 {
+        while i<hwStringArray.count-3 {
             if removeHWNames.contains(hwStringArray[i]) {
                 hwStringArray.remove(at: i)
                 hwStringArray.remove(at: i)
                 hwStringArray.remove(at: i)
+                hwStringArray.remove(at: i)
             }
-            i += 3
+            i += 4
         }
         
         homeworkSaveString = ""
@@ -208,7 +209,7 @@ struct PDF {
             homeworkSaveString += "\(n)\n"
         }
         
-        rwt.writeFile(writeString: homeworkSaveString, fileName: "saveHW5")
+        rwt.writeFile(writeString: homeworkSaveString, fileName: "saveHW12")
     }
     
     static func intToDay(i: Int) -> String {
@@ -711,12 +712,15 @@ struct PDF {
     }
     
     mutating func restoreHomework() {
-        let homeworkSaveArray = splitStringIntoLines(rwt.readFile(fileName: "saveHW5"))
+        let homeworkSaveArray = splitStringIntoLines(rwt.readFile(fileName: "saveHW12"))
         print(homeworkSaveArray)
         for n in stride(from: 0, to: homeworkSaveArray.count-2, by: 4) {
             let name = homeworkSaveArray[n]
             
             var i = 0
+            print("******")
+            print(homeworkSaveArray)
+            print("******")
             while homeworkSaveArray[n+1] != uniqueClassList[i].courseName {
                 i += 1
             }
