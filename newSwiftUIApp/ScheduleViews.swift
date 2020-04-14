@@ -219,6 +219,8 @@ struct AddTestView: View {
         formatter.dateStyle = .long
         return formatter
     }
+    @State private var showingAlert = false
+
     @State private var name: String = ""
     @State private var selectedClass = 0
     @State private var missingInfo = false
@@ -269,11 +271,14 @@ struct AddTestView: View {
                     self.missingInfo = true
                 }}) {
                 Text("Done").padding()
+            }.alert(isPresented: $missingInfo) {
+                Alert(title: Text("Missing Information"), message: Text("Missing title or due date"), dismissButton: .default(Text("Done")))
             }
             if self.missingInfo {
-                Text("Missing Title or Date").bold().foregroundColor(.red).padding()
+                //Text("Missing Title or Date").bold().foregroundColor(.red).padding()
+                //Alert(title: Text("Important message"), message: Text("Wear sunscreen"), dismissButton: .default(Text("Got it!")))
             }
-        } .padding().navigationViewStyle(StackNavigationViewStyle()).onAppear {
+        } .font(Font(UIFont(name: "Avenir", size: 18)!)).padding().navigationViewStyle(StackNavigationViewStyle()).onAppear {
             if self.courseName != "" {
                 for n in 0..<pdfStruct.uniqueClassList.count {
                     if pdfStruct.uniqueClassList[n].courseName == self.courseName {
@@ -318,7 +323,7 @@ struct TestView: View {
                             }
                         }
                     }
-                } .navigationBarTitle(Text("Tests"))
+                } .navigationBarTitle(Text("Tests")) .listStyle(GroupedListStyle())
             }
             Button(action: {
                 self.showingDetail.toggle()
@@ -326,7 +331,7 @@ struct TestView: View {
                 Image(systemName: "plus")
             }.sheet(isPresented: $showingDetail) {
                 AddTestView()
-            } .padding().padding(.bottom, 30)
+            } .padding(.bottom, 25)
         }.onAppear{pdfStruct.updateHW()}.onDisappear{pdfStruct.updateHW()}
         
         
@@ -356,9 +361,14 @@ var body: some View {
 struct schoolView: View {
     
     @State private var contentOffset: CGPoint = .zero
+    @State private var name: String = "chevron.down"
     
     var body: some View {
         
+        ZStack {
+        
+            
+            
         VStack {
         ScrollableView(self.$contentOffset, animationDuration: 0.5) {
             VStack {
@@ -370,32 +380,23 @@ struct schoolView: View {
                 
     
             }
-        }.onAppear{self.contentOffset = CGPoint(x: 0, y: pdfStruct.getScrollValue()); print(pdfStruct.schedule[.Thu])}
+        }.onAppear{self.contentOffset = CGPoint(x: 0, y: pdfStruct.getScrollValue());}
             /*Button(action: {rwt.writeFile(writeString: "", fileName: "Save7")}) {
             Text("Restart")
             }.padding()*/
         }
-        /*ScrollView(Axis.Set.vertical, showsIndicators: false) {
-            /*HStack {
-                VStack {
-                    ForEach(pdfStruct.schedule[pdfStruct.getCurrentDay()]!, id: \.self) { item in
-                        ClassSideView(c: item).frame(width: 20)
-                    }
-                }*/
-            VStack {
-                ForEach(pdfStruct.schedule[pdfStruct.getCurrentDay()]!, id: \.self) { item in
-                    ClassView(c: item)
-                }
+            if self.contentOffset != CGPoint(x: 0, y: pdfStruct.getScrollValue()) {
+            Button(action: {self.contentOffset = CGPoint(x: 0, y: pdfStruct.getScrollValue()); print("***")}) {
+                Image(systemName: (Int(self.contentOffset.y) > pdfStruct.getScrollValue()) ? "chevron.up" : "chevron.down").resizable().frame(width: 40,height: 20).opacity(0.7)
+                
+                }.offset(x: UIScreen.main.bounds.width/(-2.7), y: UIScreen.main.bounds.height/(2.7))
             }
-        //}
-            Button(action: {rwt.writeFile(writeString: "", fileName: "Save7")}) {
-            Text("Restart")
-            }.padding()
-        }*/
-        
-        
-        
-        
+
+
+            
+            
+            //Text("test")
+        }.font(Font(UIFont(name: "Avenir", size: 18)!))
     }
     
 }
@@ -453,7 +454,7 @@ struct ClassView: View {
         }.frame(minWidth: 0, maxWidth: .infinity)
         .frame(height: CGFloat(7 * c.getLength()))
         .background(Color.init(pdfStruct.classColors[c.courseName]!).edgesIgnoringSafeArea(.all).opacity(0.7))
-        .padding(.bottom, 8)
+        .padding(.bottom, 5)
         
         
         
@@ -461,11 +462,37 @@ struct ClassView: View {
     
 }
 
+
+@available(iOS 13, macCatalyst 13, tvOS 13, watchOS 6, *)
+struct ScaledFont: ViewModifier {
+    @Environment(\.sizeCategory) var sizeCategory
+    var name: String
+    var size: CGFloat
+
+    func body(content: Content) -> some View {
+       let scaledSize = UIFontMetrics.default.scaledValue(for: size)
+        return content.font(.custom(name, size: scaledSize))
+    }
+}
+
+@available(iOS 13, macCatalyst 13, tvOS 13, watchOS 6, *)
+extension View {
+    func scaledFont(name: String, size: CGFloat) -> some View {
+        return self.modifier(ScaledFont(name: name, size: size))
+    }
+}
+
+
 struct HomeworkView: View {
     @State var showingDetail = false
     @State private var selectedTab = 1
     @State var period = "Today"
     
+    
+    init() {
+        UINavigationBar.appearance().largeTitleTextAttributes = [.font : UIFont(name: "Avenir", size: 30)!]
+        UITableView.appearance().tableFooterView = UIView()
+    }
 
 var body: some View {
     
@@ -488,6 +515,7 @@ var body: some View {
     return ZStack {
         VStack {
         NavigationView {
+            
             List {
                 ForEach(pdfStruct.homework.reversed(), id: \.self) { hw in
                     Group {
@@ -498,11 +526,13 @@ var body: some View {
                             if self.selectedTab == 3 && ((Calendar.current.startOfDay(for: Date().addingTimeInterval(86400*2))...Calendar.current.startOfDay(for: Date().addingTimeInterval(86400*7))).contains(Calendar.current.startOfDay(for: hw.dueDate))) {AssignmentView(homework: hw)}
                             if self.selectedTab == 4 && ((Calendar.current.startOfDay(for: Date().addingTimeInterval(86400*8))...).contains(Calendar.current.startOfDay(for: hw.dueDate))) {AssignmentView(homework: hw)}
                     }
-                        
+                      
                     }
+                    
                 }
-            } .navigationBarTitle(Text("Homework - " + period))
-        }
+                } .navigationBarTitle(Text("Homework - " + self.period))
+            
+            }
         HStack {
             
             
@@ -518,14 +548,14 @@ var body: some View {
             Image(systemName: "plus")
         }.sheet(isPresented: $showingDetail) {
             AddHomeworkView()
-            } .padding()
+            } //.padding()
         
             
                 Button(action: {self.selectedTab += 1; updatePeriod(); pdfStruct.updateHW()}) {
             Image(systemName: "arrow.right")
                     }.padding(.horizontal, 70).disabled(!(selectedTab<=3))
             
-        }.padding(.bottom, 30)
+        }.padding(.bottom, 25)
         
         
         
@@ -636,11 +666,13 @@ struct AddHomeworkView: View {
                     self.missingInfo = true
                 }}) {
                 Text("Done").padding()
+            } .alert(isPresented: $missingInfo) {
+                Alert(title: Text("Missing Information"), message: Text("Missing title or due date"), dismissButton: .default(Text("Done")))
             }
-            if self.missingInfo {
+            /*if self.missingInfo {
                 Text("Missing Title or Date").bold().foregroundColor(.red).padding()
-            }
-        } .padding().navigationViewStyle(StackNavigationViewStyle()).onAppear {
+            }*/
+        }.font(Font(UIFont(name: "Avenir", size: 18)!)) .padding().navigationViewStyle(StackNavigationViewStyle()).onAppear {
             if self.courseName != "" {
                 for n in 0..<pdfStruct.uniqueClassList.count {
                     if pdfStruct.uniqueClassList[n].courseName == self.courseName {

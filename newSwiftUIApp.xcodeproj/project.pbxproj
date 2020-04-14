@@ -41,7 +41,7 @@
 		5085838E244399D5003F5403 /* RKManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RKManager.swift; sourceTree = "<group>"; };
 		5085838F244399D5003F5403 /* RKColorSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RKColorSettings.swift; sourceTree = "<group>"; };
 		50877AC323C6BB7E007A9BDD /* ScheduleViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleViews.swift; sourceTree = "<group>"; };
-		50B9449C23BF6EDF00327D01 /* newSwiftUIApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = newSwiftUIApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		50B9449C23BF6EDF00327D01 /* Schedule.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Schedule.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		50B9449F23BF6EDF00327D01 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		50B944A123BF6EE000327D01 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		50B944A323BF6EE000327D01 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -78,7 +78,7 @@
 		50B9449D23BF6EDF00327D01 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				50B9449C23BF6EDF00327D01 /* newSwiftUIApp.app */,
+				50B9449C23BF6EDF00327D01 /* Schedule.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -137,7 +137,7 @@
 			);
 			name = newSwiftUIApp;
 			productName = newSwiftUIApp;
-			productReference = 50B9449C23BF6EDF00327D01 /* newSwiftUIApp.app */;
+			productReference = 50B9449C23BF6EDF00327D01 /* Schedule.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -354,7 +354,7 @@
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.idoshoshani.newSwiftUIApp;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = Schedule;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -374,7 +374,7 @@
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.idoshoshani.newSwiftUIApp;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = Schedule;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

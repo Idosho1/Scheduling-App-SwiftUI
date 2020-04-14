@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "50B9449B23BF6EDF00327D01"
-               BuildableName = "newSwiftUIApp.app"
+               BuildableName = "Schedule.app"
                BlueprintName = "newSwiftUIApp"
                ReferencedContainer = "container:newSwiftUIApp.xcodeproj">
             </BuildableReference>
@@ -45,7 +45,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "50B9449B23BF6EDF00327D01"
-            BuildableName = "newSwiftUIApp.app"
+            BuildableName = "Schedule.app"
             BlueprintName = "newSwiftUIApp"
             ReferencedContainer = "container:newSwiftUIApp.xcodeproj">
          </BuildableReference>
@@ -62,7 +62,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "50B9449B23BF6EDF00327D01"
-            BuildableName = "newSwiftUIApp.app"
+            BuildableName = "Schedule.app"
             BlueprintName = "newSwiftUIApp"
             ReferencedContainer = "container:newSwiftUIApp.xcodeproj">
          </BuildableReference>
