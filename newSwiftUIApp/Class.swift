@@ -54,7 +54,8 @@ struct ScheduleObject {
     var userName: String
 }
 
-class Homework: Identifiable, Hashable, ObservableObject {
+class Homework: Identifiable, Hashable, ObservableObject, Equatable {
+    
     static func == (lhs: Homework, rhs: Homework) -> Bool {
         return lhs.id == rhs.id
     }

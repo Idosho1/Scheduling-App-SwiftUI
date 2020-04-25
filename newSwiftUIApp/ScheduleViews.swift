@@ -190,9 +190,137 @@ var body: some View {
                 Text("Homework")
                 }
         }.tag(3)
+            
+        Experimental()
         
-    }.onAppear {pdfStruct.restore(); print("done");}
+            .tabItem {
+                VStack {
+                Image(systemName: "gear")
+                Text("Settings")
+                }
+        }.tag(4)
+        
+    }.onAppear {pdfStruct.restore(); print("done");
+        
+        UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
+        
+        // 1
+        var dateComponents = DateComponents()
+        dateComponents.hour = 19
+        let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: true)
+
+        // 2
+        let content = UNMutableNotificationContent()
+        content.title = "Homework Reminder"
+        
+        if pdfStruct.numberHWDueTomorrow() == 0 {
+            content.body = "You are done with all your homework for tomorrow!"
+        } else if pdfStruct.numberHWDueTomorrow() == 1 {
+            content.body = "You have 1 homework assignment due tomorrow!"
+        } else {
+        content.body = "You have " + String(pdfStruct.numberHWDueTomorrow()) + " homework assignments due tomorrow!"
+        }
+        let randomIdentifier = UUID().uuidString
+        let request = UNNotificationRequest(identifier: randomIdentifier, content: content, trigger: trigger)
+
+        if pdfStruct.numberTestsDueTomorrow() != 0 {
+            let content2 = UNMutableNotificationContent()
+            content2.title = "Tests Reminder"
+            
+            if pdfStruct.numberTestsDueTomorrow() == 1 {
+                content2.body = "You have 1 test tomorrow!"
+            } else {
+                content2.body = "You have " + String(pdfStruct.numberTestsDueTomorrow()) + " tests tomorrow!"
+            }
+            
+            let randomIdentifier2 = UUID().uuidString
+            let request2 = UNNotificationRequest(identifier: randomIdentifier2, content: content2, trigger: trigger)
+            UNUserNotificationCenter.current().add(request2) { error in
+              if error != nil {
+                print("something went wrong")
+              }
+            }
+        }
+        
+        
+        
+        // 3
+        UNUserNotificationCenter.current().add(request) { error in
+          if error != nil {
+            print("something went wrong")
+          }
+        }
+    }
     
+    }
+}
+
+struct Experimental: View {
+    //@ObservedObject var viewRouter: ViewRouter
+
+    var body: some View {
+        VStack {
+            Button(action: {rwt.writeFile(writeString: "", fileName: "Save7"); rwt.writeFile(writeString: "", fileName: "SaveColors7"); rwt.writeFile(writeString: "", fileName: "saveHW12")}) {
+                        Text("Reset").fontWeight(.heavy).padding()
+                    }
+    
+        
+    }
+}
+}
+
+
+extension Date {
+   func getFormattedDate(format: String) -> String {
+        let dateformat = DateFormatter()
+        dateformat.dateFormat = format
+        return dateformat.string(from: self)
+    }
+}
+
+
+struct DetailedAssignmentView: View {
+    
+    @ObservedObject var homework: Homework
+    @State var editMode = false
+    @State var newName: String = ""
+    
+    func toggleEdit() {
+        editMode.toggle()
+    }
+    
+    let df = DateFormatter()
+    let dfDay = DateFormatter()
+    
+    var body: some View {
+        df.dateFormat = "MM - dd";
+        
+        dfDay.dateFormat = "EEE";
+        
+        return HStack {
+            Spacer()
+            VStack(alignment: .leading) {
+                Text("Name:").padding(.vertical, 30)
+                Text("Class:").padding(.vertical, 30)
+                Text("Due by:").padding(.vertical, 30)
+            }
+            Spacer()
+            VStack {
+                if !editMode {
+                Text(homework.name).padding(.vertical, 30)
+                Text(homework.cls.courseName + " - " + homework.cls.block).padding(.vertical, 30)
+                Text("\(dfDay.string(from: homework.dueDate))  \(df.string(from: homework.dueDate))").padding(.vertical, 30)
+                }
+                else {
+                    TextField(homework.name, text: $newName).padding(.vertical, 30)
+                    Text(homework.cls.courseName + " - " + homework.cls.block).padding(.vertical, 30)
+                    Text("\(dfDay.string(from: homework.dueDate))  \(df.string(from: homework.dueDate))").padding(.vertical, 30)
+                }
+            }
+            Spacer()
+        }.padding().padding(.bottom, 200).font(Font(UIFont(name: "Avenir", size: 18)!)).navigationBarItems(trailing: Button(action: {self.toggleEdit()}) {Text("Edit")}.padding(.horizontal, 10))
+        
+        
     }
 }
 
@@ -323,7 +451,7 @@ struct TestView: View {
                             }
                         }
                     }
-                } .navigationBarTitle(Text("Tests")) .listStyle(GroupedListStyle())
+                } .navigationBarTitle(Text("Tests"))
             }
             Button(action: {
                 self.showingDetail.toggle()
@@ -417,15 +545,25 @@ struct noSchoolView: View {
 
 struct ClassView: View {
     
-    var c: Class
+    @State var c: Class
     @State var showingDetail = false
-    
     var body: some View {
         
         VStack {
             if c.block == "adv" {
                 Spacer()
                 Text(c.courseName + " - " + c.block).bold().padding()
+                Spacer()
+            }
+                
+            else if c.block[0].lowercased() == "j" {
+                Spacer()
+                Text(c.courseName + " - " + c.block).bold().padding()
+                Text(c.timeStart + " - " + c.timeEnd).bold().padding();
+                Text(c.roomNumber).bold().padding().frame(width: 400);
+                if pdfStruct.currentBlock() == self.c.block {
+                Image(systemName: "star").padding(.bottom).padding(.leading, 325)
+                }
                 Spacer()
             }
             
@@ -438,6 +576,10 @@ struct ClassView: View {
                 Text(c.roomNumber).bold().padding().frame(width: 400);
                 
                 Spacer()
+                
+                if pdfStruct.currentBlock() == self.c.block {
+                Image(systemName: "star").padding(.bottom).padding(.leading, 325)
+                }
                 
                 Button(action: {self.showingDetail.toggle()}) {
                     Image(systemName: "plus.circle").resizable()
@@ -488,7 +630,6 @@ struct HomeworkView: View {
     @State private var selectedTab = 1
     @State var period = "Today"
     
-    
     init() {
         UINavigationBar.appearance().largeTitleTextAttributes = [.font : UIFont(name: "Avenir", size: 30)!]
         UITableView.appearance().tableFooterView = UIView()
@@ -518,23 +659,61 @@ var body: some View {
             
             List {
                 ForEach(pdfStruct.homework.reversed(), id: \.self) { hw in
+                    // START
+                    
+                    
+                        
+                    
+                    
                     Group {
+                        
                         if !hw.complete && !hw.test {
-                            if self.selectedTab == 0 && ((...Calendar.current.startOfDay(for: Date().addingTimeInterval(-86400))).contains(Calendar.current.startOfDay(for: hw.dueDate))) {AssignmentView(homework: hw)}
-                            if self.selectedTab == 1 && (Calendar.current.isDateInToday(hw.dueDate)) {AssignmentView(homework: hw)}
-                            if self.selectedTab == 2 && (Calendar.current.isDateInTomorrow(hw.dueDate)) {AssignmentView(homework: hw)}
-                            if self.selectedTab == 3 && ((Calendar.current.startOfDay(for: Date().addingTimeInterval(86400*2))...Calendar.current.startOfDay(for: Date().addingTimeInterval(86400*7))).contains(Calendar.current.startOfDay(for: hw.dueDate))) {AssignmentView(homework: hw)}
-                            if self.selectedTab == 4 && ((Calendar.current.startOfDay(for: Date().addingTimeInterval(86400*8))...).contains(Calendar.current.startOfDay(for: hw.dueDate))) {AssignmentView(homework: hw)}
+                            if self.selectedTab == 0 && ((...Calendar.current.startOfDay(for: Date().addingTimeInterval(-86400))).contains(Calendar.current.startOfDay(for: hw.dueDate))) {
+                                NavigationLink(destination: DetailedAssignmentView(homework: hw)) {
+                                AssignmentView(homework: hw) // Overdue
+                                }
+                                
+                            }
+                            if self.selectedTab == 1 && (Calendar.current.isDateInToday(hw.dueDate)) {
+                                NavigationLink(destination: DetailedAssignmentView(homework: hw)) {
+                                AssignmentView(homework: hw) // Today
+                                }
+                                
+                            }
+                            if self.selectedTab == 2 && (Calendar.current.isDateInTomorrow(hw.dueDate)) {
+                                NavigationLink(destination: DetailedAssignmentView(homework: hw)) {
+                                AssignmentView(homework: hw) // Tomorrow
+                                }
+                                
+                            }
+                            if self.selectedTab == 3 && ((Calendar.current.startOfDay(for: Date().addingTimeInterval(86400*2))...Calendar.current.startOfDay(for: Date().addingTimeInterval(86400*7))).contains(Calendar.current.startOfDay(for: hw.dueDate))) {
+                                
+                                NavigationLink(destination: DetailedAssignmentView(homework: hw)) {
+                                AssignmentView(homework: hw) // This Week
+                                }
+                                
+                            }
+                            if self.selectedTab == 4 && ((Calendar.current.startOfDay(for: Date().addingTimeInterval(86400*8))...).contains(Calendar.current.startOfDay(for: hw.dueDate))) {
+                                
+                                NavigationLink(destination: DetailedAssignmentView(homework: hw)) {
+                                AssignmentView(homework: hw) // This Month
+                                }
+                                
+                            }
                     }
                       
                     }
-                    
+                   
+                        
+                        
+                    // END
                 }
                 } .navigationBarTitle(Text("Homework - " + self.period))
             
             }
-        HStack {
+           
             
+        HStack {
             
             Button(action: {self.selectedTab -= 1; updatePeriod(); pdfStruct.updateHW()}) {
             Image(systemName: "arrow.left")
@@ -556,16 +735,19 @@ var body: some View {
                     }.padding(.horizontal, 70).disabled(!(selectedTab<=3))
             
         }.padding(.bottom, 25)
-        
-        
+            
+            
         
         }.onAppear{self.selectedTab = 1; updatePeriod(); pdfStruct.updateHW()}.onDisappear{pdfStruct.updateHW()}
+
     }
     
     }
     
     
 }
+
+
 
 
 /*struct CheckView: View {
@@ -757,7 +939,8 @@ var body: some View {
             else {
                 self.homework.complete = false
                 self.complete = false
-                pdfStruct.addHW(name: self.homework.name, cls: self.homework.cls, dueDate: self.homework.dueDate)
+                pdfStruct.updateHW()
+                pdfStruct.addHW(name: self.homework.name, cls: self.homework.cls, dueDate: self.homework.dueDate, test: self.homework.test)
             }
         }
             

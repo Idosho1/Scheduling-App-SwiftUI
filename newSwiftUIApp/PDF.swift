@@ -10,6 +10,29 @@ import Foundation
 import UIKit
 import PDFKit
 
+
+extension UIScreen{
+   static let screenWidth = UIScreen.main.bounds.size.width
+   static let screenHeight = UIScreen.main.bounds.size.height
+   static let screenSize = UIScreen.main.bounds.size
+}
+
+
+extension Array where Element: Hashable {
+    func removingDuplicates() -> [Element] {
+        var addedDict = [Element: Bool]()
+
+        return filter {
+            addedDict.updateValue(true, forKey: $0) == nil
+        }
+    }
+
+    mutating func removeDuplicates() {
+        self = self.removingDuplicates()
+    }
+}
+
+
 extension String {
     var isInt: Bool {
         return Int(self) != nil
@@ -171,6 +194,28 @@ struct PDF {
         }
     }
     
+    func numberHWDueTomorrow() -> Int {
+        var sum = 0
+        
+        for hw in homework {
+            if !hw.test && Calendar.current.isDateInTomorrow(hw.dueDate) {
+                sum += 1
+            }
+        }
+        return sum
+    }
+    
+    func numberTestsDueTomorrow() -> Int {
+        var sum = 0
+        
+        for hw in homework {
+            if hw.test && Calendar.current.isDateInTomorrow(hw.dueDate) {
+                sum += 1
+            }
+        }
+        return sum
+    }
+    
     mutating func updateHW() {
         var hwStringArray = splitStringIntoLines(homeworkSaveString)
         var removeHWNames: [String] = []
@@ -191,6 +236,7 @@ struct PDF {
             n += 1
         }
         
+        
         var i = 0
         
         while i<hwStringArray.count-3 {
@@ -210,6 +256,24 @@ struct PDF {
         }
         
         rwt.writeFile(writeString: homeworkSaveString, fileName: "saveHW12")
+        
+        var newHW = [Homework]()
+        var hwNames = [String]()
+        
+        for n in homework {
+            if !hwNames.contains(n.name) {
+                hwNames.append(n.name)
+                newHW.append(n)
+            }
+        }
+        
+        self.homework = newHW
+        
+        
+        
+        print(homework)
+        print(newHW)
+        print(rwt.readFile(fileName: "saveHW12"))
     }
     
     static func intToDay(i: Int) -> String {
@@ -535,6 +599,12 @@ struct PDF {
     }*/
     
     func getScrollValue() -> Int {
+        print("***********")
+        print(UIScreen.screenHeight)
+        print("***********")
+        
+        let h = UIScreen.screenHeight
+        
         if getCurrentTime() > schedule[getCurrentDay()]![getCurrentClassIndex()].getEnd() {
             return 0
         }
@@ -547,16 +617,38 @@ struct PDF {
         
         var totalLength = 0
         
+        
         if ci == schedule[getCurrentDay()]!.count-1 {
-            totalLength -= 37
+            //totalLength -= 41
+            totalLength -= Int(h/21.85365854)
+            
+            //TESTED
+            if (schedule[getCurrentDay()]![ci].block[0].lowercased() == "j") {
+                //totalLength -= 25
+                totalLength -= Int(h/35.84)
+            }
+            
+            if h < 896.0 {
+                totalLength += 5
+            }
         }
+        
+        
+        //TESTED
+        if (ci == schedule[getCurrentDay()]!.count-2) && ((schedule[getCurrentDay()]![ci+1].block[0].lowercased() == "j")) {
+            //totalLength -= 10
+            totalLength -= Int(h/89.6)
+        }
+        
+        
         
         
         for n in 0..<ci {
             totalLength += schedule[getCurrentDay()]![n].getLength()
         }
         
-        return 7 * (totalLength - 10)
+        //return 7 * (totalLength - 10)
+        return 7 * (totalLength - Int(h/89.6))
     }
     
     mutating func makeClassArray() -> [Class] {

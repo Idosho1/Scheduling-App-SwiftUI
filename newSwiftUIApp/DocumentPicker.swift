@@ -21,11 +21,36 @@ class ViewController: UIViewController, UIDocumentPickerDelegate {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         
+        let i = UIButton()
+        i.setImage(UIImage(named: "cat"), for: .normal)
+        i.frame = CGRect(x: UIScreen.screenWidth/2 - 50, y: UIScreen.screenHeight/3 - 150, width: 100, height: 100)
+        view.addSubview(i)
+        
+        let t = UILabel()
+        t.adjustsFontSizeToFitWidth = true
+        t.text = "NSHS Schedule App"
+        t.frame = CGRect(x: UIScreen.screenWidth/2 - 150, y: UIScreen.screenHeight/3, width: 300, height: 50)
+        t.textAlignment = .center
+        t.font = UIFont(name: "Avenir", size: 28)!
+        view.addSubview(t)
+        
+        
         let s = UIButton()
         s.setTitle("Import Schedule", for: .normal)
-        s.frame = CGRect(x: 100, y: 100, width: 300, height: 50)
+        s.frame = CGRect(x: UIScreen.screenWidth/2 - 150, y: UIScreen.screenHeight/2 - 25, width: 300, height: 50)
         s.addTarget(self, action: #selector(pick), for: .touchDown)
+        s.titleLabel!.font = UIFont(name: "Avenir", size: 20)!
         view.addSubview(s)
+
+            let center = UNUserNotificationCenter.current()
+
+            center.requestAuthorization(options: [.alert, .badge, .sound]) { (granted, error) in
+                if granted {
+                    print("Notifications Approved")
+                } else {
+                    print("Notifications Not Approved")
+                }
+            }
     }
     
     @objc func pick(sender: UIButton) {
