@@ -117,6 +117,7 @@ var dayBlocks = [Day.Mon : ["A1 7:40 8:35", "B1 8:40 9:35", "adv 9:40 9:45", "C1
 
 struct PDF {
     var schedule: [Day:[Class]] = [Day.Mon:[],Day.Tue:[],Day.Wed:[],Day.Thu:[],Day.Fri:[]]
+    var schedule2: [Day:[Class]] = [Day.Mon:[],Day.Tue:[],Day.Wed:[],Day.Thu:[],Day.Fri:[]]
     var currentSchedule = ScheduleObject(schedule: [:], userName: "")
     var generalInfoLine: String
     var splitInfo: [String]
@@ -143,6 +144,9 @@ struct PDF {
             }
             textArray.append(n)
         }
+        print("&&&&&")
+        print(textArray)
+        print("&&&&&")
         generalInfoLine = textArray[1]
         splitInfo = splitStringIntoParts(generalInfoLine)
         print(textArray)
@@ -178,7 +182,7 @@ struct PDF {
         let hwArray = splitStringIntoLines(homeworkSaveString)
         if !hwArray.contains(name) {
             homeworkSaveString += "\(name)\n\(cls.courseName)\n\(dueDate)\n\(test)\n"
-        rwt.writeFile(writeString: homeworkSaveString, fileName: "saveHW12")
+        rwt.writeFile(writeString: homeworkSaveString, fileName: "saveHW15")
         }
     }
     
@@ -189,9 +193,13 @@ struct PDF {
     mutating func deleteHW(name: String) {
         for n in 0..<homework.count {
             if homework[n].name == name {
-                homework.remove(at: n)
+                homework[n].complete = true
+                updateHW()
+                break
+                //homework.remove(at: n)
             }
         }
+        
     }
     
     func numberHWDueTomorrow() -> Int {
@@ -255,7 +263,7 @@ struct PDF {
             homeworkSaveString += "\(n)\n"
         }
         
-        rwt.writeFile(writeString: homeworkSaveString, fileName: "saveHW12")
+        rwt.writeFile(writeString: homeworkSaveString, fileName: "saveHW15")
         
         var newHW = [Homework]()
         var hwNames = [String]()
@@ -273,7 +281,7 @@ struct PDF {
         
         print(homework)
         print(newHW)
-        print(rwt.readFile(fileName: "saveHW12"))
+        print(rwt.readFile(fileName: "saveHW15"))
     }
     
     static func intToDay(i: Int) -> String {
@@ -380,6 +388,11 @@ struct PDF {
         var classes = makeClassArray()
         makeUniqueClassList()
         for cls in classes {
+
+            //if cls.semester != "S2" { // SEMESTER 2 FIX LATER
+                print("***")
+                print(cls.semester)
+                print("***")
             let block = cls.block
             let start = cls.timeStart
             let end = cls.timeEnd
@@ -423,12 +436,54 @@ struct PDF {
                 }
             }
         }
+        //}//END
+        
+        schedule2 = schedule
+        
+        for (d,ca) in schedule {
+            var i = 0
+            var count = ca.count
+            
+            while i < count {
+                if ca[i].semester == "S2" {
+                    schedule[d]!.remove(at: i)
+                    //i -= 1
+                    count -= 1
+                }
+                i += 1
+            }
+        }
+        
+        for (d,ca) in schedule2 {
+            var i = 0
+            var count = ca.count
+            
+            while i < count {
+                if ca[i].semester == "S1" {
+                    schedule2[d]!.remove(at: i)
+                    //i -= 1
+                    count -= 1
+                }
+                i += 1
+            }
+        }
+        
+        for (d,ca) in schedule {
+            var clsArray = [Class]()
+            for cls in ca {
+                if cls.semester != "S1" {
+                    clsArray.append(cls)
+                }
+            }
+            schedule2[d] = clsArray
+        }
+        
         currentSchedule.schedule = schedule
         currentSchedule.userName = returnName()
     }
     
     mutating func restore() {
-        let classString = rwt.readFile(fileName: "Save7")
+        let classString = rwt.readFile(fileName: "Save9")
         let classArray = splitStringIntoLines(classString)
         self.generalInfoLine = classArray[0]
         self.splitInfo = splitStringIntoParts(generalInfoLine)
@@ -442,7 +497,10 @@ struct PDF {
         makeUniqueClassList()
         schedule[.Sat] = []
         schedule[.Sun] = []
+        schedule2[.Sat] = []
+        schedule2[.Sun] = []
         for cls in classList {
+            //if cls.semester != "S2" { // SEMESTER 2 FIX LATER
             let block = cls.block
             let start = cls.timeStart
             let end = cls.timeEnd
@@ -486,6 +544,50 @@ struct PDF {
                 }
             }
         }
+    //}
+        
+        /*for (d,ca) in schedule {
+            var clsArray = [Class]()
+            for cls in ca {
+                if cls.semester != "S1" {
+                    clsArray.append(cls)
+                }
+            }
+            schedule2[d] = clsArray
+        }*/
+        
+        
+        schedule2 = schedule
+        
+        
+        for (d,ca) in schedule {
+            var i = 0
+            var count = ca.count
+            
+            while i < count {
+                if ca[i].semester == "S2" {
+                    schedule[d]!.remove(at: i)
+                    //i -= 1
+                    count -= 1
+                }
+                i += 1
+            }
+        }
+        
+        for (d,ca) in schedule2 {
+            var i = 0
+            var count = ca.count
+            
+            while i < count {
+                if ca[i].semester == "S1" {
+                    schedule2[d]!.remove(at: i)
+                    //i -= 1
+                    count -= 1
+                }
+                i += 1
+            }
+        }
+        
         currentSchedule.schedule = schedule
         currentSchedule.userName = returnName()
         
@@ -500,7 +602,7 @@ struct PDF {
             print(classes)
         }
         
-        let classColorsString = rwt.readFile(fileName: "SaveColors7")
+        let classColorsString = rwt.readFile(fileName: "SaveColors9")
         let classColorsArray = splitStringIntoLines(classColorsString)
         print(classColorsArray)
         for n in stride(from: 0, to: classColorsArray.count-1, by: 2) {
@@ -566,7 +668,7 @@ struct PDF {
     }
     
     /*mutating func restore() {
-        let classString = rwt.readFile(fileName: "Save7")
+        let classString = rwt.readFile(fileName: "Save9")
         let classArray = splitStringIntoLines(classString)
         textArray = classArray
         self.generalInfoLine = classArray[0]
@@ -581,7 +683,7 @@ struct PDF {
             print(classes)
         }
         
-        let classColorsString = rwt.readFile(fileName: "SaveColors7")
+        let classColorsString = rwt.readFile(fileName: "SaveColors9")
         let classColorsArray = splitStringIntoLines(classColorsString)
         print(classColorsArray)
         for n in stride(from: 0, to: classColorsArray.count-1, by: 2) {
@@ -652,7 +754,6 @@ struct PDF {
     }
     
     mutating func makeClassArray() -> [Class] {
-        
         print("TEXT ARRAY: \(textArray)")
         
         //FIX PLEASE
@@ -671,7 +772,7 @@ struct PDF {
             let timeLine = textArray[n].trimmingCharacters(in: .whitespaces)
             var infoLine = textArray[n+1]
             
-            if n+2 <= textArray.count-2 {
+            if n+2 <= textArray.count-1 {
                 let nextTimeLine = textArray[n+2].trimmingCharacters(in: .whitespaces)
                 if !nextTimeLine[0].isInt {
                     infoLine += " \(nextTimeLine)"
@@ -777,7 +878,7 @@ struct PDF {
             saveString += "\(Class.block)\n"
         }
         //print(saveString)
-        rwt.writeFile(writeString: saveString, fileName: "Save7")
+        rwt.writeFile(writeString: saveString, fileName: "Save9")
         //writeTextFile("abc", data: saveString)
         print(saveString)
         return classList
@@ -800,11 +901,11 @@ struct PDF {
         for (className, color) in classColors {
             saveString += "\(className)\n\(color)\n"
         }
-        rwt.writeFile(writeString: saveString, fileName: "SaveColors7")
+        rwt.writeFile(writeString: saveString, fileName: "SaveColors9")
     }
     
     mutating func restoreHomework() {
-        let homeworkSaveArray = splitStringIntoLines(rwt.readFile(fileName: "saveHW12"))
+        let homeworkSaveArray = splitStringIntoLines(rwt.readFile(fileName: "saveHW15"))
         print(homeworkSaveArray)
         for n in stride(from: 0, to: homeworkSaveArray.count-2, by: 4) {
             let name = homeworkSaveArray[n]

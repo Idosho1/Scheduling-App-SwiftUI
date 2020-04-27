@@ -17,6 +17,8 @@ import PDFKit
 
 class ViewController: UIViewController, UIDocumentPickerDelegate {
     
+    @State private var wrongDocument = false
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -70,6 +72,14 @@ class ViewController: UIViewController, UIDocumentPickerDelegate {
             pdfD = p
         }
         //WORK HERE
+        
+        let pdfAsText = (pdfD.string)!
+        let textArray = splitStringIntoLines(pdfAsText)
+        
+        
+        print(textArray[0].trimmingCharacters(in: .whitespaces))
+        if textArray[0].trimmingCharacters(in: .whitespaces) == "Student Name:" {
+        
 
         let v = ViewRouter()
         v.currentPage = "page2"
@@ -80,7 +90,13 @@ class ViewController: UIViewController, UIDocumentPickerDelegate {
         pdfStruct.makeSchedule()
         self.view.isHidden = true
         
-        
+        } else {
+            let alert = UIAlertController(title: "Wrong Document", message: "You selected the wrong file. Make sure to select the schedule file!", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: NSLocalizedString("Try Again", comment: "Default action"), style: .default, handler: { _ in
+            NSLog("The \"OK\" alert occured.")
+            }))
+            self.present(alert, animated: true, completion: nil)
+        }
     }
     
 }

@@ -23,8 +23,8 @@ struct ContentViewA: View {
     @ObservedObject var viewRouter: ViewRouter
 
     var body: some View {
-        if rwt.readFile(fileName: "Save7") != "" {
-            print(rwt.readFile(fileName: "Save7"))
+        if rwt.readFile(fileName: "Save9") != "" {
+            print(rwt.readFile(fileName: "Save9"))
             self.viewRouter.currentPage = "page4"
         } else {return ViewControllerWrapper()}
         return ViewControllerWrapper()

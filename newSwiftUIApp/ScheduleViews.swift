@@ -260,7 +260,7 @@ struct Experimental: View {
 
     var body: some View {
         VStack {
-            Button(action: {rwt.writeFile(writeString: "", fileName: "Save7"); rwt.writeFile(writeString: "", fileName: "SaveColors7"); rwt.writeFile(writeString: "", fileName: "saveHW12")}) {
+            Button(action: {rwt.writeFile(writeString: "", fileName: "Save9"); rwt.writeFile(writeString: "", fileName: "SaveColors9"); rwt.writeFile(writeString: "", fileName: "saveHW15")}) {
                         Text("Reset").fontWeight(.heavy).padding()
                     }
     
@@ -278,15 +278,33 @@ extension Date {
     }
 }
 
-
+/*
 struct DetailedAssignmentView: View {
     
     @ObservedObject var homework: Homework
     @State var editMode = false
     @State var newName: String = ""
+    @State private var selectedClass = 0
+    var courseName: String = ""
+    @State var singleIsPresented = false
+    var rkManager1 = RKManager(calendar: Calendar.current, minimumDate: Date(), maximumDate: Date().addingTimeInterval(60*60*24*365), mode: 0)
+    
+    init(homework: Homework) {
+        self.homework = homework
+        self.courseName = homework.cls.courseName
+        self.rkManager1.selectedDate = homework.dueDate
+        //self.newName = homework.name
+    }
     
     func toggleEdit() {
         editMode.toggle()
+        if !editMode {
+            pdfStruct.addHW(name: newName, cls: pdfStruct.uniqueClassList[selectedClass], dueDate: self.rkManager1.selectedDate)
+            pdfStruct.updateHW()
+        } else {
+            pdfStruct.deleteHW(name: homework.name)
+            pdfStruct.updateHW()
+        }
     }
     
     let df = DateFormatter()
@@ -297,8 +315,8 @@ struct DetailedAssignmentView: View {
         
         dfDay.dateFormat = "EEE";
         
-        return HStack {
-            Spacer()
+        return VStack {
+            /*Spacer()
             VStack(alignment: .leading) {
                 Text("Name:").padding(.vertical, 30)
                 Text("Class:").padding(.vertical, 30)
@@ -312,18 +330,100 @@ struct DetailedAssignmentView: View {
                 Text("\(dfDay.string(from: homework.dueDate))  \(df.string(from: homework.dueDate))").padding(.vertical, 30)
                 }
                 else {
-                    TextField(homework.name, text: $newName).padding(.vertical, 30)
+                    TextField(homework.name, text: $newName).padding(.vertical, 30).textFieldStyle(RoundedBorderTextFieldStyle())
                     Text(homework.cls.courseName + " - " + homework.cls.block).padding(.vertical, 30)
                     Text("\(dfDay.string(from: homework.dueDate))  \(df.string(from: homework.dueDate))").padding(.vertical, 30)
                 }
             }
-            Spacer()
-        }.padding().padding(.bottom, 200).font(Font(UIFont(name: "Avenir", size: 18)!)).navigationBarItems(trailing: Button(action: {self.toggleEdit()}) {Text("Edit")}.padding(.horizontal, 10))
+            Spacer()*/
+            HStack {
+            Text("Name:").padding(.vertical, 30).padding(.leading, 10)
+            if !editMode {
+                Text(homework.name).padding(.vertical, 30).frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
+            }
+            else {
+                TextField(homework.name, text: $newName).padding(.vertical, 30).textFieldStyle(RoundedBorderTextFieldStyle()).frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
+            }
+            }
+            
+            HStack {
+                Text("Class:").padding(.vertical, 30).padding(.leading, 10)
+                if !editMode {
+                    Text(homework.cls.courseName + " - " + homework.cls.block).padding(.vertical, 30).frame(minWidth: 0, maxWidth: .infinity, alignment: .center).padding(.horizontal, 10)
+                }
+                else {
+                    Picker(selection: $selectedClass, label: Text("")) {
+                     ForEach(0 ..< pdfStruct.uniqueClassList.count) {
+                         Text(pdfStruct.uniqueClassList[$0].courseName)
+                    }
+                     } .labelsHidden().padding().frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
+                }
+            }
+            
+            HStack {
+                Text("Due by:").padding(.vertical, 30).padding(.leading, 10)
+                
+                if !editMode {
+                    Text("\(dfDay.string(from: homework.dueDate))  \(df.string(from: homework.dueDate))").padding(.vertical, 30).frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
+                }
+                else {
+                    VStack {
+                    Button(action: { self.singleIsPresented.toggle() }) {
+                        Text("Select a Date").foregroundColor(.blue).padding().frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
+                    }
+                    .sheet(isPresented: self.$singleIsPresented, content: {
+                        RKViewController(isPresented: self.$singleIsPresented, rkManager: self.rkManager1)})
+                    Text(self.getTextFromDate(date: self.rkManager1.selectedDate))
+                    }.frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
+                }
+                
+            }
+            
+        }.padding().padding(.bottom, 200).font(Font(UIFont(name: "Avenir", size: 18)!)).navigationBarItems(trailing: Button(action: {self.toggleEdit()}) {
+            
+            if !editMode {
+                Text("Edit")
+            }
+            else {
+                Text("Done")
+            }
+        }.padding(.horizontal, 10)).onAppear {
+            
+            if self.courseName != "" {
+                for n in 0..<pdfStruct.uniqueClassList.count {
+                    if pdfStruct.uniqueClassList[n].courseName == self.courseName {
+                        self.selectedClass = n
+                        break
+                    }
+                }
+            }
+        }.onDisappear {
+            pdfStruct.deleteHW(name: self.homework.name)
+            pdfStruct.updateHW()
+            
+        }
+
         
         
     }
+    func datesView(dates: [Date]) -> some View {
+        ScrollView (.horizontal) {
+            HStack {
+                ForEach(dates, id: \.self) { date in
+                    Text(self.getTextFromDate(date: date))
+                }
+            }
+        }.padding(.horizontal, 15)
+    }
+    
+    func getTextFromDate(date: Date!) -> String {
+        let formatter = DateFormatter()
+        formatter.locale = .current
+        formatter.dateFormat = "EEEE, MMMM d, yyyy"
+        return date == nil ? "" : formatter.string(from: date)
+    }
 }
-
+*/
 /*VStack {
     Text("Schedule View")
     Button(action: {rwt.writeFile(writeString: "", fileName: "Save7")}) {
@@ -504,7 +604,7 @@ struct schoolView: View {
                 
                 ForEach(pdfStruct.schedule[pdfStruct.getCurrentDay()]!, id: \.self) { item in
                     ClassView(c: item)
-                }
+                } // SEMESTER 1 / SEMESTER 2
                 
     
             }
@@ -669,35 +769,35 @@ var body: some View {
                         
                         if !hw.complete && !hw.test {
                             if self.selectedTab == 0 && ((...Calendar.current.startOfDay(for: Date().addingTimeInterval(-86400))).contains(Calendar.current.startOfDay(for: hw.dueDate))) {
-                                NavigationLink(destination: DetailedAssignmentView(homework: hw)) {
+                                //NavigationLink(destination: DetailedAssignmentView(homework: hw)) {
                                 AssignmentView(homework: hw) // Overdue
-                                }
+                                //}
                                 
                             }
                             if self.selectedTab == 1 && (Calendar.current.isDateInToday(hw.dueDate)) {
-                                NavigationLink(destination: DetailedAssignmentView(homework: hw)) {
+                                //NavigationLink(destination: DetailedAssignmentView(homework: hw)) {
                                 AssignmentView(homework: hw) // Today
-                                }
+                                //}
                                 
                             }
                             if self.selectedTab == 2 && (Calendar.current.isDateInTomorrow(hw.dueDate)) {
-                                NavigationLink(destination: DetailedAssignmentView(homework: hw)) {
+                                //NavigationLink(destination: DetailedAssignmentView(homework: hw)) {
                                 AssignmentView(homework: hw) // Tomorrow
-                                }
+                                //}
                                 
                             }
                             if self.selectedTab == 3 && ((Calendar.current.startOfDay(for: Date().addingTimeInterval(86400*2))...Calendar.current.startOfDay(for: Date().addingTimeInterval(86400*7))).contains(Calendar.current.startOfDay(for: hw.dueDate))) {
                                 
-                                NavigationLink(destination: DetailedAssignmentView(homework: hw)) {
+                                //NavigationLink(destination: DetailedAssignmentView(homework: hw)) {
                                 AssignmentView(homework: hw) // This Week
-                                }
+                                //}
                                 
                             }
                             if self.selectedTab == 4 && ((Calendar.current.startOfDay(for: Date().addingTimeInterval(86400*8))...).contains(Calendar.current.startOfDay(for: hw.dueDate))) {
                                 
-                                NavigationLink(destination: DetailedAssignmentView(homework: hw)) {
+                                //NavigationLink(destination: DetailedAssignmentView(homework: hw)) {
                                 AssignmentView(homework: hw) // This Month
-                                }
+                                //}
                                 
                             }
                     }
@@ -892,6 +992,7 @@ struct AssignmentView: View {
     var picName: String = "circle"
     @ObservedObject var homework: Homework
     @State var complete = false
+    @State var showingDetail = false
     
     let df = DateFormatter()
     let dfDay = DateFormatter()
@@ -966,7 +1067,9 @@ var body: some View {
                     complete = true
                     print(complete)
                     */
-                }
+        
+        
+    }
                 
             }
         }

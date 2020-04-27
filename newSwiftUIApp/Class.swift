@@ -61,9 +61,9 @@ class Homework: Identifiable, Hashable, ObservableObject, Equatable {
     }
     
     let id = UUID()
-    let dueDate: Date
-    let name: String
-    let cls: Class
+    var dueDate: Date
+    var name: String
+    var cls: Class
     let test: Bool
     var complete: Bool = false
     
