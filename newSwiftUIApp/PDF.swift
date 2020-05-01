@@ -719,6 +719,10 @@ struct PDF {
         
         var totalLength = 0
         
+        /*if schedule[getCurrentDay()]![ci].getLength() == 105 {
+            
+        }*/
+        
         
         if ci == schedule[getCurrentDay()]!.count-1 {
             //totalLength -= 41

@@ -250,6 +250,55 @@ var body: some View {
             print("something went wrong")
           }
         }
+    }.onDisappear {
+        UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
+        
+        // 1
+        var dateComponents = DateComponents()
+        dateComponents.hour = 19
+        let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: true)
+
+        // 2
+        let content = UNMutableNotificationContent()
+        content.title = "Homework Reminder"
+        
+        if pdfStruct.numberHWDueTomorrow() == 0 {
+            content.body = "You are done with all your homework for tomorrow!"
+        } else if pdfStruct.numberHWDueTomorrow() == 1 {
+            content.body = "You have 1 homework assignment due tomorrow!"
+        } else {
+        content.body = "You have " + String(pdfStruct.numberHWDueTomorrow()) + " homework assignments due tomorrow!"
+        }
+        let randomIdentifier = UUID().uuidString
+        let request = UNNotificationRequest(identifier: randomIdentifier, content: content, trigger: trigger)
+
+        if pdfStruct.numberTestsDueTomorrow() != 0 {
+            let content2 = UNMutableNotificationContent()
+            content2.title = "Tests Reminder"
+            
+            if pdfStruct.numberTestsDueTomorrow() == 1 {
+                content2.body = "You have 1 test tomorrow!"
+            } else {
+                content2.body = "You have " + String(pdfStruct.numberTestsDueTomorrow()) + " tests tomorrow!"
+            }
+            
+            let randomIdentifier2 = UUID().uuidString
+            let request2 = UNNotificationRequest(identifier: randomIdentifier2, content: content2, trigger: trigger)
+            UNUserNotificationCenter.current().add(request2) { error in
+              if error != nil {
+                print("something went wrong")
+              }
+            }
+        }
+        
+        
+        
+        // 3
+        UNUserNotificationCenter.current().add(request) { error in
+          if error != nil {
+            print("something went wrong")
+          }
+        }
     }
     
     }
