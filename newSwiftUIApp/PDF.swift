@@ -130,6 +130,7 @@ struct PDF {
     var classColors: [String:UIColor] = [:]
     var homework: [Homework] = []
     var homeworkSaveString: String = ""
+    var semester = 1
     
     init(_ pdfFile: PDFDocument) {
         //pdfFile = PDFDocument(url: URL(string: pdfURL)!)!
@@ -160,6 +161,11 @@ struct PDF {
         textArray = []
         generalInfoLine = ""
         splitInfo = []
+    }
+    
+    mutating func toggleSemester() {
+        if semester == 1 {semester = 2}
+        else {semester = 1}
     }
     
     func findHWIndex(dueDate: Date) -> Int {
@@ -482,7 +488,17 @@ struct PDF {
         currentSchedule.userName = returnName()
     }
     
+    
+    mutating func restoreSemester() {
+        let semesterString = rwt.readFile(fileName: "semester")
+        if semesterString == "1" {self.semester = 1}
+        else {self.semester = 2}
+    }
+    
     mutating func restore() {
+
+        restoreSemester()
+ 
         let classString = rwt.readFile(fileName: "Save9")
         let classArray = splitStringIntoLines(classString)
         self.generalInfoLine = classArray[0]

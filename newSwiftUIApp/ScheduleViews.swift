@@ -201,7 +201,7 @@ var body: some View {
         }.tag(4)
         
     }.onAppear {pdfStruct.restore(); print("done");
-        
+        /*
         UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
         
         // 1
@@ -249,10 +249,12 @@ var body: some View {
           if error != nil {
             print("something went wrong")
           }
-        }
+        }*/
     }.onDisappear {
         UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
         
+        
+        
         // 1
         var dateComponents = DateComponents()
         dateComponents.hour = 19
@@ -299,6 +301,7 @@ var body: some View {
             print("something went wrong")
           }
         }
+        print("updateNotification")
     }
     
     }
@@ -306,15 +309,36 @@ var body: some View {
 
 struct Experimental: View {
     //@ObservedObject var viewRouter: ViewRouter
+    @State var isSemester2 = false
 
     var body: some View {
         VStack {
             Button(action: {rwt.writeFile(writeString: "", fileName: "Save9"); rwt.writeFile(writeString: "", fileName: "SaveColors9"); rwt.writeFile(writeString: "", fileName: "saveHW15")}) {
                         Text("Reset").fontWeight(.heavy).padding()
                     }
+            
+            VStack {
+            Toggle(isOn: $isSemester2) {
+                Text("")
+                }.labelsHidden().padding()
     
+                if isSemester2 { Text("Semester 2") }
+                else { Text("Semester 1") }
+                
+            }
         
-    }
+        }.onAppear {
+            if pdfStruct.semester == 1 { self.isSemester2 = false }
+            else { self.isSemester2 = true }
+        } .onDisappear {
+            
+            if !self.isSemester2 { rwt.writeFile(writeString: "1", fileName: "semester") }
+            
+           else { rwt.writeFile(writeString: "2", fileName: "semester") }
+            
+            pdfStruct.restoreSemester()
+            
+        }
 }
 }
 
@@ -639,8 +663,11 @@ struct schoolView: View {
     
     @State private var contentOffset: CGPoint = .zero
     @State private var name: String = "chevron.down"
+    @State private var isSemester2 = false
     
     var body: some View {
+        
+        
         
         ZStack {
         
@@ -648,6 +675,9 @@ struct schoolView: View {
             
         VStack {
         ScrollableView(self.$contentOffset, animationDuration: 0.5) {
+            
+            if !self.isSemester2 {
+            
             VStack {
                 
                 
@@ -657,7 +687,29 @@ struct schoolView: View {
                 
     
             }
-        }.onAppear{self.contentOffset = CGPoint(x: 0, y: pdfStruct.getScrollValue());}
+            
+            } else {
+                
+                VStack {
+                            
+                            
+                            ForEach(pdfStruct.schedule2[pdfStruct.getCurrentDay()]!, id: \.self) { item in
+                                ClassView(c: item)
+                            } // SEMESTER 1 / SEMESTER 2
+                            
+                
+                        }
+                
+                
+            }
+            
+        }.onAppear{self.contentOffset = CGPoint(x: 0, y: pdfStruct.getScrollValue());
+            
+            if pdfStruct.semester == 1 {self.isSemester2 = false}
+            else {self.isSemester2 = true}
+            
+            
+            }
             /*Button(action: {rwt.writeFile(writeString: "", fileName: "Save7")}) {
             Text("Restart")
             }.padding()*/
@@ -669,8 +721,14 @@ struct schoolView: View {
                 }.offset(x: UIScreen.main.bounds.width/(-2.7), y: UIScreen.main.bounds.height/(2.7))
             }
 
-
-            
+            HStack {
+                
+            Toggle(isOn: $isSemester2){
+                Text("")
+            }
+                if isSemester2 { Text("S2") }
+                else { Text("S1")}
+            }.offset(x: UIScreen.main.bounds.width/(-1.28), y: UIScreen.main.bounds.height/(-2.7))
             
             //Text("test")
         }.font(Font(UIFont(name: "Avenir", size: 18)!))
