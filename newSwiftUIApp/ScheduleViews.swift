@@ -556,11 +556,19 @@ struct AddTestView: View {
             
 
             
+            if pdfStruct.semester == 1 {
             Picker(selection: $selectedClass, label: Text("Please choose a color")) {
-                ForEach(0 ..< pdfStruct.uniqueClassList.count) {
-                    Text(pdfStruct.uniqueClassList[$0].courseName)
+                ForEach(0 ..< pdfStruct.uniqueClassList1.count) {
+                    Text(pdfStruct.uniqueClassList1[$0].courseName)
                }
                 } .labelsHidden().padding()
+            } else {
+                Picker(selection: $selectedClass, label: Text("Please choose a color")) {
+                 ForEach(0 ..< pdfStruct.uniqueClassList2.count) {
+                     Text(pdfStruct.uniqueClassList2[$0].courseName)
+                }
+                 } .labelsHidden().padding()
+            }
             
             
             Button(action: {
@@ -721,14 +729,14 @@ struct schoolView: View {
                 }.offset(x: UIScreen.main.bounds.width/(-2.7), y: UIScreen.main.bounds.height/(2.7))
             }
 
-            HStack {
+            /*HStack {
                 
             Toggle(isOn: $isSemester2){
                 Text("")
             }
                 if isSemester2 { Text("S2") }
                 else { Text("S1")}
-            }.offset(x: UIScreen.main.bounds.width/(-1.28), y: UIScreen.main.bounds.height/(-2.7))
+            }.offset(x: UIScreen.main.bounds.width/(-1.28), y: UIScreen.main.bounds.height/(-2.7))*/
             
             //Text("test")
         }.font(Font(UIFont(name: "Avenir", size: 18)!))
@@ -1032,13 +1040,19 @@ struct AddHomeworkView: View {
                 Text(self.getTextFromDate(date: self.rkManager1.selectedDate))
             }
 
-            
+            if pdfStruct.semester == 1 {
             Picker(selection: $selectedClass, label: Text("Please choose a color")) {
-                ForEach(0 ..< pdfStruct.uniqueClassList.count) {
-                    Text(pdfStruct.uniqueClassList[$0].courseName)
+                ForEach(0 ..< pdfStruct.uniqueClassList1.count) {
+                    Text(pdfStruct.uniqueClassList1[$0].courseName)
                }
                 } .labelsHidden().padding()
-            
+            } else {
+                Picker(selection: $selectedClass, label: Text("Please choose a color")) {
+                 ForEach(0 ..< pdfStruct.uniqueClassList2.count) {
+                     Text(pdfStruct.uniqueClassList2[$0].courseName)
+                }
+                 } .labelsHidden().padding()
+            }
             
             Button(action: {
                 if (self.isChecked || self.rkManager1.selectedDate != nil) && self.name != "" {

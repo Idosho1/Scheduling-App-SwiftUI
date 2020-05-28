@@ -131,12 +131,16 @@ struct PDF {
     var homework: [Homework] = []
     var homeworkSaveString: String = ""
     var semester = 1
+    var uniqueClassList1: [Class]
+    var uniqueClassList2: [Class]
     
     init(_ pdfFile: PDFDocument) {
         //pdfFile = PDFDocument(url: URL(string: pdfURL)!)!
         pdfAsText = (pdfFile.string)!
         classList = []
         uniqueClassList = []
+        uniqueClassList1 = []
+        uniqueClassList2 = []
         textArrayUnedited = splitStringIntoLines(pdfAsText)
         textArray = []
         for n in textArrayUnedited {
@@ -158,6 +162,8 @@ struct PDF {
         classList = []
         textArrayUnedited = []
         uniqueClassList = []
+        uniqueClassList1 = []
+        uniqueClassList2 = []
         textArray = []
         generalInfoLine = ""
         splitInfo = []
@@ -328,7 +334,7 @@ struct PDF {
             numDays += 1
             //if getCurrentDay() == .Fri {numDays += 2}
             //if getCurrentDay() == .Sat {numDays += 1}
-            if containsClass(day: day, cls: cls) {
+            if containsC(day: day, cls: cls) {
                 cont = false
                 return Date().addingTimeInterval(Double(86400 * numDays))
             }
@@ -338,7 +344,29 @@ struct PDF {
         }
     }
     
+    func containsC(day: Day, cls: Class) -> Bool {
+        if semester == 1 {
+        let classes = schedule[day]!
+        for n in classes {
+            if n.courseName == cls.courseName {
+                return true
+            }
+        }
+        return false
+        }
+        else {
+            let classes = schedule2[day]!
+            for n in classes {
+                if n.courseName == cls.courseName {
+                    return true
+                }
+            }
+            return false
+        }
+    }
+    
     func containsClass(day: Day, cls: Class) -> Bool {
+        // DO NOT CHANGE
         let classes = schedule[day]!
         for n in classes {
             if n.courseName == cls.courseName {
@@ -474,7 +502,7 @@ struct PDF {
             }
         }
         
-        for (d,ca) in schedule {
+        /*for (d,ca) in schedule {
             var clsArray = [Class]()
             for cls in ca {
                 if cls.semester != "S1" {
@@ -482,10 +510,12 @@ struct PDF {
                 }
             }
             schedule2[d] = clsArray
-        }
+        }*/
         
         currentSchedule.schedule = schedule
         currentSchedule.userName = returnName()
+        
+        
     }
     
     
@@ -610,7 +640,8 @@ struct PDF {
         
         
         
-        
+        print("Schedule2")
+        print(schedule2)
         
         
         for (day,classes) in schedule {
@@ -646,6 +677,7 @@ struct PDF {
     }
     
     func getCurrentClassIndex() -> Int {
+        if semester == 1 {
         let classArray = schedule[getCurrentDay()]!
         var i = 0
         while i < classArray.count {
@@ -662,6 +694,24 @@ struct PDF {
             } else {return i}
         }
         return i - 1
+        } else {
+            let classArray = schedule2[getCurrentDay()]!
+            var i = 0
+            while i < classArray.count {
+                let ct = getCurrentTime()
+                
+                let e = classArray[i].timeEnd.replacingOccurrences(of: ":", with: " ")
+                let split = splitStringIntoParts(e)
+                var eHR = Int(split[0])!
+                if eHR >= 1 && eHR <= 3 {eHR += 12}
+                let eMin = Int(split[1])!
+                
+                if (ct - (60*eHR+eMin)) > 0 {
+                    i += 1
+                } else {return i}
+            }
+            return i - 1
+        }
     }
     
     func findTimeIndex() -> Int {
@@ -680,7 +730,11 @@ struct PDF {
     }
     
     func currentBlock() -> String {
+        if semester == 1 {
         return schedule[getCurrentDay()]![getCurrentClassIndex()].block
+        } else {
+        return schedule2[getCurrentDay()]![getCurrentClassIndex()].block
+        }
     }
     
     /*mutating func restore() {
@@ -717,6 +771,7 @@ struct PDF {
     }*/
     
     func getScrollValue() -> Int {
+        if semester == 1 {
         print("***********")
         print(UIScreen.screenHeight)
         print("***********")
@@ -771,6 +826,64 @@ struct PDF {
         
         //return 7 * (totalLength - 10)
         return 7 * (totalLength - Int(h/89.6))
+        }
+        else {
+            
+            print("***********")
+            print(UIScreen.screenHeight)
+            print("***********")
+            
+            let h = UIScreen.screenHeight
+            
+            if getCurrentTime() > schedule2[getCurrentDay()]![getCurrentClassIndex()].getEnd() {
+                return 0
+            }
+            
+            var ci = getCurrentClassIndex()
+            
+            if ci == 0 {
+                return 0
+            }
+            
+            var totalLength = 0
+            
+            /*if schedule[getCurrentDay()]![ci].getLength() == 105 {
+                
+            }*/
+            
+            
+            if ci == schedule2[getCurrentDay()]!.count-1 {
+                //totalLength -= 41
+                totalLength -= Int(h/21.85365854)
+                
+                //TESTED
+                if (schedule2[getCurrentDay()]![ci].block[0].lowercased() == "j") {
+                    //totalLength -= 25
+                    totalLength -= Int(h/35.84)
+                }
+                
+                if h < 896.0 {
+                    totalLength += 5
+                }
+            }
+            
+            
+            //TESTED
+            if (ci == schedule2[getCurrentDay()]!.count-2) && ((schedule2[getCurrentDay()]![ci+1].block[0].lowercased() == "j")) {
+                //totalLength -= 10
+                totalLength -= Int(h/89.6)
+            }
+            
+            
+            
+            
+            for n in 0..<ci {
+                totalLength += schedule2[getCurrentDay()]![n].getLength()
+            }
+            
+            //return 7 * (totalLength - 10)
+            return 7 * (totalLength - Int(h/89.6))
+        }
     }
     
     mutating func makeClassArray() -> [Class] {
@@ -901,6 +1014,7 @@ struct PDF {
         rwt.writeFile(writeString: saveString, fileName: "Save9")
         //writeTextFile("abc", data: saveString)
         print(saveString)
+        //restore()
         return classList
     }
     
@@ -914,6 +1028,23 @@ struct PDF {
             }
         }
         uniqueClassList = uniqueC
+        
+        var uniqueC1 = [Class]()
+        for c in uniqueC {
+            if c.semester == "S1" || c.semester == "FY" {
+                uniqueC1.append(c)
+            }
+        }
+        uniqueClassList1 = uniqueC1
+        
+        
+        var uniqueC2 = [Class]()
+        for c in uniqueC {
+            if c.semester == "S2" || c.semester == "FY" {
+                uniqueC2.append(c)
+            }
+        }
+        uniqueClassList2 = uniqueC2
     }
     
     func saveColors() {
