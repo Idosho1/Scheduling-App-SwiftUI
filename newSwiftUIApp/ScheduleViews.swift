@@ -191,7 +191,7 @@ var body: some View {
                 }
         }.tag(3)
             
-        Experimental()
+        Experimental(viewRouter: viewRouter)
         
             .tabItem {
                 VStack {
@@ -206,12 +206,42 @@ var body: some View {
     }
 }
 
+
+struct CreditsView: View {
+
+    
+var body: some View {
+    VStack {
+        Spacer()
+        Image("cat").resizable().frame(width: 150, height: 150).padding()
+        Spacer()
+            Text("Created by Ido Shoshani").padding().font(Font(UIFont(name: "Avenir", size: 24)!))
+            Spacer()
+        
+            Text("Logo by Zhitong Liu").padding().font(Font(UIFont(name: "Avenir", size: 12)!))
+            Text("Copyright © 2019 Raffi Kian - Date Picker").padding().font(Font(UIFont(name: "Avenir", size: 12)!))
+            Text("Hendrik Ulbrich © 2020 - Color Wheel").padding().padding(.bottom,40).font(Font(UIFont(name: "Avenir", size: 12)!))
+        
+    }
+    }
+    
+}
+
 struct Experimental: View {
     //@ObservedObject var viewRouter: ViewRouter
     @State var isSemester2 = false
+    @State var notifications = false
+    @State var date = Date()
+    
+    @ObservedObject var viewRouter: ViewRouter
+    
+    @State private var isDisplayed = false
 
+    @State private var showingAlertColors = false
+    @State private var showingAlertReset = false
+    
     var body: some View {
-        VStack {
+        /*VStack {
             Button(action: {rwt.writeFile(writeString: "", fileName: "Save11"); rwt.writeFile(writeString: "", fileName: "SaveColors12"); rwt.writeFile(writeString: "", fileName: "saveHW15")}) {
                         Text("Reset").fontWeight(.heavy).padding()
                     }
@@ -237,9 +267,110 @@ struct Experimental: View {
             
             pdfStruct.restoreSemester()
             
+        }*/
+        NavigationView {
+            Form {
+                
+                
+                Section(header: Text("CLASSES").padding(.top, 20)) {
+                // CLASSES START
+                HStack {
+                    Text(isSemester2 ? "Semester 2" : "Semester 1")
+                    Spacer()
+                    Toggle(isOn: $isSemester2) {
+                    Text("")
+                        }.labelsHidden()
+                }
+                // CLASSES END
+                }
+                
+                Section(header: Text("Notifications")) {
+                    // NOTIFICATIONS START
+                    HStack {
+                        Text("Notifications")
+                        Spacer()
+                        Toggle("", isOn: $isDisplayed)
+                        .onReceive([self.isDisplayed].publisher.first()) { (value) in
+                             if(value){
+                                 UIApplication.shared.registerForRemoteNotifications()
+                             }
+                             else{
+                                 UIApplication.shared.unregisterForRemoteNotifications()
+                             }
+                        }.labelsHidden()
+                    }
+                    
+                        
+                        DatePicker(selection: $date, displayedComponents: .hourAndMinute) {
+                            Text("Notification Time")
+                        }
+                    
+                    // NOTIFICATIONS END
+                }
+                
+                
+                Section(header: Text("About")) {
+                    HStack {
+                        Text("Software Version")
+                        Spacer()
+                        Text("1.0.0")
+                    }
+                    /*Button(action: {}) {
+                        Text("Credits")
+                    }*/
+                    NavigationLink(destination: CreditsView()) {
+                        Text("Credits")
+                    }
+                }
+                
+                
+                
+                Section {
+                // RESET START
+                
+                    Button(action: {self.showingAlertColors = true}) {
+                        Text("Reset Colors")
+                    }.alert(isPresented:$showingAlertColors) {
+                        Alert(title: Text("Are you sure you want to reset the colors?"), message: Text("You cannot undo this"), primaryButton: .destructive(Text("Reset")) {
+                            
+                            self.viewRouter.currentPage = "page3"
+                            
+                        }, secondaryButton: .cancel())
+                    }
+                }
+                
+                Section {
+                    Button(action: {self.showingAlertReset = true}) {
+                        Text("Reset Schedule")
+                    }.alert(isPresented:$showingAlertReset) {
+                        Alert(title: Text("Are you sure you want to reset the schedule?"), message: Text("You cannot undo this"), primaryButton: .destructive(Text("Reset")) {
+                                rwt.writeFile(writeString: "", fileName: "Save11"); rwt.writeFile(writeString: "", fileName: "SaveColors12"); rwt.writeFile(writeString: "", fileName: "saveHW15")
+                        }, secondaryButton: .cancel())
+                    }
+                }
+                
+                // RESET END
+                
+                
+                
+                
+            }.navigationBarTitle("Settings")
+        }.onAppear {
+            if pdfStruct.semester == 1 { self.isSemester2 = false }
+            else { self.isSemester2 = true }
+        } .onDisappear {
+            
+            if !self.isSemester2 { rwt.writeFile(writeString: "1", fileName: "semester") }
+            
+           else { rwt.writeFile(writeString: "2", fileName: "semester") }
+            
+            pdfStruct.restoreSemester()
+            
         }
 }
 }
+
+
 
 
 extension Date {
@@ -542,7 +673,11 @@ struct TestView: View {
             }.sheet(isPresented: $showingDetail) {
                 AddTestView()
             } .padding(.bottom, 25)
-        }.onAppear{pdfStruct.updateHW()}.onDisappear{pdfStruct.updateHW()}
+        }.onAppear{pdfStruct.updateHW()
+            for hw in pdfStruct.homework {
+                print(hw)
+            }
+        }.onDisappear{pdfStruct.updateHW()}
         
         
     }
@@ -591,7 +726,7 @@ struct schoolView: View {
                 
                 
                 ForEach(pdfStruct.schedule[pdfStruct.getCurrentDay()]!, id: \.self) { item in
-                    ClassView(c: item)
+                    ClassView(c: item).padding(.bottom, 5).padding(.horizontal,4)
                 } // SEMESTER 1 / SEMESTER 2
                 
     
@@ -603,7 +738,7 @@ struct schoolView: View {
                             
                             
                             ForEach(pdfStruct.schedule2[pdfStruct.getCurrentDay()]!, id: \.self) { item in
-                                ClassView(c: item)
+                                ClassView(c: item).padding(.bottom, 5).padding(.horizontal,4)
                             } // SEMESTER 1 / SEMESTER 2
                             
                 
@@ -625,7 +760,8 @@ struct schoolView: View {
         }
             if self.contentOffset != CGPoint(x: 0, y: pdfStruct.getScrollValue()) {
             Button(action: {self.contentOffset = CGPoint(x: 0, y: pdfStruct.getScrollValue()); print("***")}) {
-                Image(systemName: (Int(self.contentOffset.y) > pdfStruct.getScrollValue()) ? "chevron.up" : "chevron.down").resizable().frame(width: 40,height: 20).opacity(0.7)
+
+                Image(systemName: (Int(self.contentOffset.y) > pdfStruct.getScrollValue()) ? "chevron.up" : "chevron.down").resizable().frame(width: 40,height: 20).opacity(0.7).padding()
                 
                 }.offset(x: UIScreen.main.bounds.width/(-2.7), y: UIScreen.main.bounds.height/(2.7))
             }
@@ -640,7 +776,7 @@ struct schoolView: View {
             }.offset(x: UIScreen.main.bounds.width/(-1.28), y: UIScreen.main.bounds.height/(-2.7))*/
             
             //Text("test")
-        }.font(Font(UIFont(name: "Avenir", size: 18)!))
+            }.font(Font(UIFont(name: "Avenir", size: 18)!))
     }
     
 }
@@ -711,9 +847,10 @@ struct ClassView: View {
             
         }.frame(minWidth: 0, maxWidth: .infinity)
         .frame(height: CGFloat(7 * c.getLength()))
-        .background(Color.init(pdfStruct.classColors[c.courseName]!).edgesIgnoringSafeArea(.all).opacity(0.7))
-        .padding(.bottom, 5)
-        
+        .background(Color.init(pdfStruct.classColors[c.courseName]!))//.edgesIgnoringSafeArea(.all)
+        //.padding(.vertical, 2.5)
+        //.padding(.horizontal, 2)
+        .cornerRadius(15)
         
         
     }
@@ -1095,7 +1232,7 @@ var body: some View {
                     */
         
         
-    }
+    }.cornerRadius(10)
                 
             }
         }

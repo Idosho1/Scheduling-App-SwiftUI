@@ -134,6 +134,7 @@ struct PDF {
     var uniqueClassList1: [Class]
     var uniqueClassList2: [Class]
     
+    
     init(_ pdfFile: PDFDocument) {
         //pdfFile = PDFDocument(url: URL(string: pdfURL)!)!
         pdfAsText = (pdfFile.string)!
