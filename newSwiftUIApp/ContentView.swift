@@ -23,8 +23,8 @@ struct ContentViewA: View {
     @ObservedObject var viewRouter: ViewRouter
 
     var body: some View {
-        if rwt.readFile(fileName: "Save9") != "" {
-            print(rwt.readFile(fileName: "Save9"))
+        if rwt.readFile(fileName: "Save11") != "" {
+            print(rwt.readFile(fileName: "Save11"))
             self.viewRouter.currentPage = "page4"
         } else {return ViewControllerWrapper()}
         return ViewControllerWrapper()
@@ -47,7 +47,7 @@ struct ContentViewB: View {
 
 
 
-
+/*
 struct ContentViewC: View {
     
     @ObservedObject var viewRouter: ViewRouter
@@ -77,9 +77,43 @@ struct ContentViewC: View {
         }
     }
     }
+}*/
+
+import ColorPicker
+
+struct ContentViewC: View {
+    
+    @ObservedObject var viewRouter: ViewRouter
+    @State var color = UIColor.red
+    
+    let classList = pdfStruct.uniqueClassList
+    let Class: Class
+    
+    var body: some View {
+
+        ZStack {
+            Color.init(color).edgesIgnoringSafeArea(.all).opacity(0.7)
+        VStack {
+            
+            Text(Class.courseName).fontWeight(.heavy)
+            Text("\(Class.block)  \(Class.semester)").fontWeight(.heavy)
+            /*Picker(selection: $selectedColor, label: Text("Please choose a color")) {
+               ForEach(0 ..< colors.count) {
+                  Color(self.colors[$0])
+               }
+            } .labelsHidden()*/
+            
+            ColorPicker(color: $color, strokeWidth: 30)
+                .frame(width: 200, height: 200, alignment: .center)
+                .padding()
+            
+            Button(action: {classCount+=1;pdfStruct.classColors[self.Class.courseName] = self.color; self.color = UIColor.red; if classCount == self.classList.count {self.viewRouter.currentPage = "page4"; print(pdfStruct.classColors); pdfStruct.saveColors()} else { self.viewRouter.currentPage = "page3"}}) {
+                Text("Next...").fontWeight(.heavy).padding()
+            }
+        }
+    }
+    }
 }
-
-
 
 
 

@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -17,6 +17,8 @@
 		50858395244399D5003F5403 /* RKColorSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5085838F244399D5003F5403 /* RKColorSettings.swift */; };
 		50858396244399D5003F5403 /* RKWeekdayHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5085838D244399D4003F5403 /* RKWeekdayHeader.swift */; };
 		50877AC423C6BB7E007A9BDD /* ScheduleViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50877AC323C6BB7E007A9BDD /* ScheduleViews.swift */; };
+		50B8A94B2499C88E00CFA5AA /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 50B8A94A2499C88E00CFA5AA /* Credits.rtf */; };
+		50B8A94E2499CCF300CFA5AA /* ColorPicker in Frameworks */ = {isa = PBXBuildFile; productRef = 50B8A94D2499CCF300CFA5AA /* ColorPicker */; };
 		50B944A023BF6EE000327D01 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B9449F23BF6EDF00327D01 /* AppDelegate.swift */; };
 		50B944A223BF6EE000327D01 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B944A123BF6EE000327D01 /* SceneDelegate.swift */; };
 		50B944A423BF6EE000327D01 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B944A323BF6EE000327D01 /* ContentView.swift */; };
@@ -41,6 +43,7 @@
 		5085838E244399D5003F5403 /* RKManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RKManager.swift; sourceTree = "<group>"; };
 		5085838F244399D5003F5403 /* RKColorSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RKColorSettings.swift; sourceTree = "<group>"; };
 		50877AC323C6BB7E007A9BDD /* ScheduleViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleViews.swift; sourceTree = "<group>"; };
+		50B8A94A2499C88E00CFA5AA /* Credits.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = Credits.rtf; sourceTree = "<group>"; };
 		50B9449C23BF6EDF00327D01 /* Schedule.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Schedule.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		50B9449F23BF6EDF00327D01 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		50B944A123BF6EE000327D01 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -61,6 +64,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				50B8A94E2499CCF300CFA5AA /* ColorPicker in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -102,6 +106,7 @@
 				50B944A323BF6EE000327D01 /* ContentView.swift */,
 				50877AC323C6BB7E007A9BDD /* ScheduleViews.swift */,
 				50697F8423C536DC00564430 /* DocumentPicker.swift */,
+				50B8A94A2499C88E00CFA5AA /* Credits.rtf */,
 				50B944BB23BF730900327D01 /* ViewRouter.swift */,
 				50B944B923BF71A500327D01 /* MotherView.swift */,
 				50B944A523BF6EE500327D01 /* Assets.xcassets */,
@@ -136,6 +141,9 @@
 			dependencies = (
 			);
 			name = newSwiftUIApp;
+			packageProductDependencies = (
+				50B8A94D2499CCF300CFA5AA /* ColorPicker */,
+			);
 			productName = newSwiftUIApp;
 			productReference = 50B9449C23BF6EDF00327D01 /* Schedule.app */;
 			productType = "com.apple.product-type.application";
@@ -164,6 +172,9 @@
 				Base,
 			);
 			mainGroup = 50B9449323BF6EDF00327D01;
+			packageReferences = (
+				50B8A94C2499CCF300CFA5AA /* XCRemoteSwiftPackageReference "ColorPicker" */,
+			);
 			productRefGroup = 50B9449D23BF6EDF00327D01 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -178,6 +189,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				50B8A94B2499C88E00CFA5AA /* Credits.rtf in Resources */,
 				50B944AC23BF6EE500327D01 /* LaunchScreen.storyboard in Resources */,
 				50B944A923BF6EE500327D01 /* Preview Assets.xcassets in Resources */,
 				508583882443973D003F5403 /* Manager in Resources */,
@@ -402,6 +414,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		50B8A94C2499CCF300CFA5AA /* XCRemoteSwiftPackageReference "ColorPicker" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/hendriku/ColorPicker";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.0.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		50B8A94D2499CCF300CFA5AA /* ColorPicker */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 50B8A94C2499CCF300CFA5AA /* XCRemoteSwiftPackageReference "ColorPicker" */;
+			productName = ColorPicker;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 50B9449423BF6EDF00327D01 /* Project object */;
 }
