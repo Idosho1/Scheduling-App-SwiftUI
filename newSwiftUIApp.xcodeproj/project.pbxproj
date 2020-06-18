@@ -7,8 +7,21 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		504D78CE249C125600DA4B1D /* ImportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504D78CD249C125600DA4B1D /* ImportView.swift */; };
+		504D78D0249C126000DA4B1D /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504D78CF249C126000DA4B1D /* WelcomeView.swift */; };
+		504D78D2249C126A00DA4B1D /* ColorPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504D78D1249C126A00DA4B1D /* ColorPickerView.swift */; };
+		504D78D4249C131100DA4B1D /* ScrollableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504D78D3249C131100DA4B1D /* ScrollableView.swift */; };
+		504D78D6249C134900DA4B1D /* TabsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504D78D5249C134900DA4B1D /* TabsView.swift */; };
+		504D78D8249C136900DA4B1D /* CreditsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504D78D7249C136900DA4B1D /* CreditsView.swift */; };
+		504D78DA249C138200DA4B1D /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504D78D9249C138200DA4B1D /* SettingsView.swift */; };
+		504D78DC249C13CC00DA4B1D /* AddTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504D78DB249C13CC00DA4B1D /* AddTestView.swift */; };
+		504D78DE249C145600DA4B1D /* TestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504D78DD249C145600DA4B1D /* TestView.swift */; };
+		504D78E0249C148900DA4B1D /* SchoolView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504D78DF249C148900DA4B1D /* SchoolView.swift */; };
+		504D78E2249C14B200DA4B1D /* ClassView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504D78E1249C14B200DA4B1D /* ClassView.swift */; };
+		504D78E4249C14E500DA4B1D /* HomeworkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504D78E3249C14E500DA4B1D /* HomeworkView.swift */; };
+		504D78E6249C151000DA4B1D /* AddHomeworkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504D78E5249C151000DA4B1D /* AddHomeworkView.swift */; };
+		504D78E8249C152A00DA4B1D /* AssignmentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504D78E7249C152A00DA4B1D /* AssignmentView.swift */; };
 		50697F8523C536DC00564430 /* DocumentPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50697F8423C536DC00564430 /* DocumentPicker.swift */; };
-		508583882443973D003F5403 /* Manager in Resources */ = {isa = PBXBuildFile; fileRef = 508583872443973D003F5403 /* Manager */; };
 		50858390244399D5003F5403 /* RKViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5085838A244399D4003F5403 /* RKViewController.swift */; };
 		50858391244399D5003F5403 /* RKManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5085838E244399D5003F5403 /* RKManager.swift */; };
 		50858392244399D5003F5403 /* RKDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5085838C244399D4003F5403 /* RKDate.swift */; };
@@ -16,12 +29,11 @@
 		50858394244399D5003F5403 /* RKCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5085838B244399D4003F5403 /* RKCell.swift */; };
 		50858395244399D5003F5403 /* RKColorSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5085838F244399D5003F5403 /* RKColorSettings.swift */; };
 		50858396244399D5003F5403 /* RKWeekdayHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5085838D244399D4003F5403 /* RKWeekdayHeader.swift */; };
-		50877AC423C6BB7E007A9BDD /* ScheduleViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50877AC323C6BB7E007A9BDD /* ScheduleViews.swift */; };
+		50877AC423C6BB7E007A9BDD /* ScheduleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50877AC323C6BB7E007A9BDD /* ScheduleView.swift */; };
 		50B8A94B2499C88E00CFA5AA /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 50B8A94A2499C88E00CFA5AA /* Credits.rtf */; };
 		50B8A94E2499CCF300CFA5AA /* ColorPicker in Frameworks */ = {isa = PBXBuildFile; productRef = 50B8A94D2499CCF300CFA5AA /* ColorPicker */; };
 		50B944A023BF6EE000327D01 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B9449F23BF6EDF00327D01 /* AppDelegate.swift */; };
 		50B944A223BF6EE000327D01 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B944A123BF6EE000327D01 /* SceneDelegate.swift */; };
-		50B944A423BF6EE000327D01 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B944A323BF6EE000327D01 /* ContentView.swift */; };
 		50B944A623BF6EE500327D01 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 50B944A523BF6EE500327D01 /* Assets.xcassets */; };
 		50B944A923BF6EE500327D01 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 50B944A823BF6EE500327D01 /* Preview Assets.xcassets */; };
 		50B944AC23BF6EE500327D01 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 50B944AA23BF6EE500327D01 /* LaunchScreen.storyboard */; };
@@ -33,8 +45,21 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		504D78CD249C125600DA4B1D /* ImportView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportView.swift; sourceTree = "<group>"; };
+		504D78CF249C126000DA4B1D /* WelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
+		504D78D1249C126A00DA4B1D /* ColorPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPickerView.swift; sourceTree = "<group>"; };
+		504D78D3249C131100DA4B1D /* ScrollableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollableView.swift; sourceTree = "<group>"; };
+		504D78D5249C134900DA4B1D /* TabsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabsView.swift; sourceTree = "<group>"; };
+		504D78D7249C136900DA4B1D /* CreditsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreditsView.swift; sourceTree = "<group>"; };
+		504D78D9249C138200DA4B1D /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		504D78DB249C13CC00DA4B1D /* AddTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTestView.swift; sourceTree = "<group>"; };
+		504D78DD249C145600DA4B1D /* TestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestView.swift; sourceTree = "<group>"; };
+		504D78DF249C148900DA4B1D /* SchoolView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SchoolView.swift; sourceTree = "<group>"; };
+		504D78E1249C14B200DA4B1D /* ClassView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClassView.swift; sourceTree = "<group>"; };
+		504D78E3249C14E500DA4B1D /* HomeworkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeworkView.swift; sourceTree = "<group>"; };
+		504D78E5249C151000DA4B1D /* AddHomeworkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddHomeworkView.swift; sourceTree = "<group>"; };
+		504D78E7249C152A00DA4B1D /* AssignmentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssignmentView.swift; sourceTree = "<group>"; };
 		50697F8423C536DC00564430 /* DocumentPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentPicker.swift; sourceTree = "<group>"; };
-		508583872443973D003F5403 /* Manager */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Manager; sourceTree = "<group>"; };
 		50858389244399D4003F5403 /* RKMonth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RKMonth.swift; sourceTree = "<group>"; };
 		5085838A244399D4003F5403 /* RKViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RKViewController.swift; sourceTree = "<group>"; };
 		5085838B244399D4003F5403 /* RKCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RKCell.swift; sourceTree = "<group>"; };
@@ -42,12 +67,11 @@
 		5085838D244399D4003F5403 /* RKWeekdayHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RKWeekdayHeader.swift; sourceTree = "<group>"; };
 		5085838E244399D5003F5403 /* RKManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RKManager.swift; sourceTree = "<group>"; };
 		5085838F244399D5003F5403 /* RKColorSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RKColorSettings.swift; sourceTree = "<group>"; };
-		50877AC323C6BB7E007A9BDD /* ScheduleViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleViews.swift; sourceTree = "<group>"; };
+		50877AC323C6BB7E007A9BDD /* ScheduleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleView.swift; sourceTree = "<group>"; };
 		50B8A94A2499C88E00CFA5AA /* Credits.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = Credits.rtf; sourceTree = "<group>"; };
 		50B9449C23BF6EDF00327D01 /* Schedule.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Schedule.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		50B9449F23BF6EDF00327D01 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		50B944A123BF6EE000327D01 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		50B944A323BF6EE000327D01 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		50B944A523BF6EE500327D01 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		50B944A823BF6EE500327D01 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		50B944AB23BF6EE500327D01 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -71,6 +95,78 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		504D78C6249C11B100DA4B1D /* Main Files */ = {
+			isa = PBXGroup;
+			children = (
+				50B944B323BF6F2000327D01 /* Class.swift */,
+				50B944B423BF6F2000327D01 /* PDF.swift */,
+			);
+			path = "Main Files";
+			sourceTree = "<group>";
+		};
+		504D78C8249C11D100DA4B1D /* Calander Files */ = {
+			isa = PBXGroup;
+			children = (
+				5085838B244399D4003F5403 /* RKCell.swift */,
+				5085838F244399D5003F5403 /* RKColorSettings.swift */,
+				5085838C244399D4003F5403 /* RKDate.swift */,
+				5085838E244399D5003F5403 /* RKManager.swift */,
+				50858389244399D4003F5403 /* RKMonth.swift */,
+				5085838A244399D4003F5403 /* RKViewController.swift */,
+				5085838D244399D4003F5403 /* RKWeekdayHeader.swift */,
+			);
+			path = "Calander Files";
+			sourceTree = "<group>";
+		};
+		504D78C9249C11E100DA4B1D /* Content Files */ = {
+			isa = PBXGroup;
+			children = (
+				504D78D5249C134900DA4B1D /* TabsView.swift */,
+				50877AC323C6BB7E007A9BDD /* ScheduleView.swift */,
+				504D78DF249C148900DA4B1D /* SchoolView.swift */,
+				504D78E1249C14B200DA4B1D /* ClassView.swift */,
+				504D78D9249C138200DA4B1D /* SettingsView.swift */,
+				504D78D7249C136900DA4B1D /* CreditsView.swift */,
+			);
+			path = "Content Files";
+			sourceTree = "<group>";
+		};
+		504D78CA249C11F800DA4B1D /* Helper Files */ = {
+			isa = PBXGroup;
+			children = (
+				50B944B523BF6F2000327D01 /* readWrite.swift */,
+				50B9449F23BF6EDF00327D01 /* AppDelegate.swift */,
+				50B944A123BF6EE000327D01 /* SceneDelegate.swift */,
+				50B944BB23BF730900327D01 /* ViewRouter.swift */,
+				50B944B923BF71A500327D01 /* MotherView.swift */,
+				504D78D3249C131100DA4B1D /* ScrollableView.swift */,
+			);
+			path = "Helper Files";
+			sourceTree = "<group>";
+		};
+		504D78E9249C157500DA4B1D /* Setup Files */ = {
+			isa = PBXGroup;
+			children = (
+				504D78CD249C125600DA4B1D /* ImportView.swift */,
+				50697F8423C536DC00564430 /* DocumentPicker.swift */,
+				504D78CF249C126000DA4B1D /* WelcomeView.swift */,
+				504D78D1249C126A00DA4B1D /* ColorPickerView.swift */,
+			);
+			path = "Setup Files";
+			sourceTree = "<group>";
+		};
+		504D78EA249C15B400DA4B1D /* Assignment Files */ = {
+			isa = PBXGroup;
+			children = (
+				504D78DD249C145600DA4B1D /* TestView.swift */,
+				504D78DB249C13CC00DA4B1D /* AddTestView.swift */,
+				504D78E3249C14E500DA4B1D /* HomeworkView.swift */,
+				504D78E5249C151000DA4B1D /* AddHomeworkView.swift */,
+				504D78E7249C152A00DA4B1D /* AssignmentView.swift */,
+			);
+			path = "Assignment Files";
+			sourceTree = "<group>";
+		};
 		50B9449323BF6EDF00327D01 = {
 			isa = PBXGroup;
 			children = (
@@ -90,27 +186,15 @@
 		50B9449E23BF6EDF00327D01 /* newSwiftUIApp */ = {
 			isa = PBXGroup;
 			children = (
-				508583872443973D003F5403 /* Manager */,
-				50B944B323BF6F2000327D01 /* Class.swift */,
-				5085838B244399D4003F5403 /* RKCell.swift */,
-				5085838F244399D5003F5403 /* RKColorSettings.swift */,
-				5085838C244399D4003F5403 /* RKDate.swift */,
-				5085838E244399D5003F5403 /* RKManager.swift */,
-				50858389244399D4003F5403 /* RKMonth.swift */,
-				5085838A244399D4003F5403 /* RKViewController.swift */,
-				5085838D244399D4003F5403 /* RKWeekdayHeader.swift */,
-				50B944B423BF6F2000327D01 /* PDF.swift */,
-				50B944B523BF6F2000327D01 /* readWrite.swift */,
-				50B9449F23BF6EDF00327D01 /* AppDelegate.swift */,
-				50B944A123BF6EE000327D01 /* SceneDelegate.swift */,
-				50B944A323BF6EE000327D01 /* ContentView.swift */,
-				50877AC323C6BB7E007A9BDD /* ScheduleViews.swift */,
-				50697F8423C536DC00564430 /* DocumentPicker.swift */,
-				50B8A94A2499C88E00CFA5AA /* Credits.rtf */,
-				50B944BB23BF730900327D01 /* ViewRouter.swift */,
-				50B944B923BF71A500327D01 /* MotherView.swift */,
+				504D78EA249C15B400DA4B1D /* Assignment Files */,
+				504D78E9249C157500DA4B1D /* Setup Files */,
+				504D78CA249C11F800DA4B1D /* Helper Files */,
+				504D78C9249C11E100DA4B1D /* Content Files */,
+				504D78C8249C11D100DA4B1D /* Calander Files */,
+				504D78C6249C11B100DA4B1D /* Main Files */,
 				50B944A523BF6EE500327D01 /* Assets.xcassets */,
 				50B944AA23BF6EE500327D01 /* LaunchScreen.storyboard */,
+				50B8A94A2499C88E00CFA5AA /* Credits.rtf */,
 				50B944AD23BF6EE500327D01 /* Info.plist */,
 				50B944A723BF6EE500327D01 /* Preview Content */,
 			);
@@ -192,7 +276,6 @@
 				50B8A94B2499C88E00CFA5AA /* Credits.rtf in Resources */,
 				50B944AC23BF6EE500327D01 /* LaunchScreen.storyboard in Resources */,
 				50B944A923BF6EE500327D01 /* Preview Assets.xcassets in Resources */,
-				508583882443973D003F5403 /* Manager in Resources */,
 				50B944A623BF6EE500327D01 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -205,22 +288,35 @@
 			buildActionMask = 2147483647;
 			files = (
 				50858396244399D5003F5403 /* RKWeekdayHeader.swift in Sources */,
+				504D78DE249C145600DA4B1D /* TestView.swift in Sources */,
+				504D78E2249C14B200DA4B1D /* ClassView.swift in Sources */,
+				504D78DA249C138200DA4B1D /* SettingsView.swift in Sources */,
+				504D78D8249C136900DA4B1D /* CreditsView.swift in Sources */,
 				50B944B623BF6F2100327D01 /* Class.swift in Sources */,
 				50858394244399D5003F5403 /* RKCell.swift in Sources */,
+				504D78E8249C152A00DA4B1D /* AssignmentView.swift in Sources */,
 				50B944BA23BF71A500327D01 /* MotherView.swift in Sources */,
+				504D78D2249C126A00DA4B1D /* ColorPickerView.swift in Sources */,
+				504D78D4249C131100DA4B1D /* ScrollableView.swift in Sources */,
+				504D78DC249C13CC00DA4B1D /* AddTestView.swift in Sources */,
 				50B944B723BF6F2100327D01 /* PDF.swift in Sources */,
+				504D78E4249C14E500DA4B1D /* HomeworkView.swift in Sources */,
 				50858392244399D5003F5403 /* RKDate.swift in Sources */,
-				50877AC423C6BB7E007A9BDD /* ScheduleViews.swift in Sources */,
+				50877AC423C6BB7E007A9BDD /* ScheduleView.swift in Sources */,
+				504D78CE249C125600DA4B1D /* ImportView.swift in Sources */,
 				50B944A023BF6EE000327D01 /* AppDelegate.swift in Sources */,
 				50697F8523C536DC00564430 /* DocumentPicker.swift in Sources */,
 				50858391244399D5003F5403 /* RKManager.swift in Sources */,
+				504D78E6249C151000DA4B1D /* AddHomeworkView.swift in Sources */,
 				50B944A223BF6EE000327D01 /* SceneDelegate.swift in Sources */,
 				50858393244399D5003F5403 /* RKMonth.swift in Sources */,
-				50B944A423BF6EE000327D01 /* ContentView.swift in Sources */,
+				504D78D6249C134900DA4B1D /* TabsView.swift in Sources */,
 				50858390244399D5003F5403 /* RKViewController.swift in Sources */,
 				50858395244399D5003F5403 /* RKColorSettings.swift in Sources */,
+				504D78E0249C148900DA4B1D /* SchoolView.swift in Sources */,
 				50B944B823BF6F2100327D01 /* readWrite.swift in Sources */,
 				50B944BC23BF730900327D01 /* ViewRouter.swift in Sources */,
+				504D78D0249C126000DA4B1D /* WelcomeView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
