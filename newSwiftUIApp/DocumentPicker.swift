@@ -23,6 +23,9 @@ class ViewController: UIViewController, UIDocumentPickerDelegate {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         
+        
+        
+        
         let i = UIButton()
         i.setImage(UIImage(named: "cat"), for: .normal)
         i.frame = CGRect(x: UIScreen.screenWidth/2 - 50, y: UIScreen.screenHeight/3 - 150, width: 100, height: 100)
@@ -56,6 +59,10 @@ class ViewController: UIViewController, UIDocumentPickerDelegate {
     }
     
     @objc func pick(sender: UIButton) {
+        rwt.writeFile(writeString: "1", fileName: "semester");
+        rwt.writeFile(writeString: "19", fileName: "hour")
+        rwt.writeFile(writeString: "0", fileName: "min")
+        pdfStruct.semester = 1
         let importMenu = UIDocumentPickerViewController(documentTypes: [(kUTTypePDF as String)], in: .import)
         importMenu.delegate = self
         importMenu.modalPresentationStyle = .formSheet

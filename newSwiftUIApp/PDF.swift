@@ -134,6 +134,8 @@ struct PDF {
     var uniqueClassList1: [Class]
     var uniqueClassList2: [Class]
     var notifications = true
+    var hour = 19
+    var minute = 0
     
     
     init(_ pdfFile: PDFDocument) {
@@ -477,7 +479,7 @@ struct PDF {
         
         schedule2 = schedule
         
-        for (d,ca) in schedule {
+        /*for (d,ca) in schedule {
             var i = 0
             var count = ca.count
             
@@ -489,9 +491,25 @@ struct PDF {
                 }
                 i += 1
             }
+        }*/
+        
+        for (d,ca) in schedule {
+            
+            var i = 0
+            
+            while i < schedule[d]!.count {
+                if schedule[d]![i].semester == "S2" {
+                    schedule[d]!.remove(at: i)
+                } else {
+                    i += 1
+                }
+            }
+            
         }
         
-        for (d,ca) in schedule2 {
+        // START --------------------------------------------------
+        
+        /*for (d,ca) in schedule2 {
             var i = 0
             var count = ca.count
             
@@ -503,20 +521,25 @@ struct PDF {
                 }
                 i += 1
             }
-        }
-        
-        /*for (d,ca) in schedule {
-            var clsArray = [Class]()
-            for cls in ca {
-                if cls.semester != "S1" {
-                    clsArray.append(cls)
-                }
-            }
-            schedule2[d] = clsArray
         }*/
         
-        currentSchedule.schedule = schedule
-        currentSchedule.userName = returnName()
+        
+        for (d,ca) in schedule2 {
+            
+            var i = 0
+            
+            while i < schedule2[d]!.count {
+                if schedule2[d]![i].semester == "S1" {
+                    schedule2[d]!.remove(at: i)
+                } else {
+                    i += 1
+                }
+            }
+            
+        }
+        
+        //currentSchedule.schedule = schedule
+        //currentSchedule.userName = returnName()
         
         
     }
@@ -524,8 +547,17 @@ struct PDF {
     
     mutating func restoreSemester() {
         let semesterString = rwt.readFile(fileName: "semester")
+        print("semester string is : \(semesterString)")
         if semesterString == "1" {self.semester = 1}
         else {self.semester = 2}
+    }
+    
+    mutating func restoreDate() {
+        let hourString = rwt.readFile(fileName: "hour")
+        let minString = rwt.readFile(fileName: "min")
+        
+        self.hour = Int(hourString)!
+        self.minute = Int(minString)!
     }
     
     
@@ -533,6 +565,8 @@ struct PDF {
         let notificationString = rwt.readFile(fileName: "notification")
         if notificationString == "false" {self.notifications = false}
         else {self.notifications = true}
+        
+        
         
         
         
@@ -550,8 +584,9 @@ struct PDF {
 
         restoreSemester()
         restoreNotifications()
+        restoreDate()
  
-        let classString = rwt.readFile(fileName: "Save11")
+        let classString = rwt.readFile(fileName: "Save15")
         let classArray = splitStringIntoLines(classString)
         self.generalInfoLine = classArray[0]
         self.splitInfo = splitStringIntoParts(generalInfoLine)
@@ -626,9 +661,11 @@ struct PDF {
         
         
         schedule2 = schedule
+        print("Schedule 2 before change")
+        print(schedule2)
         
         
-        for (d,ca) in schedule {
+        /*for (d,ca) in schedule {
             var i = 0
             var count = ca.count
             
@@ -640,9 +677,25 @@ struct PDF {
                 }
                 i += 1
             }
+        }*/
+        
+        for (d,ca) in schedule {
+            
+            var i = 0
+            
+            while i < schedule[d]!.count {
+                if schedule[d]![i].semester == "S2" {
+                    schedule[d]!.remove(at: i)
+                } else {
+                    i += 1
+                }
+            }
+            
         }
         
-        for (d,ca) in schedule2 {
+        // START --------------------------------------------------
+        
+        /*for (d,ca) in schedule2 {
             var i = 0
             var count = ca.count
             
@@ -654,13 +707,28 @@ struct PDF {
                 }
                 i += 1
             }
+        }*/
+        
+        
+        for (d,ca) in schedule2 {
+            
+            var i = 0
+            
+            while i < schedule2[d]!.count {
+                if schedule2[d]![i].semester == "S1" {
+                    schedule2[d]!.remove(at: i)
+                } else {
+                    i += 1
+                }
+            }
+            
         }
         
-        currentSchedule.schedule = schedule
-        currentSchedule.userName = returnName()
+        //currentSchedule.schedule = schedule
+        //currentSchedule.userName = returnName()
         
         
-        
+        // END ----------------------------------------------------
         
         print("Schedule2")
         print(schedule2)
@@ -671,7 +739,7 @@ struct PDF {
             print(classes)
         }
         
-        let classColorsString = rwt.readFile(fileName: "SaveColors12")
+        let classColorsString = rwt.readFile(fileName: "SaveColors13")
         let classColorsArray = splitStringIntoLines(classColorsString)
         print(classColorsArray)
         for n in stride(from: 0, to: classColorsArray.count-1, by: 2) {
@@ -760,7 +828,7 @@ struct PDF {
     }
     
     /*mutating func restore() {
-        let classString = rwt.readFile(fileName: "Save11")
+        let classString = rwt.readFile(fileName: "Save15")
         let classArray = splitStringIntoLines(classString)
         textArray = classArray
         self.generalInfoLine = classArray[0]
@@ -775,7 +843,7 @@ struct PDF {
             print(classes)
         }
         
-        let classColorsString = rwt.readFile(fileName: "SaveColors12")
+        let classColorsString = rwt.readFile(fileName: "SaveColors13")
         let classColorsArray = splitStringIntoLines(classColorsString)
         print(classColorsArray)
         for n in stride(from: 0, to: classColorsArray.count-1, by: 2) {
@@ -1033,7 +1101,7 @@ struct PDF {
             saveString += "\(Class.block)\n"
         }
         //print(saveString)
-        rwt.writeFile(writeString: saveString, fileName: "Save11")
+        rwt.writeFile(writeString: saveString, fileName: "Save15")
         //writeTextFile("abc", data: saveString)
         print(saveString)
         //restore()
@@ -1074,7 +1142,7 @@ struct PDF {
         for (className, color) in classColors {
             saveString += "\(className)\n\(color)\n"
         }
-        rwt.writeFile(writeString: saveString, fileName: "SaveColors12")
+        rwt.writeFile(writeString: saveString, fileName: "SaveColors13")
     }
     
     mutating func restoreHomework() {
@@ -1114,7 +1182,8 @@ struct PDF {
             
             // 1
             var dateComponents = DateComponents()
-            dateComponents.hour = 19
+            dateComponents.hour = self.hour
+            dateComponents.minute = self.minute
             let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: true)
 
             // 2

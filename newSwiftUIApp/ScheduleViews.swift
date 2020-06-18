@@ -202,6 +202,12 @@ var body: some View {
         
     }.onAppear {pdfStruct.restore(); print("done"); pdfStruct.updateNotifications()
         //REALLY IMPORTANT!!!!!!!
+        
+        print("\n\n\nS1 Schedule:")
+        print(pdfStruct.schedule)
+        print("\n\n\nS2 Schedule:")
+        print(pdfStruct.schedule2)
+        
     }
     }
 }
@@ -240,34 +246,27 @@ struct Experimental: View {
     @State private var showingAlertColors = false
     @State private var showingAlertReset = false
     
-    var body: some View {
-        /*VStack {
-            Button(action: {rwt.writeFile(writeString: "", fileName: "Save11"); rwt.writeFile(writeString: "", fileName: "SaveColors12"); rwt.writeFile(writeString: "", fileName: "saveHW15")}) {
-                        Text("Reset").fontWeight(.heavy).padding()
-                    }
-            
-            VStack {
-            Toggle(isOn: $isSemester2) {
-                Text("")
-                }.labelsHidden().padding()
+    let dateFormatterHour = DateFormatter()
+    let dateFormatterMinute = DateFormatter()
     
-                if isSemester2 { Text("Semester 2") }
-                else { Text("Semester 1") }
-                
-            }
-        
-        }.onAppear {
-            if pdfStruct.semester == 1 { self.isSemester2 = false }
-            else { self.isSemester2 = true }
-        } .onDisappear {
-            
-            if !self.isSemester2 { rwt.writeFile(writeString: "1", fileName: "semester") }
-            
-           else { rwt.writeFile(writeString: "2", fileName: "semester") }
-            
-            pdfStruct.restoreSemester()
-            
-        }*/
+    let dateFormatter = DateFormatter()
+    
+    
+    private var dateProxy:Binding<Date> {
+        Binding<Date>(get: {self.date }, set: {
+            self.date = $0
+            self.updateDate()
+        })
+    }
+    
+    init(viewRouter: ViewRouter) {
+        self.viewRouter = viewRouter
+        dateFormatterHour.dateFormat = "HH"
+        dateFormatterMinute.dateFormat = "mm"
+        dateFormatter.dateFormat = "HH:mm"
+    }
+    
+    var body: some View {
         NavigationView {
             Form {
                 
@@ -300,7 +299,8 @@ struct Experimental: View {
                             
                             // 1
                             var dateComponents = DateComponents()
-                            dateComponents.hour = 19
+                            dateComponents.hour = pdfStruct.hour // Hour
+                            dateComponents.minute = pdfStruct.minute // Minute
                             let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: true)
 
                             // 2
@@ -349,7 +349,7 @@ struct Experimental: View {
                     }
                     
                         
-                        DatePicker(selection: $date, displayedComponents: .hourAndMinute) {
+                        DatePicker(selection: dateProxy, displayedComponents: .hourAndMinute) {
                             Text("Notification Time")
                         }
                     
@@ -373,7 +373,7 @@ struct Experimental: View {
                 
                 
                 
-                Section {
+                /*Section {
                 // RESET START
                 
                     Button(action: {self.showingAlertColors = true}) {
@@ -385,14 +385,15 @@ struct Experimental: View {
                             
                         }, secondaryButton: .cancel())
                     }
-                }
+                }*/ // RESET COLORS: NOT CURRENTLY WORKING
                 
                 Section {
                     Button(action: {self.showingAlertReset = true}) {
                         Text("Reset Schedule")
                     }.alert(isPresented:$showingAlertReset) {
                         Alert(title: Text("Are you sure you want to reset the schedule?"), message: Text("You cannot undo this"), primaryButton: .destructive(Text("Reset")) {
-                            rwt.writeFile(writeString: "", fileName: "Save11"); rwt.writeFile(writeString: "", fileName: "SaveColors12"); rwt.writeFile(writeString: "", fileName: "saveHW15"); rwt.writeFile(writeString: "", fileName: "semester"); rwt.writeFile(writeString: "", fileName: "notification")
+                            pdfStruct.semester = 1
+                            rwt.writeFile(writeString: "", fileName: "Save15"); rwt.writeFile(writeString: "", fileName: "SaveColors13"); rwt.writeFile(writeString: "", fileName: "saveHW15"); rwt.writeFile(writeString: "1", fileName: "semester"); rwt.writeFile(writeString: "", fileName: "notification"); rwt.writeFile(writeString: "19", fileName: "hour"); rwt.writeFile(writeString: "0", fileName: "min"); self.viewRouter.currentPage = "page1"; pdfStruct.semester = 1; rwt.writeFile(writeString: "1", fileName: "semester");
                         }, secondaryButton: .cancel())
                     }
                 }
@@ -410,6 +411,15 @@ struct Experimental: View {
             else { self.isSemester2 = true }
             
             self.notifications = pdfStruct.notifications
+            
+            let hourString = rwt.readFile(fileName: "hour")
+            let minString = rwt.readFile(fileName: "min")
+            
+            let str = hourString + ":" + minString
+            
+            let date = self.dateFormatter.date(from: str)!
+            
+            self.dateProxy.wrappedValue = date
         }
 }
     
@@ -425,6 +435,21 @@ struct Experimental: View {
         pdfStruct.restoreNotifications()
     }
     
+    func updateDate() {
+        let hour = dateFormatterHour.string(from: dateProxy.wrappedValue)
+        let min = dateFormatterMinute.string(from: dateProxy.wrappedValue)
+        
+        rwt.writeFile(writeString: hour, fileName: "hour")
+        rwt.writeFile(writeString: min, fileName: "min")
+        
+        pdfStruct.restoreDate()
+
+        pdfStruct.updateNotifications()
+        print("update notification")
+        
+        
+    }
+    
 }
 
 
@@ -438,158 +463,7 @@ extension Date {
     }
 }
 
-/*
-struct DetailedAssignmentView: View {
-    
-    @ObservedObject var homework: Homework
-    @State var editMode = false
-    @State var newName: String = ""
-    @State private var selectedClass = 0
-    var courseName: String = ""
-    @State var singleIsPresented = false
-    var rkManager1 = RKManager(calendar: Calendar.current, minimumDate: Date(), maximumDate: Date().addingTimeInterval(60*60*24*365), mode: 0)
-    
-    init(homework: Homework) {
-        self.homework = homework
-        self.courseName = homework.cls.courseName
-        self.rkManager1.selectedDate = homework.dueDate
-        //self.newName = homework.name
-    }
-    
-    func toggleEdit() {
-        editMode.toggle()
-        if !editMode {
-            pdfStruct.addHW(name: newName, cls: pdfStruct.uniqueClassList[selectedClass], dueDate: self.rkManager1.selectedDate)
-            pdfStruct.updateHW()
-        } else {
-            pdfStruct.deleteHW(name: homework.name)
-            pdfStruct.updateHW()
-        }
-    }
-    
-    let df = DateFormatter()
-    let dfDay = DateFormatter()
-    
-    var body: some View {
-        df.dateFormat = "MM - dd";
-        
-        dfDay.dateFormat = "EEE";
-        
-        return VStack {
-            /*Spacer()
-            VStack(alignment: .leading) {
-                Text("Name:").padding(.vertical, 30)
-                Text("Class:").padding(.vertical, 30)
-                Text("Due by:").padding(.vertical, 30)
-            }
-            Spacer()
-            VStack {
-                if !editMode {
-                Text(homework.name).padding(.vertical, 30)
-                Text(homework.cls.courseName + " - " + homework.cls.block).padding(.vertical, 30)
-                Text("\(dfDay.string(from: homework.dueDate))  \(df.string(from: homework.dueDate))").padding(.vertical, 30)
-                }
-                else {
-                    TextField(homework.name, text: $newName).padding(.vertical, 30).textFieldStyle(RoundedBorderTextFieldStyle())
-                    Text(homework.cls.courseName + " - " + homework.cls.block).padding(.vertical, 30)
-                    Text("\(dfDay.string(from: homework.dueDate))  \(df.string(from: homework.dueDate))").padding(.vertical, 30)
-                }
-            }
-            Spacer()*/
-            HStack {
-            Text("Name:").padding(.vertical, 30).padding(.leading, 10)
-            if !editMode {
-                Text(homework.name).padding(.vertical, 30).frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
-            }
-            else {
-                TextField(homework.name, text: $newName).padding(.vertical, 30).textFieldStyle(RoundedBorderTextFieldStyle()).frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
-            }
-            }
-            
-            HStack {
-                Text("Class:").padding(.vertical, 30).padding(.leading, 10)
-                if !editMode {
-                    Text(homework.cls.courseName + " - " + homework.cls.block).padding(.vertical, 30).frame(minWidth: 0, maxWidth: .infinity, alignment: .center).padding(.horizontal, 10)
-                }
-                else {
-                    Picker(selection: $selectedClass, label: Text("")) {
-                     ForEach(0 ..< pdfStruct.uniqueClassList.count) {
-                         Text(pdfStruct.uniqueClassList[$0].courseName)
-                    }
-                     } .labelsHidden().padding().frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
-                }
-            }
-            
-            HStack {
-                Text("Due by:").padding(.vertical, 30).padding(.leading, 10)
-                
-                if !editMode {
-                    Text("\(dfDay.string(from: homework.dueDate))  \(df.string(from: homework.dueDate))").padding(.vertical, 30).frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
-                }
-                else {
-                    VStack {
-                    Button(action: { self.singleIsPresented.toggle() }) {
-                        Text("Select a Date").foregroundColor(.blue).padding().frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
-                    }
-                    .sheet(isPresented: self.$singleIsPresented, content: {
-                        RKViewController(isPresented: self.$singleIsPresented, rkManager: self.rkManager1)})
-                    Text(self.getTextFromDate(date: self.rkManager1.selectedDate))
-                    }.frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
-                }
-                
-            }
-            
-        }.padding().padding(.bottom, 200).font(Font(UIFont(name: "Avenir", size: 18)!)).navigationBarItems(trailing: Button(action: {self.toggleEdit()}) {
-            
-            if !editMode {
-                Text("Edit")
-            }
-            else {
-                Text("Done")
-            }
-        }.padding(.horizontal, 10)).onAppear {
-            
-            if self.courseName != "" {
-                for n in 0..<pdfStruct.uniqueClassList.count {
-                    if pdfStruct.uniqueClassList[n].courseName == self.courseName {
-                        self.selectedClass = n
-                        break
-                    }
-                }
-            }
-        }.onDisappear {
-            pdfStruct.deleteHW(name: self.homework.name)
-            pdfStruct.updateHW()
-            
-        }
 
-        
-        
-    }
-    func datesView(dates: [Date]) -> some View {
-        ScrollView (.horizontal) {
-            HStack {
-                ForEach(dates, id: \.self) { date in
-                    Text(self.getTextFromDate(date: date))
-                }
-            }
-        }.padding(.horizontal, 15)
-    }
-    
-    func getTextFromDate(date: Date!) -> String {
-        let formatter = DateFormatter()
-        formatter.locale = .current
-        formatter.dateFormat = "EEEE, MMMM d, yyyy"
-        return date == nil ? "" : formatter.string(from: date)
-    }
-}
-*/
-/*VStack {
-    Text("Schedule View")
-    Button(action: {rwt.writeFile(writeString: "", fileName: "Save7")}) {
-    Text("Restart")
-    }.padding()
-}*/
 
 struct AddTestView: View {
     
