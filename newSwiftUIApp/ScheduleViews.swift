@@ -201,7 +201,7 @@ var body: some View {
         }.tag(4)
         
     }.onAppear {pdfStruct.restore(); print("done"); pdfStruct.updateNotifications()
-        
+        //REALLY IMPORTANT!!!!!!!
     }
     }
 }
@@ -272,14 +272,15 @@ struct Experimental: View {
             Form {
                 
                 
-                Section(header: Text("CLASSES").padding(.top, 20)) {
+                Section(header: Text("Classes").padding(.top, 20)) {
                 // CLASSES START
                 HStack {
                     Text(isSemester2 ? "Semester 2" : "Semester 1")
                     Spacer()
-                    Toggle(isOn: $isSemester2) {
-                    Text("")
-                        }.labelsHidden()
+                    Toggle("", isOn: $isSemester2)
+                        .onReceive([self.isSemester2].publisher.first()) { (value) in
+                            self.updateSemester()
+                    }.labelsHidden()
                 }
                 // CLASSES END
                 }
@@ -289,15 +290,62 @@ struct Experimental: View {
                     HStack {
                         Text("Notifications")
                         Spacer()
-                        Toggle("", isOn: $isDisplayed)
-                        .onReceive([self.isDisplayed].publisher.first()) { (value) in
-                             if(value){
-                                 UIApplication.shared.registerForRemoteNotifications()
-                             }
-                             else{
-                                 UIApplication.shared.unregisterForRemoteNotifications()
-                             }
-                        }.labelsHidden()
+                        Toggle("", isOn: $notifications)
+                            .onReceive([self.notifications].publisher.first()) { (value) in
+                            self.updateNotifications()
+                        }.labelsHidden().onTapGesture {
+                            UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
+                            
+                            
+                            
+                            // 1
+                            var dateComponents = DateComponents()
+                            dateComponents.hour = 19
+                            let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: true)
+
+                            // 2
+                            let content = UNMutableNotificationContent()
+                            content.title = "Homework Reminder"
+                            
+                            if pdfStruct.numberHWDueTomorrow() == 0 {
+                                content.body = "You are done with all your homework for tomorrow!"
+                            } else if pdfStruct.numberHWDueTomorrow() == 1 {
+                                content.body = "You have 1 homework assignment due tomorrow!"
+                            } else {
+                            content.body = "You have " + String(pdfStruct.numberHWDueTomorrow()) + " homework assignments due tomorrow!"
+                            }
+                            let randomIdentifier = UUID().uuidString
+                            let request = UNNotificationRequest(identifier: randomIdentifier, content: content, trigger: trigger)
+
+                            if pdfStruct.numberTestsDueTomorrow() != 0 {
+                                let content2 = UNMutableNotificationContent()
+                                content2.title = "Tests Reminder"
+                                
+                                if pdfStruct.numberTestsDueTomorrow() == 1 {
+                                    content2.body = "You have 1 test tomorrow!"
+                                } else {
+                                    content2.body = "You have " + String(pdfStruct.numberTestsDueTomorrow()) + " tests tomorrow!"
+                                }
+                                
+                                let randomIdentifier2 = UUID().uuidString
+                                let request2 = UNNotificationRequest(identifier: randomIdentifier2, content: content2, trigger: trigger)
+                                UNUserNotificationCenter.current().add(request2) { error in
+                                  if error != nil {
+                                    print("something went wrong")
+                                  }
+                                }
+                            }
+                            
+                            
+                            
+                            // 3
+                            UNUserNotificationCenter.current().add(request) { error in
+                              if error != nil {
+                                print("something went wrong")
+                              }
+                            }
+                            print("updateNotification")
+                        }
                     }
                     
                         
@@ -344,7 +392,7 @@ struct Experimental: View {
                         Text("Reset Schedule")
                     }.alert(isPresented:$showingAlertReset) {
                         Alert(title: Text("Are you sure you want to reset the schedule?"), message: Text("You cannot undo this"), primaryButton: .destructive(Text("Reset")) {
-                                rwt.writeFile(writeString: "", fileName: "Save11"); rwt.writeFile(writeString: "", fileName: "SaveColors12"); rwt.writeFile(writeString: "", fileName: "saveHW15")
+                            rwt.writeFile(writeString: "", fileName: "Save11"); rwt.writeFile(writeString: "", fileName: "SaveColors12"); rwt.writeFile(writeString: "", fileName: "saveHW15"); rwt.writeFile(writeString: "", fileName: "semester"); rwt.writeFile(writeString: "", fileName: "notification")
                         }, secondaryButton: .cancel())
                     }
                 }
@@ -355,19 +403,28 @@ struct Experimental: View {
                 
                 
             }.navigationBarTitle("Settings")
+            
+            
         }.onAppear {
             if pdfStruct.semester == 1 { self.isSemester2 = false }
             else { self.isSemester2 = true }
-        } .onDisappear {
             
-            if !self.isSemester2 { rwt.writeFile(writeString: "1", fileName: "semester") }
-            
-           else { rwt.writeFile(writeString: "2", fileName: "semester") }
-            
-            pdfStruct.restoreSemester()
-            
+            self.notifications = pdfStruct.notifications
         }
 }
+    
+    func updateSemester() {
+        if !self.isSemester2 { rwt.writeFile(writeString: "1", fileName: "semester") }
+        else { rwt.writeFile(writeString: "2", fileName: "semester") }
+        pdfStruct.restoreSemester()
+    }
+    
+    
+    func updateNotifications() {
+        rwt.writeFile(writeString: String(self.notifications), fileName: "notification")
+        pdfStruct.restoreNotifications()
+    }
+    
 }
 
 
@@ -1211,7 +1268,7 @@ var body: some View {
             //(homework.complete == false ? Image(systemName: "circle") : Image(systemName: "checkmark.circle")).resizable()
             /*if complete {
                 Image(systemName: "pencil").resizable().onTapGesture {
-                    <#code#>
+                    
                 }
                 .frame(width: 30, height: 30, alignment: .center)
                 .opacity(0.6)

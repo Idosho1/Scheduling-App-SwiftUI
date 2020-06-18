@@ -133,6 +133,7 @@ struct PDF {
     var semester = 1
     var uniqueClassList1: [Class]
     var uniqueClassList2: [Class]
+    var notifications = true
     
     
     init(_ pdfFile: PDFDocument) {
@@ -527,9 +528,28 @@ struct PDF {
         else {self.semester = 2}
     }
     
+    
+    mutating func restoreNotifications() {
+        let notificationString = rwt.readFile(fileName: "notification")
+        if notificationString == "false" {self.notifications = false}
+        else {self.notifications = true}
+        
+        
+        
+        if self.notifications {
+            //updateNotifications()
+        }
+        
+        else {
+            UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
+        }
+    }
+    
+    
     mutating func restore() {
 
         restoreSemester()
+        restoreNotifications()
  
         let classString = rwt.readFile(fileName: "Save11")
         let classArray = splitStringIntoLines(classString)
@@ -1086,6 +1106,8 @@ struct PDF {
     
     
     func updateNotifications() {
+        if notifications {
+        
         UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
             
             
@@ -1137,7 +1159,7 @@ struct PDF {
               }
             }
             print("updateNotification")
-        
+        }
     }
     
 /* mutating func makeBlockDict() {
