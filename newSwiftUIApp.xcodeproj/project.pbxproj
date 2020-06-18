@@ -21,6 +21,8 @@
 		504D78E4249C14E500DA4B1D /* HomeworkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504D78E3249C14E500DA4B1D /* HomeworkView.swift */; };
 		504D78E6249C151000DA4B1D /* AddHomeworkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504D78E5249C151000DA4B1D /* AddHomeworkView.swift */; };
 		504D78E8249C152A00DA4B1D /* AssignmentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504D78E7249C152A00DA4B1D /* AssignmentView.swift */; };
+		504D78EC249C16C100DA4B1D /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504D78EB249C16C100DA4B1D /* Extensions.swift */; };
+		504D78EE249C171200DA4B1D /* PDFExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504D78ED249C171200DA4B1D /* PDFExtension.swift */; };
 		50697F8523C536DC00564430 /* DocumentPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50697F8423C536DC00564430 /* DocumentPicker.swift */; };
 		50858390244399D5003F5403 /* RKViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5085838A244399D4003F5403 /* RKViewController.swift */; };
 		50858391244399D5003F5403 /* RKManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5085838E244399D5003F5403 /* RKManager.swift */; };
@@ -59,6 +61,8 @@
 		504D78E3249C14E500DA4B1D /* HomeworkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeworkView.swift; sourceTree = "<group>"; };
 		504D78E5249C151000DA4B1D /* AddHomeworkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddHomeworkView.swift; sourceTree = "<group>"; };
 		504D78E7249C152A00DA4B1D /* AssignmentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssignmentView.swift; sourceTree = "<group>"; };
+		504D78EB249C16C100DA4B1D /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		504D78ED249C171200DA4B1D /* PDFExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFExtension.swift; sourceTree = "<group>"; };
 		50697F8423C536DC00564430 /* DocumentPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentPicker.swift; sourceTree = "<group>"; };
 		50858389244399D4003F5403 /* RKMonth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RKMonth.swift; sourceTree = "<group>"; };
 		5085838A244399D4003F5403 /* RKViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RKViewController.swift; sourceTree = "<group>"; };
@@ -100,6 +104,7 @@
 			children = (
 				50B944B323BF6F2000327D01 /* Class.swift */,
 				50B944B423BF6F2000327D01 /* PDF.swift */,
+				504D78ED249C171200DA4B1D /* PDFExtension.swift */,
 			);
 			path = "Main Files";
 			sourceTree = "<group>";
@@ -140,6 +145,7 @@
 				50B944BB23BF730900327D01 /* ViewRouter.swift */,
 				50B944B923BF71A500327D01 /* MotherView.swift */,
 				504D78D3249C131100DA4B1D /* ScrollableView.swift */,
+				504D78EB249C16C100DA4B1D /* Extensions.swift */,
 			);
 			path = "Helper Files";
 			sourceTree = "<group>";
@@ -291,6 +297,7 @@
 				504D78DE249C145600DA4B1D /* TestView.swift in Sources */,
 				504D78E2249C14B200DA4B1D /* ClassView.swift in Sources */,
 				504D78DA249C138200DA4B1D /* SettingsView.swift in Sources */,
+				504D78EE249C171200DA4B1D /* PDFExtension.swift in Sources */,
 				504D78D8249C136900DA4B1D /* CreditsView.swift in Sources */,
 				50B944B623BF6F2100327D01 /* Class.swift in Sources */,
 				50858394244399D5003F5403 /* RKCell.swift in Sources */,
@@ -306,6 +313,7 @@
 				504D78CE249C125600DA4B1D /* ImportView.swift in Sources */,
 				50B944A023BF6EE000327D01 /* AppDelegate.swift in Sources */,
 				50697F8523C536DC00564430 /* DocumentPicker.swift in Sources */,
+				504D78EC249C16C100DA4B1D /* Extensions.swift in Sources */,
 				50858391244399D5003F5403 /* RKManager.swift in Sources */,
 				504D78E6249C151000DA4B1D /* AddHomeworkView.swift in Sources */,
 				50B944A223BF6EE000327D01 /* SceneDelegate.swift in Sources */,
