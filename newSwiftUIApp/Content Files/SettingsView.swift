@@ -8,6 +8,7 @@
 
 import SwiftUI
 
+
 struct Experimental: View {
     //@ObservedObject var viewRouter: ViewRouter
     @State var isSemester2 = false
@@ -126,7 +127,7 @@ struct Experimental: View {
                         
                         DatePicker(selection: dateProxy, displayedComponents: .hourAndMinute) {
                             Text("Notification Time")
-                        }
+                    }.disabled(!notifications)
                     
                     // NOTIFICATIONS END
                 }
@@ -136,7 +137,7 @@ struct Experimental: View {
                     HStack {
                         Text("Software Version")
                         Spacer()
-                        Text("1.0.0")
+                        Text("1.0.0").foregroundColor(.gray)
                     }
                     /*Button(action: {}) {
                         Text("Credits")

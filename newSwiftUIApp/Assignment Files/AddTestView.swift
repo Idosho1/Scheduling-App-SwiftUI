@@ -35,9 +35,9 @@ struct AddTestView: View {
     var body: some View {
         
         VStack {
-            Text("Add Test").padding()
+            Text("Add Test").padding().font(Font(UIFont(name: "Avenir", size: 25)!))
             
-            TextField("Title", text: $name).padding().multilineTextAlignment(.center)
+            TextField("Title", text: $name).padding().multilineTextAlignment(.center).font(Font(UIFont(name: "Avenir", size: 18)!))
             
 
                 /*VStack {

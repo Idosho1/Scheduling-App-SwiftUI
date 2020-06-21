@@ -35,16 +35,16 @@ struct AddHomeworkView: View {
     var body: some View {
         
         VStack {
-            Text("Add Homework").padding()
+            Text("Add Homework").padding().font(Font(UIFont(name: "Avenir", size: 25)!))
             
-            TextField("Title", text: $name).padding().multilineTextAlignment(.center)
+            TextField("Title", text: $name).padding().multilineTextAlignment(.center).font(Font(UIFont(name: "Avenir", size: 18)!))
             
             Button(action: {self.toggle();}){
             HStack{
             Image(systemName: isChecked ? "checkmark.square": "square")
             Text("Due Next Class?")
             }
-            }
+            }.padding(.top).padding(.horizontal)
             
             if !isChecked {
                 /*VStack {

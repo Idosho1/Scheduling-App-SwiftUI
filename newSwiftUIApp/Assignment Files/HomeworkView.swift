@@ -8,20 +8,25 @@
 
 import SwiftUI
 
+
+
 struct HomeworkView: View {
     @State var showingDetail = false
+    //@State private var selectedTab = 1
+    //@State var period = "Today"
+    
     @State private var selectedTab = 1
-    @State var period = "Today"
+    @State var periods = ["Overdue", "Today", "Tomorrow", "Week", "Month+"]
     
     init() {
-        UINavigationBar.appearance().largeTitleTextAttributes = [.font : UIFont(name: "Avenir", size: 30)!]
+        UINavigationBar.appearance().largeTitleTextAttributes = [.font : UIFont(name: "Avenir", size: 35)!]
         UITableView.appearance().tableFooterView = UIView()
     }
 
 var body: some View {
     
     
-    
+    /*
     func updatePeriod() {
         switch selectedTab {
         case 0: period = "Overdue"
@@ -32,13 +37,29 @@ var body: some View {
         default: period = "Today"
         }
     }
+*/
+    
     
     
     
     
     return ZStack {
         VStack {
+            
         NavigationView {
+            
+            VStack {
+                
+                Picker("", selection: $selectedTab) {
+                    ForEach(0..<periods.count) { index in
+                        Text(self.periods[index]).tag(index)
+                    }
+                    }.pickerStyle(SegmentedPickerStyle()).padding()
+                .onReceive([self.selectedTab].publisher.first()) { (value) in
+                    pdfStruct.updateHW()
+                }
+                
+                Spacer()
             
             List {
                 ForEach(pdfStruct.homework.reversed(), id: \.self) { hw in
@@ -91,17 +112,18 @@ var body: some View {
                         
                     // END
                 }
-                } .navigationBarTitle(Text("Homework - " + self.period))
+                }
+                } .navigationBarTitle(Text("Homework"))
             
             }
            
             
         HStack {
             
-            Button(action: {self.selectedTab -= 1; updatePeriod(); pdfStruct.updateHW()}) {
+            /*Button(action: {self.selectedTab -= 1; updatePeriod(); pdfStruct.updateHW()}) {
             Image(systemName: "arrow.left")
                     }.padding(.horizontal, 70).disabled(!(selectedTab>=1))
-            
+            */
         
         
         Button(action: {
@@ -112,16 +134,16 @@ var body: some View {
             AddHomeworkView()
             } //.padding()
         
-            
+            /*
                 Button(action: {self.selectedTab += 1; updatePeriod(); pdfStruct.updateHW()}) {
             Image(systemName: "arrow.right")
                     }.padding(.horizontal, 70).disabled(!(selectedTab<=3))
-            
+            */
         }.padding(.bottom, 25)
             
             
         
-        }.onAppear{self.selectedTab = 1; updatePeriod(); pdfStruct.updateHW()}.onDisappear{pdfStruct.updateHW()}
+        }.onAppear{self.selectedTab = 1; pdfStruct.updateHW()}.onDisappear{pdfStruct.updateHW()}
 
     }
     
@@ -129,3 +151,5 @@ var body: some View {
     
     
 }
+
+
