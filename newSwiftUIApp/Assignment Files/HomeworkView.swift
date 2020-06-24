@@ -16,7 +16,7 @@ struct HomeworkView: View {
     //@State var period = "Today"
     
     @State private var selectedTab = 1
-    @State var periods = ["Overdue", "Today", "Tomorrow", "Week", "Month+"]
+    @State var periods = ["Overdue", "Today", "Tomorrow", "Week", "Month"]
     
     init() {
         UINavigationBar.appearance().largeTitleTextAttributes = [.font : UIFont(name: "Avenir", size: 35)!]

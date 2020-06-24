@@ -40,6 +40,7 @@ struct Experimental: View {
         dateFormatterHour.dateFormat = "HH"
         dateFormatterMinute.dateFormat = "mm"
         dateFormatter.dateFormat = "HH:mm"
+        //UISwitch.appearance().onTintColor = UIColor.cyan
     }
     
     var body: some View {
@@ -126,8 +127,15 @@ struct Experimental: View {
                     
                         
                         DatePicker(selection: dateProxy, displayedComponents: .hourAndMinute) {
+                            if notifications {
                             Text("Notification Time")
-                    }.disabled(!notifications)
+                            } else {
+                                Text("Notification Time").foregroundColor(.gray)
+                            }
+                            
+                            
+                            
+                        }.disabled(!notifications)
                     
                     // NOTIFICATIONS END
                 }
