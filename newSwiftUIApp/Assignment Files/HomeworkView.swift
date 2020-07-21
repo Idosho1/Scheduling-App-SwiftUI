@@ -11,6 +11,26 @@ import SwiftUI
 
 
 struct HomeworkView: View {
+    
+    @Environment(\.managedObjectContext) var managedObjectContext
+    
+    @FetchRequest(
+        entity: Assignment.entity(),
+        sortDescriptors: [
+            NSSortDescriptor(keyPath: \Assignment.dueDate, ascending: true),
+        ]
+    ) var homeworks: FetchedResults<Assignment>
+    
+    func removeHomework(at offsets: IndexSet) {
+        for index in offsets {
+            let hw = homeworks[index]
+            hw.complete = true
+            managedObjectContext.delete(hw)
+        }
+        pdfStruct.updateNotifications(homeworks)
+    }
+    
+    
     @State var showingDetail = false
     //@State private var selectedTab = 1
     //@State var period = "Today"
@@ -23,8 +43,147 @@ struct HomeworkView: View {
         UITableView.appearance().tableFooterView = UIView()
     }
 
+    
 var body: some View {
     
+    
+    VStack {
+        
+        
+            
+
+                
+            
+        NavigationView {
+            
+
+            
+            List {
+                
+                Picker("", selection: $selectedTab) {
+                    ForEach(0..<periods.count) { index in
+                        Text(self.periods[index]).tag(index)
+                    }
+                }.pickerStyle(SegmentedPickerStyle()).padding(.vertical)
+                    
+                
+                
+                
+                ForEach(homeworks, id: \.self) { hw in
+                    Group {
+                        
+                        if !hw.complete && !hw.test {
+                            if self.selectedTab == 0 && ((...Calendar.current.startOfDay(for: Date().addingTimeInterval(-86400))).contains(Calendar.current.startOfDay(for: hw.dueDate!))) {
+                                NavigationLink(destination: DetailView(assignment: hw)) {
+                                    NewAssignmentView(homework: hw) // Overdue
+                                }
+                                
+                            }
+                            if self.selectedTab == 1 && (Calendar.current.isDateInToday(hw.dueDate!)) {
+                                NavigationLink(destination: DetailView(assignment: hw)) {
+                                    NewAssignmentView(homework: hw) // Today
+                                }
+                                
+                            }
+                            if self.selectedTab == 2 && (Calendar.current.isDateInTomorrow(hw.dueDate!)) {
+                                NavigationLink(destination: DetailView(assignment: hw)) {
+                                    NewAssignmentView(homework: hw) // Tomorrow
+                                }
+                                
+                            }
+                            if self.selectedTab == 3 && ((Calendar.current.startOfDay(for: Date().addingTimeInterval(86400*2))...Calendar.current.startOfDay(for: Date().addingTimeInterval(86400*7))).contains(Calendar.current.startOfDay(for: hw.dueDate!))) {
+                                
+                                NavigationLink(destination: DetailView(assignment: hw)) {
+                                    NewAssignmentView(homework: hw) // This Week
+                                }
+                                
+                            }
+                            if self.selectedTab == 4 && ((Calendar.current.startOfDay(for: Date().addingTimeInterval(86400*8))...).contains(Calendar.current.startOfDay(for: hw.dueDate!))) {
+                                
+                                NavigationLink(destination: DetailView(assignment: hw)) {
+                                    NewAssignmentView(homework: hw) // This Month
+                                }
+                                
+                            }
+                    }
+                      
+                    }
+                    
+
+                }.onDelete(perform: removeHomework)
+            }.navigationBarTitle("Homework")
+        
+        }
+        
+    
+        Button(action: {
+            self.showingDetail.toggle()
+        }) {
+            Image(systemName: "plus")
+        }.sheet(isPresented: $showingDetail) {
+            AddHomeworkView().environment(\.managedObjectContext, self.managedObjectContext)
+        } .padding(.bottom, 25)
+            
+            
+        
+        
+        
+    }.onAppear {
+        self.selectedTab = 1
+    }
+    
+    
+    
+    
+ /*
+    VStack {
+        
+        
+        NavigationView {
+
+        //Spacer()
+        VStack {
+        
+        Picker("", selection: $selectedTab) {
+            ForEach(0..<periods.count) { index in
+                Text(self.periods[index]).tag(index)
+            }
+            }.pickerStyle(SegmentedPickerStyle()).padding()
+            
+        }
+        Spacer()
+
+
+        
+        
+        
+            
+            
+            
+            List {
+                
+                ForEach(homeworks, id: \.self) { hw in
+                    Group {
+                        if !hw.test {
+                            NavigationLink(destination: DetailView(assignment: hw)) {
+                                NewAssignmentView(homework: hw)
+                            }
+                        }
+                    }
+                }.onDelete(perform: removeHomework)
+            }.navigationBarTitle(Text("Homework"))
+        }
+        
+        Button(action: {
+            self.showingDetail.toggle()
+        }) {
+            Image(systemName: "plus")
+        }.sheet(isPresented: $showingDetail) {
+            AddHomeworkView().environment(\.managedObjectContext, self.managedObjectContext)
+        } .padding(.bottom, 25)
+
+    }
+    */
     
     /*
     func updatePeriod() {
@@ -41,9 +200,9 @@ var body: some View {
     
     
     
-    
-    
-    return ZStack {
+    /*
+    //START
+    VStack {
         VStack {
             
         NavigationView {
@@ -62,7 +221,7 @@ var body: some View {
                 Spacer()
             
             List {
-                ForEach(pdfStruct.homework.reversed(), id: \.self) { hw in
+                ForEach(homeworks, id: \.self) { hw in
                     // START
                     
                     
@@ -74,33 +233,33 @@ var body: some View {
                         if !hw.complete && !hw.test {
                             if self.selectedTab == 0 && ((...Calendar.current.startOfDay(for: Date().addingTimeInterval(-86400))).contains(Calendar.current.startOfDay(for: hw.dueDate))) {
                                 //NavigationLink(destination: DetailedAssignmentView(homework: hw)) {
-                                AssignmentView(homework: hw) // Overdue
+                                NewAssignmentView(homework: hw) // Overdue
                                 //}
                                 
                             }
                             if self.selectedTab == 1 && (Calendar.current.isDateInToday(hw.dueDate)) {
                                 //NavigationLink(destination: DetailedAssignmentView(homework: hw)) {
-                                AssignmentView(homework: hw) // Today
+                                NewAssignmentView(homework: hw) // Today
                                 //}
                                 
                             }
                             if self.selectedTab == 2 && (Calendar.current.isDateInTomorrow(hw.dueDate)) {
                                 //NavigationLink(destination: DetailedAssignmentView(homework: hw)) {
-                                AssignmentView(homework: hw) // Tomorrow
+                                NewAssignmentView(homework: hw) // Tomorrow
                                 //}
                                 
                             }
                             if self.selectedTab == 3 && ((Calendar.current.startOfDay(for: Date().addingTimeInterval(86400*2))...Calendar.current.startOfDay(for: Date().addingTimeInterval(86400*7))).contains(Calendar.current.startOfDay(for: hw.dueDate))) {
                                 
                                 //NavigationLink(destination: DetailedAssignmentView(homework: hw)) {
-                                AssignmentView(homework: hw) // This Week
+                                NewAssignmentView(homework: hw) // This Week
                                 //}
                                 
                             }
                             if self.selectedTab == 4 && ((Calendar.current.startOfDay(for: Date().addingTimeInterval(86400*8))...).contains(Calendar.current.startOfDay(for: hw.dueDate))) {
                                 
                                 //NavigationLink(destination: DetailedAssignmentView(homework: hw)) {
-                                AssignmentView(homework: hw) // This Month
+                                NewAssignmentView(homework: hw) // This Month
                                 //}
                                 
                             }
@@ -145,7 +304,7 @@ var body: some View {
         
         }.onAppear{self.selectedTab = 1; pdfStruct.updateHW()}.onDisappear{pdfStruct.updateHW()}
 
-    }
+    }*/
     
     }
     
@@ -153,3 +312,5 @@ var body: some View {
 }
 
 
+
+    

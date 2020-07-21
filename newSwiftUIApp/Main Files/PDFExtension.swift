@@ -7,8 +7,10 @@
 //
 
 import SwiftUI
+import CoreData
 
 extension PDF {
+
     
     func findHWIndex(dueDate: Date) -> Int {
         var n = 0
@@ -49,23 +51,23 @@ extension PDF {
         }
         
     }
-    
-    func numberHWDueTomorrow() -> Int {
+    //EDIT
+    func numberHWDueTomorrow(_ assignments: FetchedResults<Assignment>) -> Int {
         var sum = 0
         
-        for hw in homework {
-            if !hw.test && Calendar.current.isDateInTomorrow(hw.dueDate) {
+        for hw in assignments {
+            if !hw.test && !hw.complete && Calendar.current.isDateInTomorrow(hw.dueDate!) {
                 sum += 1
             }
         }
         return sum
     }
-    
-    func numberTestsDueTomorrow() -> Int {
+    //EDIT
+    func numberTestsDueTomorrow(_ assignments: FetchedResults<Assignment>) -> Int {
         var sum = 0
         
-        for hw in homework {
-            if hw.test && Calendar.current.isDateInTomorrow(hw.dueDate) {
+        for hw in assignments {
+            if hw.test && !hw.complete && Calendar.current.isDateInTomorrow(hw.dueDate!) {
                 sum += 1
             }
         }
@@ -256,7 +258,7 @@ extension PDF {
         }
     }
     
-    func updateNotifications() {
+    func updateNotifications(_ assignments: FetchedResults<Assignment>) {
         if notifications {
         
         UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
@@ -273,24 +275,24 @@ extension PDF {
             let content = UNMutableNotificationContent()
             content.title = "Homework Reminder"
             
-            if pdfStruct.numberHWDueTomorrow() == 0 {
+            if pdfStruct.numberHWDueTomorrow(assignments) == 0 {
                 content.body = "You are done with all your homework for tomorrow!"
-            } else if pdfStruct.numberHWDueTomorrow() == 1 {
+            } else if pdfStruct.numberHWDueTomorrow(assignments) == 1 {
                 content.body = "You have 1 homework assignment due tomorrow!"
             } else {
-            content.body = "You have " + String(pdfStruct.numberHWDueTomorrow()) + " homework assignments due tomorrow!"
+                content.body = "You have " + String(pdfStruct.numberHWDueTomorrow(assignments)) + " homework assignments due tomorrow!"
             }
             let randomIdentifier = UUID().uuidString
             let request = UNNotificationRequest(identifier: randomIdentifier, content: content, trigger: trigger)
 
-            if pdfStruct.numberTestsDueTomorrow() != 0 {
+            if pdfStruct.numberTestsDueTomorrow(assignments) != 0 {
                 let content2 = UNMutableNotificationContent()
                 content2.title = "Tests Reminder"
                 
-                if pdfStruct.numberTestsDueTomorrow() == 1 {
+                if pdfStruct.numberTestsDueTomorrow(assignments) == 1 {
                     content2.body = "You have 1 test tomorrow!"
                 } else {
-                    content2.body = "You have " + String(pdfStruct.numberTestsDueTomorrow()) + " tests tomorrow!"
+                    content2.body = "You have " + String(pdfStruct.numberTestsDueTomorrow(assignments)) + " tests tomorrow!"
                 }
                 
                 let randomIdentifier2 = UUID().uuidString

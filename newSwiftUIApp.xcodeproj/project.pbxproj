@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		50246B8024C4A33F007EA81B /* Data.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 50246B7E24C4A33F007EA81B /* Data.xcdatamodeld */; };
+		50246B8224C4A5FC007EA81B /* NewAssignmentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50246B8124C4A5FC007EA81B /* NewAssignmentView.swift */; };
 		504D78CE249C125600DA4B1D /* ImportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504D78CD249C125600DA4B1D /* ImportView.swift */; };
 		504D78D0249C126000DA4B1D /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504D78CF249C126000DA4B1D /* WelcomeView.swift */; };
 		504D78D2249C126A00DA4B1D /* ColorPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504D78D1249C126A00DA4B1D /* ColorPickerView.swift */; };
@@ -32,6 +34,7 @@
 		50858395244399D5003F5403 /* RKColorSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5085838F244399D5003F5403 /* RKColorSettings.swift */; };
 		50858396244399D5003F5403 /* RKWeekdayHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5085838D244399D4003F5403 /* RKWeekdayHeader.swift */; };
 		50877AC423C6BB7E007A9BDD /* ScheduleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50877AC323C6BB7E007A9BDD /* ScheduleView.swift */; };
+		50889E0F24C50BD10044EEBB /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50889E0E24C50BD10044EEBB /* DetailView.swift */; };
 		50B8A94B2499C88E00CFA5AA /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 50B8A94A2499C88E00CFA5AA /* Credits.rtf */; };
 		50B8A94E2499CCF300CFA5AA /* ColorPicker in Frameworks */ = {isa = PBXBuildFile; productRef = 50B8A94D2499CCF300CFA5AA /* ColorPicker */; };
 		50B944A023BF6EE000327D01 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B9449F23BF6EDF00327D01 /* AppDelegate.swift */; };
@@ -47,6 +50,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		50246B7F24C4A33F007EA81B /* Data.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Data.xcdatamodel; sourceTree = "<group>"; };
+		50246B8124C4A5FC007EA81B /* NewAssignmentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewAssignmentView.swift; sourceTree = "<group>"; };
 		504D78CD249C125600DA4B1D /* ImportView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportView.swift; sourceTree = "<group>"; };
 		504D78CF249C126000DA4B1D /* WelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
 		504D78D1249C126A00DA4B1D /* ColorPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPickerView.swift; sourceTree = "<group>"; };
@@ -72,6 +77,7 @@
 		5085838E244399D5003F5403 /* RKManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RKManager.swift; sourceTree = "<group>"; };
 		5085838F244399D5003F5403 /* RKColorSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RKColorSettings.swift; sourceTree = "<group>"; };
 		50877AC323C6BB7E007A9BDD /* ScheduleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleView.swift; sourceTree = "<group>"; };
+		50889E0E24C50BD10044EEBB /* DetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailView.swift; sourceTree = "<group>"; };
 		50B8A94A2499C88E00CFA5AA /* Credits.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = Credits.rtf; sourceTree = "<group>"; };
 		50B9449C23BF6EDF00327D01 /* Schedule.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Schedule.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		50B9449F23BF6EDF00327D01 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -165,10 +171,12 @@
 			isa = PBXGroup;
 			children = (
 				504D78DD249C145600DA4B1D /* TestView.swift */,
+				50889E0E24C50BD10044EEBB /* DetailView.swift */,
 				504D78DB249C13CC00DA4B1D /* AddTestView.swift */,
 				504D78E3249C14E500DA4B1D /* HomeworkView.swift */,
 				504D78E5249C151000DA4B1D /* AddHomeworkView.swift */,
 				504D78E7249C152A00DA4B1D /* AssignmentView.swift */,
+				50246B8124C4A5FC007EA81B /* NewAssignmentView.swift */,
 			);
 			path = "Assignment Files";
 			sourceTree = "<group>";
@@ -201,6 +209,7 @@
 				50B944A523BF6EE500327D01 /* Assets.xcassets */,
 				50B944AA23BF6EE500327D01 /* LaunchScreen.storyboard */,
 				50B8A94A2499C88E00CFA5AA /* Credits.rtf */,
+				50246B7E24C4A33F007EA81B /* Data.xcdatamodeld */,
 				50B944AD23BF6EE500327D01 /* Info.plist */,
 				50B944A723BF6EE500327D01 /* Preview Content */,
 			);
@@ -296,7 +305,9 @@
 				50858396244399D5003F5403 /* RKWeekdayHeader.swift in Sources */,
 				504D78DE249C145600DA4B1D /* TestView.swift in Sources */,
 				504D78E2249C14B200DA4B1D /* ClassView.swift in Sources */,
+				50889E0F24C50BD10044EEBB /* DetailView.swift in Sources */,
 				504D78DA249C138200DA4B1D /* SettingsView.swift in Sources */,
+				50246B8224C4A5FC007EA81B /* NewAssignmentView.swift in Sources */,
 				504D78EE249C171200DA4B1D /* PDFExtension.swift in Sources */,
 				504D78D8249C136900DA4B1D /* CreditsView.swift in Sources */,
 				50B944B623BF6F2100327D01 /* Class.swift in Sources */,
@@ -321,6 +332,7 @@
 				504D78D6249C134900DA4B1D /* TabsView.swift in Sources */,
 				50858390244399D5003F5403 /* RKViewController.swift in Sources */,
 				50858395244399D5003F5403 /* RKColorSettings.swift in Sources */,
+				50246B8024C4A33F007EA81B /* Data.xcdatamodeld in Sources */,
 				504D78E0249C148900DA4B1D /* SchoolView.swift in Sources */,
 				50B944B823BF6F2100327D01 /* readWrite.swift in Sources */,
 				50B944BC23BF730900327D01 /* ViewRouter.swift in Sources */,
@@ -537,6 +549,19 @@
 			productName = ColorPicker;
 		};
 /* End XCSwiftPackageProductDependency section */
+
+/* Begin XCVersionGroup section */
+		50246B7E24C4A33F007EA81B /* Data.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				50246B7F24C4A33F007EA81B /* Data.xcdatamodel */,
+			);
+			currentVersion = 50246B7F24C4A33F007EA81B /* Data.xcdatamodel */;
+			path = Data.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 50B9449423BF6EDF00327D01 /* Project object */;
 }

@@ -34,6 +34,7 @@ struct PDF {
     var minute = 0
     
     
+    
     init(_ pdfFile: PDFDocument) {
         //pdfFile = PDFDocument(url: URL(string: pdfURL)!)!
         pdfAsText = (pdfFile.string)!

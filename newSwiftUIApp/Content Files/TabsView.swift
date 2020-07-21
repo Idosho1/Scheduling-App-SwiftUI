@@ -53,7 +53,7 @@ import SwiftUI
                  }
          }.tag(4)
          
-     }.onAppear {pdfStruct.restore(); print("done"); pdfStruct.updateNotifications()
+     }.onAppear {pdfStruct.restore(); print("done"); //pdfStruct.updateNotifications()
          //REALLY IMPORTANT!!!!!!!
          
          print("\n\n\nS1 Schedule:")

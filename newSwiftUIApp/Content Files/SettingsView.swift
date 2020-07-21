@@ -15,6 +15,15 @@ struct Experimental: View {
     @State var notifications = false
     @State var date = Date()
     
+    @Environment(\.managedObjectContext) var managedObjectContext
+    
+    @FetchRequest(
+        entity: Assignment.entity(),
+        sortDescriptors: [
+            NSSortDescriptor(keyPath: \Assignment.dueDate, ascending: true),
+        ]
+    ) var assignments: FetchedResults<Assignment>
+    
     @ObservedObject var viewRouter: ViewRouter
     
     @State private var isDisplayed = false
@@ -84,24 +93,24 @@ struct Experimental: View {
                             let content = UNMutableNotificationContent()
                             content.title = "Homework Reminder"
                             
-                            if pdfStruct.numberHWDueTomorrow() == 0 {
+                            if pdfStruct.numberHWDueTomorrow(assignments) == 0 {
                                 content.body = "You are done with all your homework for tomorrow!"
-                            } else if pdfStruct.numberHWDueTomorrow() == 1 {
+                            } else if pdfStruct.numberHWDueTomorrow(assignments) == 1 {
                                 content.body = "You have 1 homework assignment due tomorrow!"
                             } else {
-                            content.body = "You have " + String(pdfStruct.numberHWDueTomorrow()) + " homework assignments due tomorrow!"
+                                content.body = "You have " + String(pdfStruct.numberHWDueTomorrow(assignments)) + " homework assignments due tomorrow!"
                             }
                             let randomIdentifier = UUID().uuidString
                             let request = UNNotificationRequest(identifier: randomIdentifier, content: content, trigger: trigger)
 
-                            if pdfStruct.numberTestsDueTomorrow() != 0 {
+                            if pdfStruct.numberTestsDueTomorrow(assignments) != 0 {
                                 let content2 = UNMutableNotificationContent()
                                 content2.title = "Tests Reminder"
                                 
-                                if pdfStruct.numberTestsDueTomorrow() == 1 {
+                                if pdfStruct.numberTestsDueTomorrow(assignments) == 1 {
                                     content2.body = "You have 1 test tomorrow!"
                                 } else {
-                                    content2.body = "You have " + String(pdfStruct.numberTestsDueTomorrow()) + " tests tomorrow!"
+                                    content2.body = "You have " + String(pdfStruct.numberTestsDueTomorrow(assignments)) + " tests tomorrow!"
                                 }
                                 
                                 let randomIdentifier2 = UUID().uuidString
@@ -228,7 +237,7 @@ struct Experimental: View {
         
         pdfStruct.restoreDate()
 
-        pdfStruct.updateNotifications()
+        //pdfStruct.updateNotifications()
         print("update notification")
         
         

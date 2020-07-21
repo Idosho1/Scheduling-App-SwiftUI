@@ -10,6 +10,10 @@ import SwiftUI
 
 struct schoolView: View {
     
+    @Environment(\.managedObjectContext) var managedObjectContext
+    
+
+    
     @State private var contentOffset: CGPoint = .zero
     @State private var name: String = "chevron.down"
     @State private var isSemester2 = false

@@ -10,6 +10,9 @@ import SwiftUI
 
 struct ClassView: View {
     
+    @Environment(\.managedObjectContext) var managedObjectContext
+
+    
     @State var c: Class
     @State var showingDetail = false
     var body: some View {
@@ -50,7 +53,8 @@ struct ClassView: View {
                     Image(systemName: "plus.circle").resizable()
                     .foregroundColor(.white).frame(width: 22, height: 22)
                     }.padding(.bottom, 45).padding(.leading, 325).sheet(isPresented: $showingDetail) {
-                        AddHomeworkView(courseName: self.c.courseName)
+                        AddHomeworkView(courseName: self.c.courseName).environment(\.managedObjectContext, self.managedObjectContext)
+
                     }
                 
                 

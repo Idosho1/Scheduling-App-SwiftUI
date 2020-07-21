@@ -5,7 +5,7 @@
 //  Created by Ido Shoshani on 6/18/20.
 //  Copyright © 2020 Ido Shoshani. All rights reserved.
 //
-
+/*
 import SwiftUI
 
 struct AssignmentView: View {
@@ -96,3 +96,4 @@ var body: some View {
                 
             }
         }
+*/
