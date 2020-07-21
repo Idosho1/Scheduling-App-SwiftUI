@@ -85,8 +85,10 @@ struct DetailView: View {
                             .labelsHidden().disabled(true)
                         }
                         
-                        Text(assignment.courseName!)
-                    
+                        Section(header: Text("Course").padding(.top, 20)) {
+                            Text(assignment.courseName!)
+                        }
+                        
                     }.navigationBarTitle("Asssignment Details")
                 }
             }
