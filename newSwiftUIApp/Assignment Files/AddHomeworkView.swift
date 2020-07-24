@@ -19,7 +19,7 @@ struct AddHomeworkView: View {
     ) var assignments: FetchedResults<Assignment>
     
     @State var singleIsPresented = false
-    var rkManager1 = RKManager(calendar: Calendar.current, minimumDate: Date(), maximumDate: Date().addingTimeInterval(60*60*24*365), mode: 0)
+    //var rkManager1 = RKManager(calendar: Calendar.current, minimumDate: Date(), maximumDate: Date().addingTimeInterval(60*60*24*365), mode: 0)
     
     var courseName: String
     
