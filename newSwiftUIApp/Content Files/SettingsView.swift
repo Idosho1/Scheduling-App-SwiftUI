@@ -134,6 +134,8 @@ struct Experimental: View {
                         }
                     }
                     
+                    
+                    if notifications {
                         
                         DatePicker(selection: dateProxy, displayedComponents: .hourAndMinute) {
                             if notifications {
@@ -144,8 +146,9 @@ struct Experimental: View {
                             
                             
                             
-                        }.disabled(!notifications)
+                        }//.disabled(!notifications)
                     
+                    }
                     // NOTIFICATIONS END
                 }
                 

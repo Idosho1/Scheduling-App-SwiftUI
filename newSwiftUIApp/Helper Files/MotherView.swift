@@ -29,6 +29,8 @@ struct MotherView: View {
             } else if viewRouter.currentPage == "page4" {
                 ContentViewD(viewRouter: viewRouter)
             }
+        }.onAppear {
+            SceneDelegate.shared?.window!.overrideUserInterfaceStyle = .dark
         }
     }
 }
