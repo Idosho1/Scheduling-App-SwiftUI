@@ -11,7 +11,7 @@ import SwiftUI
 import PDFKit
 import Combine
 import MobileCoreServices
-import ColorPicker
+import ColorPickerRing
 
 struct ContentViewC: View {
     
@@ -31,7 +31,7 @@ struct ContentViewC: View {
             Text("\(Class.block)  \(Class.semester)").fontWeight(.heavy)
 
             
-            ColorPicker(color: $color, strokeWidth: 30)
+            ColorPickerRing(color: $color, strokeWidth: 30)
                 .frame(width: 200, height: 200, alignment: .center)
                 .padding()
             

@@ -3,10 +3,11 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 52;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		352DA66C25C4EB2600CAAF12 /* ColorPickerRing in Frameworks */ = {isa = PBXBuildFile; productRef = 352DA66B25C4EB2600CAAF12 /* ColorPickerRing */; };
 		50246B8024C4A33F007EA81B /* Data.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 50246B7E24C4A33F007EA81B /* Data.xcdatamodeld */; };
 		50246B8224C4A5FC007EA81B /* NewAssignmentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50246B8124C4A5FC007EA81B /* NewAssignmentView.swift */; };
 		504D78CE249C125600DA4B1D /* ImportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504D78CD249C125600DA4B1D /* ImportView.swift */; };
@@ -36,7 +37,6 @@
 		50877AC423C6BB7E007A9BDD /* ScheduleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50877AC323C6BB7E007A9BDD /* ScheduleView.swift */; };
 		50889E0F24C50BD10044EEBB /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50889E0E24C50BD10044EEBB /* DetailView.swift */; };
 		50B8A94B2499C88E00CFA5AA /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 50B8A94A2499C88E00CFA5AA /* Credits.rtf */; };
-		50B8A94E2499CCF300CFA5AA /* ColorPicker in Frameworks */ = {isa = PBXBuildFile; productRef = 50B8A94D2499CCF300CFA5AA /* ColorPicker */; };
 		50B944A023BF6EE000327D01 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B9449F23BF6EDF00327D01 /* AppDelegate.swift */; };
 		50B944A223BF6EE000327D01 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B944A123BF6EE000327D01 /* SceneDelegate.swift */; };
 		50B944A623BF6EE500327D01 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 50B944A523BF6EE500327D01 /* Assets.xcassets */; };
@@ -98,13 +98,20 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				50B8A94E2499CCF300CFA5AA /* ColorPicker in Frameworks */,
+				352DA66C25C4EB2600CAAF12 /* ColorPickerRing in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		352DA66A25C4EB2600CAAF12 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		504D78C6249C11B100DA4B1D /* Main Files */ = {
 			isa = PBXGroup;
 			children = (
@@ -186,6 +193,7 @@
 			children = (
 				50B9449E23BF6EDF00327D01 /* newSwiftUIApp */,
 				50B9449D23BF6EDF00327D01 /* Products */,
+				352DA66A25C4EB2600CAAF12 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -241,7 +249,7 @@
 			);
 			name = newSwiftUIApp;
 			packageProductDependencies = (
-				50B8A94D2499CCF300CFA5AA /* ColorPicker */,
+				352DA66B25C4EB2600CAAF12 /* ColorPickerRing */,
 			);
 			productName = newSwiftUIApp;
 			productReference = 50B9449C23BF6EDF00327D01 /* Schedule.app */;
@@ -254,7 +262,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1130;
-				LastUpgradeCheck = 1130;
+				LastUpgradeCheck = 1230;
 				ORGANIZATIONNAME = "Ido Shoshani";
 				TargetAttributes = {
 					50B9449B23BF6EDF00327D01 = {
@@ -263,7 +271,7 @@
 				};
 			};
 			buildConfigurationList = 50B9449723BF6EDF00327D01 /* Build configuration list for PBXProject "newSwiftUIApp" */;
-			compatibilityVersion = "Xcode 9.3";
+			compatibilityVersion = "Xcode 12.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -380,6 +388,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -440,6 +449,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -477,6 +487,7 @@
 				DEVELOPMENT_TEAM = 9FUV5DP984;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = newSwiftUIApp/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.3;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -497,6 +508,7 @@
 				DEVELOPMENT_TEAM = 9FUV5DP984;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = newSwiftUIApp/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.3;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -543,10 +555,10 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		50B8A94D2499CCF300CFA5AA /* ColorPicker */ = {
+		352DA66B25C4EB2600CAAF12 /* ColorPickerRing */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 50B8A94C2499CCF300CFA5AA /* XCRemoteSwiftPackageReference "ColorPicker" */;
-			productName = ColorPicker;
+			productName = ColorPickerRing;
 		};
 /* End XCSwiftPackageProductDependency section */
 
