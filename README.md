@@ -1,7 +1,7 @@
 # Scheduling-App-SwiftUI
 
 ## View Your Current Class and Add Homework
-<img src="https://user-images.githubusercontent.com/50339306/141167429-b45742d5-9ee3-4a63-b3c6-e9b2a4f9eedc.PNG" width="48">
+<img src="https://user-images.githubusercontent.com/50339306/141167429-b45742d5-9ee3-4a63-b3c6-e9b2a4f9eedc.PNG" width="300">
 
 ## Manage Homework and Exams
 ![IMG_2794](https://user-images.githubusercontent.com/50339306/141167602-d6afbe27-917a-4cc0-aced-e3720f176335.PNG)
